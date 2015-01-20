@@ -1,0 +1,19 @@
+$ cat .gitignore
+
+# Can ignore specific files
+Makefile
+fbdbg.geany
+cmake_install.cmake
+install_manifest.txt
+
+fbdbg
+
+
+# Use wildcards as well
+*.ui~
+
+# Can also ignore all directories and files in a directory.
+doc/html/**/*
+doc/latex/**/*
+CMakeFiles/**/*
+_CPack*/**/*

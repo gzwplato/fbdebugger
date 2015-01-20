@@ -1,0 +1,93 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR SARG, AGS, TJF
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: main 0.0\n"
+"Report-Msgid-Bugs-To: Thomas.Freiherr@gmx.net\n"
+"POT-Creation-Date: 2015-01-20 14:57+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: on_actLoad_activate.bas:17
+msgid "callback on_actLoad_activate"
+msgstr ""
+
+#: on_actRun_activate.bas:17
+msgid "callback on_actRun_activate"
+msgstr ""
+
+#: main.ui:10
+msgid "SARG"
+msgstr ""
+
+#: main.ui:11
+msgid "Comment"
+msgstr ""
+
+#: main.ui:13
+msgid "Website"
+msgstr ""
+
+#: main.ui:17
+msgid ""
+"SARG\n"
+"AGS\n"
+"TJF"
+msgstr ""
+
+#: main.ui:51 main.ui:52
+msgid "Load"
+msgstr ""
+
+#: main.ui:53
+msgid "Load an executable."
+msgstr ""
+
+#: main.ui:62 main.ui:63
+msgid "Run"
+msgstr ""
+
+#: main.ui:64
+msgid "Run the loaded executable."
+msgstr ""
+
+#: main.ui:73 main.ui:74
+msgid "Quit"
+msgstr ""
+
+#: main.ui:75
+msgid "Finish the fbdbg application."
+msgstr ""
+
+#: main.ui:84 main.ui:85
+msgid "Info"
+msgstr ""
+
+#: main.ui:86
+msgid "Informations about this application."
+msgstr ""
+
+#: main.ui:115
+msgid "_File"
+msgstr ""
+
+#: main.ui:185
+msgid "_Edit"
+msgstr ""
+
+#: main.ui:235
+msgid "_View"
+msgstr ""
+
+#: main.ui:259
+msgid "_Help"
+msgstr ""
