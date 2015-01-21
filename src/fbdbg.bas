@@ -11,7 +11,7 @@ CONST PROJ_YEAR = "2015" '                                                     >
 CONST PROJ_AUTH = "SARG, AGS, TJF" '                                           >
 CONST PROJ_MAIL = "Thomas.Freiherr@gmx.net" '                                  >
 CONST PROJ_WEBS = "" '                                                         >
-CONST PROJ_LICE = "" '                                                         >
+CONST PROJ_LICE = "GPLv3" '                                                    >
 '<                                                                             >
 '< Description / Beschreibung:                                                 >
 '<                                                                             >
@@ -51,47 +51,40 @@ CONST PROJ_LICE = "" '                                                         >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 scope
-'dim as gchar ptr paths(...) => {@"data", 0} '/usr/share/gtksourceview-3.0/language-specs/
 var lm = gtk_source_language_manager_get_default()
 ?"lm: ";lm
-'var paths = gtk_source_language_manager_get_search_path(lm)
-'var i = 0
-'WHILE paths[i]
-  '?*paths[i]
-  'i += 1
-'WEND
-
-
-'gtk_source_language_manager_set_search_path(lm, paths)
-
-'var x = gtk_source_language_manager_get_language_ids(lm)
-'i = 0
-'WHILE x[i]
-  '?*x[i]
-  'i += 1
-'WEND
-
 var sl = gtk_source_language_manager_get_language(lm, "fbc")
 ?"sl: ";sl
-'var sv = GTKSOURCE_SOURCE_VIEW(GUI_MAIN.srcview1)
-'?"sv: ";sv
-'var buff = gtk_source_buffer_new_with_language(sl)
 var sb = GTKSOURCE_SOURCE_BUFFER(GUI_MAIN.srcbuff)
 ?"sb: ";sb
 gtk_source_buffer_set_language(sb, sl)
-'var sv = gtk_source_view_new_with_buffer(buff)
-'?"sv: ";sv
 
-'var test = _
-  '!"'var buff = gtk_source_buffer_new_with_language(sl)\n" & _
-  '!"var sb = GTKSOURCE_SOURCE_BUFFER(GUI_MAIN.srcbuff)\n" & _
-  '!"?""sb: "";sb\n" & _
-  '!"gtk_source_buffer_set_language(sb, sl)\n"
-''gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sb), "if then und wenn end if", -1)
-'gtk_text_buffer_set_text(GTK_TEXT_BUFFER(sb), test, -1)
 VAR pf = pango_font_description_from_string(@"monospace 8")
-gtk_widget_modify_font(GTK_WIDGET(GUI_MAIN.srcview1), pf)
+gtk_widget_modify_font(GTK_WIDGET(GUI_MAIN.nbookSrc), pf)
 pango_font_description_free(pf)
+
+dim as GtkTreeIter iter1, iter2
+
+var store = GTK_TREE_STORE(GUI_MAIN.tstoreProcVar)
+gtk_tree_store_append (store, @iter1, NULL)
+gtk_tree_store_set (store, @iter1, _
+                    0, "The Art of Computer Programming", _
+                    -1)
+
+gtk_tree_store_append (store, @iter2, @iter1)
+gtk_tree_store_set (store, @iter2, _
+                    0, "Volume 1: Fundamental Algorithms", _
+                    -1)
+
+gtk_tree_store_append (store, @iter2, @iter1)
+gtk_tree_store_set (store, @iter2, _
+                    0, "Volume 2: Seminumerical Algorithms", _
+                    -1)
+
+gtk_tree_store_append (store, @iter2, @iter1)
+gtk_tree_store_set (store, @iter2, _
+                    0, "Volume 3: Sorting and Searching", _
+                    -1)
 end scope
 
 
