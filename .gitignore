@@ -13,7 +13,8 @@ fbdbg
 *.ui~
 
 # Can also ignore all directories and files in a directory.
-img/**/*
+test/**/*
+SARG/**/*
 src/img/**/*
 doc/html/**/*
 doc/latex/**/*

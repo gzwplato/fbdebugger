@@ -15,12 +15,6 @@ FUNCTION menu_button3_event CDECL ALIAS "menu_button3_event" ( _
   BYVAL event AS GdkEvent PTR, _
   BYVAL user_data AS gpointer) AS gboolean EXPORT ' Standard-Parameterliste
 
-  'WITH *cast(GdkEventButton PTR, event)
-    'VAR but = .button : IF but <> 3 THEN RETURN FALSE
-    'VAR act = .time
-  'END WITH
-  ''gtk_menu_popup(GTK_MENU(GUI_MAIN.menuSrc), NULL, NULL, NULL, NULL, but, act)
-  'gtk_menu_popup(user_data, NULL, NULL, NULL, NULL, but, act)
   WITH *cast(GdkEventButton PTR, event)
     IF .button <> 3 THEN RETURN FALSE
     gtk_menu_popup(user_data, NULL, NULL, NULL, NULL, .button, .time)
