@@ -5,8 +5,8 @@
 ' -----------------------------------------------------------------------------
 '< Program info:                                                               >
 CONST PROJ_NAME = "fbdbg" '                                                    >
-CONST PROJ_DESC = "Test for FB debugger" '                                     >
-CONST PROJ_VERS = "0.0" '                                                      >
+CONST PROJ_DESC = "Debugger for FreeBASIC" '                                   >
+CONST PROJ_VERS = "3.0" '                                                      >
 CONST PROJ_YEAR = "2015" '                                                     >
 CONST PROJ_AUTH = "SARG, AGS, TJF" '                                           >
 CONST PROJ_MAIL = "Thomas.Freiherr@gmx.net" '                                  >
@@ -21,13 +21,6 @@ CONST PROJ_LICE = "GPLv3" '                                                    >
 '< Put your license here/Lizenz hier einfuegen.
 '<                                                                             >
 ' -----------------------------------------------------------------------------
-'< Please prefer GNU GENERAL PUBLIC LICENSE to support open software.          >
-'< For more information please visit:                       http://www.fsf.org >
-'<                                                                             >
-'< Bitte bevorzugen Sie die GNU GENERAL PUBLIC LICENSE und                     >
-'< unterstuetzen Sie mit Ihrem Programm die freie Software                     >
-'< Mehr Informationen finden Sie unter:                     http://www.fsf.org >
-' -----------------------------------------------------------------------------
 '<  GladeToBac:                    general init / Allgemeine Initialisierungen >
     #INCLUDE "Gir/Gtk-3.0.bi" '                  GTK+library / GTK+ Bibliothek >
     #INCLUDE "Gir/GtkSource-3.0.bi" '            GTK+library / GTK+ Bibliothek >
@@ -40,9 +33,6 @@ CONST PROJ_LICE = "GPLv3" '                                                    >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 
-' place your source code here / eigenen Quelltext hier einfuegen
-'#ERROR GladeToBac: Quelltext einfügen!
-
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:                                 load GTK stuff / GTK Anbindung >
@@ -50,70 +40,12 @@ CONST PROJ_LICE = "GPLv3" '                                                    >
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-scope
-var lm = gtk_source_language_manager_get_default()
-?"lm: ";lm
-var sl = gtk_source_language_manager_get_language(lm, "fbc")
-?"sl: ";sl
-var sb = GTKSOURCE_SOURCE_BUFFER(GUI_MAIN.srcbuff)
-?"sb: ";sb
-gtk_source_buffer_set_language(sb, sl)
-
-VAR pf = pango_font_description_from_string(@"monospace 8")
-gtk_widget_modify_font(GTK_WIDGET(GUI_MAIN.nbookSrc), pf)
-pango_font_description_free(pf)
-
-dim as GtkTreeIter iter1, iter2
-
-var store = GTK_TREE_STORE(GUI_MAIN.tstoreProcVar)
-gtk_tree_store_append (store, @iter1, NULL)
-gtk_tree_store_set (store, @iter1, _
-                    0, "Globals (shared/common in : main", _
-                    -1)
-
-gtk_tree_store_append (store, @iter2, @iter1)
-gtk_tree_store_set (store, @iter2, _
-                    0, "NS : TESTNAMES.XX < Shared / Integer >", _
-                    -1)
-
-gtk_tree_store_append (store, @iter2, @iter1)
-gtk_tree_store_set (store, @iter2, _
-                    0, "VENUM <Shared /EENMU>=0 >> Unknowm", _
-                    -1)
-
-gtk_tree_store_append (store, @iter2, @iter1)
-gtk_tree_store_set (store, @iter2, _
-                    0, "PUDT1 <Shared / * UDT>=0", _
-                    -1)
-
-gtk_tree_store_append (store, @iter1, NULL)
-gtk_tree_store_set (store, @iter1, _
-                    0, "ThID=3012 main:Integer", _
-                    -1)
-
-gtk_tree_store_append (store, @iter2, @iter1)
-gtk_tree_store_set (store, @iter2, _
-                    0, "__FB_ARGC__ <Byval param / Long>=0", _
-                    -1)
-
-gtk_tree_store_append (store, @iter2, @iter1)
-gtk_tree_store_set (store, @iter2, _
-                    0, "__FB_ARGV__ <Byval param / Long>=0", _
-                    -1)
-gtk_tree_view_expand_all(GTK_TREE_VIEW(GUI_MAIN.tvProcVar))
-end scope
-
+#INCLUDE ONCE "testing.bas"
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:          run GTK main, then end / GTK Hauptschleife, dann Ende >
     gtk_builder_connect_signals(GUI_MAIN.XML, 0) '            Signale anbinden >
-    'gtk_widget_show_all(GTK_WIDGET(GUI_MAIN.windMain)) 'auptfenster darstellen >
     gtk_main() '                                     main loop / Hauptschleife >
     g_object_unref(GUI_MAIN.XML) '              dereference / Referenz abbauen >
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-
-
-' you may free memory and close files here
-' ggf. hier Speicher freigeben und Dateien schliessen
-
