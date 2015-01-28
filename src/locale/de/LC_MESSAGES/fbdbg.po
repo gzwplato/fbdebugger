@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fbdbg-2.0\n"
 "Report-Msgid-Bugs-To: Thomas.Freiherr@gmx.net\n"
-"POT-Creation-Date: 2015-01-20 13:28+0100\n"
-"PO-Revision-Date: 2015-01-20 14:47+0100\n"
+"POT-Creation-Date: 2015-01-28 01:05+0100\n"
+"PO-Revision-Date: 2015-01-28 01:23+0100\n"
 "Last-Translator: Thomas Freiherr <Thomas.Freiherr@gmx.net>\n"
 "Language-Team: TJF\n"
 "Language: de\n"
@@ -18,27 +18,184 @@ msgstr ""
 "X-Generator: Poedit 1.5.4\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: on_actLoad_activate.bas:17
-msgid "callback on_actLoad_activate"
-msgstr "Rückruf-Funktion on_actLoad_activate"
-
-#: on_actRun_activate.bas:17
-msgid "callback on_actRun_activate"
+#: act_Settings.bas:145
+#, fuzzy
+msgid "callback act_Settings"
 msgstr "Rückruf-Funktion on_actRun_activate"
 
-#: main.ui:10
+#: act_Settings.bas:148
+msgid "callback act_Settings -> get changed settings"
+msgstr ""
+
+#: act_Settings.bas:151
+msgid "callback act_Settings -> dialog canceled, restore form"
+msgstr ""
+
+#: act_Shortcut.bas:69
+msgid "--> callback act_Shortcut"
+msgstr ""
+
+#: act_Shortcut.bas:72
+msgid "callback act_Shortcut -> get changed settings"
+msgstr ""
+
+#: act_Shortcut.bas:75
+msgid "callback act_Shortcut -> dialog canceled, restore form"
+msgstr ""
+
+#: act_ToDo.bas:17
+msgid "callback act_ToDo"
+msgstr ""
+
+#: act_attachexe.bas:17
+#, fuzzy
+msgid "callback act_attachexe"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_auto.bas:17
+#, fuzzy
+msgid "callback act_auto"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_exemod.bas:17
+#, fuzzy
+msgid "callback act_exemod"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_fastrun.bas:17
+#, fuzzy
+msgid "callback act_fastrun"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_files.bas:17
+#, fuzzy
+msgid "callback act_files"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_free.bas:17
+#, fuzzy
+msgid "callback act_free"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_help.bas:17
+#, fuzzy
+msgid "callback act_help"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_kill.bas:17
+#, fuzzy
+msgid "callback act_kill"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_memory.bas:17
+#, fuzzy
+msgid "callback act_memory"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_minicmd.bas:17
+msgid "callback act_minicmd"
+msgstr ""
+
+#: act_multiexe.bas:17
+#, fuzzy
+msgid "callback act_multiexe"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_notes.bas:17
+#, fuzzy
+msgid "callback act_notes"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_restart.bas:17
+#, fuzzy
+msgid "callback act_restart"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_run.bas:17
+#, fuzzy
+msgid "callback act_run"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_runto.bas:17
+#, fuzzy
+msgid "callback act_runto"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_source.bas:17
+#, fuzzy
+msgid "callback act_source"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_step.bas:17
+#, fuzzy
+msgid "callback act_step"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_step_end.bas:17
+#, fuzzy
+msgid "callback act_step_end"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_step_out.bas:17
+#, fuzzy
+msgid "callback act_step_out"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_step_over.bas:17
+#, fuzzy
+msgid "callback act_step_over"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_step_start.bas:17
+#, fuzzy
+msgid "callback act_step_start"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_stop.bas:17
+#, fuzzy
+msgid "callback act_stop"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: act_varproc.bas:17
+#, fuzzy
+msgid "callback act_varproc"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: on_accel_cleared.bas:19
+#, fuzzy
+msgid "--> callback on_accel_cleared"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: on_accel_edited.bas:22
+#, fuzzy
+msgid "--> callback on_accel_edited"
+msgstr "Rückruf-Funktion on_actRun_activate"
+
+#: on_entry_icon_load.bas:19
+msgid "Select file"
+msgstr ""
+
+#: on_entry_icon_load.bas:27
+msgid "Executables (*.exe)"
+msgstr ""
+
+#: on_entry_icon_save.bas:20
+msgid "Save file"
+msgstr ""
+
+#: fbdbg.ui:38 main.ui:38
 msgid "SARG"
 msgstr "SARG"
 
-#: main.ui:11
+#: fbdbg.ui:39 main.ui:39
 msgid "Comment"
 msgstr "Kommentar"
 
-#: main.ui:13
+#: fbdbg.ui:41 main.ui:41
 msgid "Website"
 msgstr "Internetseite"
 
-#: main.ui:17
+#: fbdbg.ui:45 main.ui:45
 msgid ""
 "SARG\n"
 "AGS\n"
@@ -48,53 +205,977 @@ msgstr ""
 "AGS\n"
 "TJF"
 
-#: main.ui:51 main.ui:52
-msgid "Load"
-msgstr "Laden"
+#: fbdbg.ui:79 main.ui:79
+msgid "Run to Cursor"
+msgstr ""
 
-#: main.ui:53
-msgid "Load an executable."
-msgstr "Laden und ausführen"
+#: fbdbg.ui:80 main.ui:80
+msgid "Execute the debuggee up to the cursor position"
+msgstr ""
 
-#: main.ui:62 main.ui:63
+#: fbdbg.ui:88 main.ui:88
+msgid "Next step"
+msgstr ""
+
+#: fbdbg.ui:89 main.ui:89
+msgid "Execute the debuggee step by step"
+msgstr ""
+
+#: fbdbg.ui:97 main.ui:97
+msgid "Step over procs"
+msgstr ""
+
+#: fbdbg.ui:98 main.ui:98
+msgid "Step over a SUB or FUNCTION"
+msgstr ""
+
+#: fbdbg.ui:106 main.ui:106
+msgid "Step out current proc"
+msgstr ""
+
+#: fbdbg.ui:107 main.ui:107
+msgid "Exit the current SUB or FUNCTION"
+msgstr ""
+
+#: fbdbg.ui:115 main.ui:115
+msgid "Step top called proc"
+msgstr ""
+
+#: fbdbg.ui:116 main.ui:116
+msgid "Top the next called SUB or FUNCTION"
+msgstr ""
+
+#: fbdbg.ui:124 main.ui:124
+msgid "Step bottom current proc"
+msgstr ""
+
+#: fbdbg.ui:125 main.ui:125
+msgid "Bottom the current SUB or FUNCTION"
+msgstr ""
+
+#: fbdbg.ui:133 main.ui:133
 msgid "Run"
 msgstr "Ausführen"
 
-#: main.ui:64
-msgid "Run the loaded executable."
-msgstr "Ausführen des geladenen Programms"
+#: fbdbg.ui:134 main.ui:134
+msgid "Run until halt"
+msgstr ""
 
-#: main.ui:73 main.ui:74
-msgid "Quit"
-msgstr "Beenden"
+#: fbdbg.ui:142 main.ui:142
+msgid "Fast Run"
+msgstr ""
 
-#: main.ui:75
-msgid "Finish the fbdbg application."
-msgstr "Beendet die FB debugger Applikation."
+#: fbdbg.ui:143 main.ui:143
+msgid "Caution fast run to cursor"
+msgstr ""
 
-#: main.ui:84 main.ui:85
-msgid "Info"
-msgstr "Information"
+#: fbdbg.ui:151 main.ui:151
+msgid "Halt running debuggee"
+msgstr ""
 
-#: main.ui:86
-msgid "Informations about this application."
+#: fbdbg.ui:152 main.ui:152
+msgid "Halt running program"
+msgstr ""
+
+#: fbdbg.ui:160 main.ui:160
+msgid "Kill debuggee"
+msgstr ""
+
+#: fbdbg.ui:161 main.ui:161
+msgid "Caution kill process"
+msgstr ""
+
+#: fbdbg.ui:169 main.ui:169
+msgid "Step auto"
+msgstr ""
+
+#: fbdbg.ui:170 main.ui:170
+msgid "Step automatically, stopped by halt"
+msgstr ""
+
+#: fbdbg.ui:178 main.ui:178
+msgid "Step auto multi threads"
+msgstr ""
+
+#: fbdbg.ui:186 main.ui:186
+msgid "Modify execution"
+msgstr ""
+
+#: fbdbg.ui:187 main.ui:187
+msgid "CAUTION: modify execution, continue with line under cursor"
+msgstr ""
+
+#: fbdbg.ui:195 main.ui:195
+msgid "Variable Dump"
+msgstr ""
+
+#: fbdbg.ui:201 main.ui:201
+msgid "Edit var value"
+msgstr ""
+
+#: fbdbg.ui:207 main.ui:207
+msgid "Show/Expand variable"
+msgstr ""
+
+#: fbdbg.ui:213 main.ui:213
+msgid "Show z/w/string"
+msgstr ""
+
+#: fbdbg.ui:219 main.ui:219
+msgid "Shortcut key list"
+msgstr ""
+
+#: fbdbg.ui:226 fbdbg.ui:774 main.ui:226 main.ui:774
+msgid "Set watched"
+msgstr ""
+
+#: fbdbg.ui:227 main.ui:227
+msgid "Set watched ???"
+msgstr ""
+
+#: fbdbg.ui:233 main.ui:233
+msgid "Set watched+trace"
+msgstr ""
+
+#: fbdbg.ui:234 main.ui:234
+msgid "Set watched+trace on ???"
+msgstr ""
+
+#: fbdbg.ui:240 main.ui:240
+#, fuzzy
+msgid "Information about this application"
 msgstr "Informationen zu diesem Programm."
 
-#: main.ui:115
-msgid "_File"
-msgstr "_Datei"
+#: fbdbg.ui:247 main.ui:247
+msgid "Break on var value"
+msgstr ""
 
-#: main.ui:185
-msgid "_Edit"
-msgstr "_Bearbeiten"
+#: fbdbg.ui:253 main.ui:253
+msgid "Select index"
+msgstr ""
 
-#: main.ui:235
-msgid "_View"
-msgstr "_Ansicht"
+#: fbdbg.ui:259 main.ui:259
+msgid "Change byte <> zstring type"
+msgstr ""
 
-#: main.ui:259
-msgid "_Help"
+#: fbdbg.ui:265 main.ui:265
+msgid "Show proc in source"
+msgstr ""
+
+#: fbdbg.ui:271 main.ui:271
+msgid "Locate calling line"
+msgstr ""
+
+#: fbdbg.ui:277 main.ui:277
+msgid "Collaps calling line"
+msgstr ""
+
+#: fbdbg.ui:283 main.ui:283
+msgid "Expand proc/var"
+msgstr ""
+
+#: fbdbg.ui:289 main.ui:289
+msgid "List all proc/var (log)"
+msgstr ""
+
+#: fbdbg.ui:295 main.ui:295
+msgid "List selected proc/var (log)"
+msgstr ""
+
+#: fbdbg.ui:301 main.ui:301
+msgid "ASM code of proc"
+msgstr ""
+
+#: fbdbg.ui:307 main.ui:307
+msgid "Toggle sort by module or by proc"
+msgstr ""
+
+#: fbdbg.ui:313 main.ui:313
+msgid "All procs followed"
+msgstr ""
+
+#: fbdbg.ui:319 main.ui:319
+msgid "No procs followed"
+msgstr ""
+
+#: fbdbg.ui:325 main.ui:325
+msgid "Show in var window"
+msgstr ""
+
+#: fbdbg.ui:331 main.ui:331
+msgid "Toggle Tracing"
+msgstr ""
+
+#: fbdbg.ui:337 main.ui:337
+msgid "Cancel all Tracing"
+msgstr ""
+
+#: fbdbg.ui:343 main.ui:343
+msgid "Switch watch1"
+msgstr ""
+
+#: fbdbg.ui:349 main.ui:349
+msgid "Switch watch2"
+msgstr ""
+
+#: fbdbg.ui:355 main.ui:355
+msgid "Switch watch3"
+msgstr ""
+
+#: fbdbg.ui:361 main.ui:361
+msgid "Switch watch4"
+msgstr ""
+
+#: fbdbg.ui:367 main.ui:367
+msgid "Delete"
+msgstr ""
+
+#: fbdbg.ui:373 main.ui:373
+msgid "Delete all"
+msgstr ""
+
+#: fbdbg.ui:379 main.ui:379
+msgid "Set/Clear Breakpoint"
+msgstr ""
+
+#: fbdbg.ui:386 main.ui:386
+msgid "Set/Clear tempo Breakpoint"
+msgstr ""
+
+#: fbdbg.ui:393 main.ui:393
+msgid "Enable/Disable Breakpoint"
+msgstr ""
+
+#: fbdbg.ui:400 main.ui:400
+msgid "Manage Breakpoints"
+msgstr ""
+
+#: fbdbg.ui:406 main.ui:406
+msgid "Show var"
+msgstr ""
+
+#: fbdbg.ui:412 main.ui:412
+msgid "Set watched var"
+msgstr ""
+
+#: fbdbg.ui:418 main.ui:418
+msgid "Find text"
+msgstr ""
+
+#: fbdbg.ui:425 main.ui:425
+msgid "Toggle bookmark"
+msgstr ""
+
+#: fbdbg.ui:432 main.ui:432
+msgid "Next bookmark"
+msgstr ""
+
+#: fbdbg.ui:439 main.ui:439
+msgid "Previous bookmark"
+msgstr ""
+
+#: fbdbg.ui:446 main.ui:446
+msgid "Goto Line"
+msgstr ""
+
+#: fbdbg.ui:452 main.ui:452
+msgid "ASM data"
+msgstr ""
+
+#: fbdbg.ui:458 main.ui:458
+msgid "Line Address"
+msgstr ""
+
+#: fbdbg.ui:464 main.ui:464
+msgid "ASM code of line"
+msgstr ""
+
+#: fbdbg.ui:470 main.ui:470
+msgid "ASM code of proc (from line)"
+msgstr ""
+
+#: fbdbg.ui:476 main.ui:476
+#, fuzzy
+msgid "Mark no executable lines"
+msgstr "Laden und ausführen"
+
+#: fbdbg.ui:482 main.ui:482
+msgid "Focus lines"
+msgstr ""
+
+#: fbdbg.ui:489 main.ui:489
+msgid "Add notes"
+msgstr ""
+
+#: fbdbg.ui:495 fbdbg.ui:496 main.ui:495 main.ui:496
+msgid "Release debugged programm"
+msgstr ""
+
+#: fbdbg.ui:503 fbdbg.ui:504 main.ui:503 main.ui:504
+msgid "Mini command window"
+msgstr ""
+
+#: fbdbg.ui:511 fbdbg.ui:512 main.ui:511 main.ui:512
+msgid "Restart debugging"
+msgstr ""
+
+#: fbdbg.ui:519 main.ui:519
+msgid "Last 10 exe"
+msgstr ""
+
+#: fbdbg.ui:520 main.ui:520
+#, fuzzy
+msgid "Last 10 executable(s)"
+msgstr "Laden und ausführen"
+
+#: fbdbg.ui:527 main.ui:527
+msgid "Attach program"
+msgstr ""
+
+#: fbdbg.ui:528 main.ui:528
+msgid "Attach running program"
+msgstr ""
+
+#: fbdbg.ui:535 main.ui:535
+msgid "Select EXE/BAS"
+msgstr ""
+
+#: fbdbg.ui:536 main.ui:536
+msgid "Select EXE/BAS file"
+msgstr ""
+
+#: fbdbg.ui:543 main.ui:543
+msgid "Tools"
+msgstr ""
+
+#: fbdbg.ui:544 main.ui:544
+msgid "Some usefull....Tools"
+msgstr ""
+
+#: fbdbg.ui:551 main.ui:551
+msgid "Open/close notes"
+msgstr ""
+
+#: fbdbg.ui:552 main.ui:552
+msgid "Open or close notes"
+msgstr ""
+
+#: fbdbg.ui:559 fbdbg.ui:560 main.ui:559 main.ui:560
+msgid "Enlarge/reduce source"
+msgstr ""
+
+#: fbdbg.ui:567 fbdbg.ui:568 main.ui:567 main.ui:568
+msgid "Enlarge/reduce proc/var"
+msgstr ""
+
+#: fbdbg.ui:575 fbdbg.ui:576 main.ui:575 main.ui:576
+msgid "Enlarge/reduce memory dump"
+msgstr ""
+
+#: fbdbg.ui:583 main.ui:583
+msgid "Select next thread to be executed"
+msgstr ""
+
+#: fbdbg.ui:589 main.ui:589
+msgid "Show next executed line (source)"
+msgstr ""
+
+#: fbdbg.ui:595 main.ui:595
+msgid "Show line creating thread (source) "
+msgstr ""
+
+#: fbdbg.ui:601 main.ui:601
+msgid "Show first proc of thread (suorce)"
+msgstr ""
+
+#: fbdbg.ui:607 main.ui:607
+msgid "Show proc (proc/var)"
+msgstr ""
+
+#: fbdbg.ui:613 main.ui:613
+msgid "Proc call Backtracking"
+msgstr ""
+
+#: fbdbg.ui:619 main.ui:619
+msgid "Proc call Chaining"
+msgstr ""
+
+#: fbdbg.ui:625 main.ui:625
+msgid "Proc Adress"
+msgstr ""
+
+#: fbdbg.ui:631 main.ui:631
+msgid "Kill thread"
+msgstr ""
+
+#: fbdbg.ui:637 main.ui:637
+msgid "Expand one thread"
+msgstr ""
+
+#: fbdbg.ui:643 main.ui:643
+msgid "Collapse all threads"
+msgstr ""
+
+#: fbdbg.ui:649 main.ui:649
+msgid "List all threads"
+msgstr ""
+
+#: fbdbg.ui:655 main.ui:655
+msgid "Settings"
+msgstr ""
+
+#: fbdbg.ui:661 main.ui:661
+msgid "Compile info"
+msgstr ""
+
+#: fbdbg.ui:667 main.ui:667
+#, fuzzy
+msgid "Help"
 msgstr "_Hilfe"
+
+#: fbdbg.ui:674 main.ui:674
+msgid "Launch tutorial"
+msgstr ""
+
+#: fbdbg.ui:680 main.ui:680
+msgid "Launch IDE"
+msgstr ""
+
+#: fbdbg.ui:687 main.ui:687
+msgid "Quick edit"
+msgstr ""
+
+#: fbdbg.ui:694 main.ui:694
+msgid "Compile and run"
+msgstr ""
+
+#: fbdbg.ui:701 main.ui:701
+msgid "Copy note to clipboard"
+msgstr ""
+
+#: fbdbg.ui:707 main.ui:707
+msgid "Show log file"
+msgstr ""
+
+#: fbdbg.ui:713 main.ui:713
+msgid "Hide log file"
+msgstr ""
+
+#: fbdbg.ui:719 main.ui:719
+msgid "Delete log file"
+msgstr ""
+
+#: fbdbg.ui:725 main.ui:725
+msgid "List enum"
+msgstr ""
+
+#: fbdbg.ui:731 main.ui:731
+msgid "Process list"
+msgstr ""
+
+#: fbdbg.ui:737 main.ui:737
+msgid "DLLs list"
+msgstr ""
+
+#: fbdbg.ui:743 main.ui:743
+msgid "Translate Win Message"
+msgstr ""
+
+#: fbdbg.ui:749 main.ui:749
+msgid "Bin/Dec/Hex"
+msgstr ""
+
+#: fbdbg.ui:755 main.ui:755
+msgid "Show fast run timer"
+msgstr ""
+
+#: fbdbg.ui:761 main.ui:761
+msgid "Set JIT debugger"
+msgstr ""
+
+#: fbdbg.ui:1591 main.ui:1591 stng.ui:21
+msgid "Settings (fbdbg)"
+msgstr "Einstellungen"
+
+#: fbdbg.ui:1664 main.ui:1664 stng.ui:96 stng0.ui:76 stng0.ui:506
+msgid "_Background"
+msgstr "_Hintergrund"
+
+#: fbdbg.ui:1682 main.ui:1682 stng.ui:113 stng0.ui:93 stng0.ui:523
+msgid "Background"
+msgstr "Hintergrund"
+
+#: fbdbg.ui:1697 main.ui:1697 stng.ui:128 stng0.ui:108 stng0.ui:538
+msgid "Bkgr. cur. _line"
+msgstr "Hintergrund akt. Zeile"
+
+#: fbdbg.ui:1713 main.ui:1713
+msgid "Break_point"
+msgstr "Halte_punkt"
+
+#: fbdbg.ui:1729 main.ui:1729
+msgid "Breakpoint _tmp"
+msgstr "Haltepunkt _tmp"
+
+#: fbdbg.ui:1749 main.ui:1749
+msgid "Font for source view"
+msgstr "Zeichensatz für das Quelltextfenster"
+
+#: fbdbg.ui:1762 main.ui:1762 stng.ui:190 stng0.ui:170 stng0.ui:600
+msgid "Syntax _highlighting"
+msgstr "Syntaxhervorhebung"
+
+#: fbdbg.ui:1785 main.ui:1785 stng.ui:213 stng0.ui:193 stng0.ui:623
+msgid "Background current line"
+msgstr "Hintergrund akt. Zeile"
+
+#: fbdbg.ui:1802 main.ui:1802 stng.ui:230 stng0.ui:210 stng0.ui:640
+msgid "Breakpoint"
+msgstr "Haltepunkte"
+
+#: fbdbg.ui:1819 main.ui:1819 stng.ui:247 stng0.ui:227 stng0.ui:657
+msgid "Temporary Breakpoint"
+msgstr "Temp. Haltepunkte"
+
+#: fbdbg.ui:1836 main.ui:1836 stng.ui:264 stng.ui:311 stng.ui:328 stng.ui:388
+#: stng.ui:485 stng0.ui:244 stng0.ui:321 stng0.ui:338 stng0.ui:355
+#: stng0.ui:674 stng0.ui:751 stng0.ui:768 stng0.ui:785
+msgid "Keyword"
+msgstr "Schlüsselworte"
+
+#: fbdbg.ui:1851 main.ui:1851 stng.ui:279 stng0.ui:259 stng0.ui:689
+msgid "_Keywords"
+msgstr "Schlüssel_worte"
+
+#: fbdbg.ui:1867 main.ui:1867 stng.ui:294 stng0.ui:274 stng0.ui:704
+msgid "_Strings"
+msgstr "_Zeichenketten"
+
+#: fbdbg.ui:1885 main.ui:1885
+msgid "Strings"
+msgstr "Zeichenketten"
+
+#: fbdbg.ui:1902 main.ui:1902
+msgid "Preprocessors"
+msgstr "Präprozessoren"
+
+#: fbdbg.ui:1920 main.ui:1920 stng.ui:346
+msgid "Current line position"
+msgstr "Aktuelle Zeilenposition"
+
+#: fbdbg.ui:1962 main.ui:1962
+#, fuzzy
+msgid "Comments"
+msgstr "Kommentar"
+
+#: fbdbg.ui:1977 main.ui:1977 stng.ui:403 stng0.ui:304 stng0.ui:734
+#, fuzzy
+msgid "_Comments"
+msgstr "Kommentar"
+
+#: fbdbg.ui:1993 main.ui:1993
+msgid "Prepr_ocessors"
+msgstr "Präpr_ozessoren"
+
+#: fbdbg.ui:2009 main.ui:2009 stng.ui:433
+msgid "_Foreground"
+msgstr "_Vordergrund"
+
+#: fbdbg.ui:2027 main.ui:2027 stng.ui:450
+msgid "Foreground"
+msgstr "Voredergrund"
+
+#: fbdbg.ui:2039 main.ui:2039 stng.ui:462
+msgid "Line _numbers"
+msgstr "Zeilen_nummern"
+
+#: fbdbg.ui:2062 main.ui:2062
+msgid "Line numbers"
+msgstr "Zeilennummern"
+
+#: fbdbg.ui:2078 main.ui:2078 stng.ui:501 stng0.ui:378 stng0.ui:808
+msgid "Source View Appearance"
+msgstr "Erscheinungsbild des Quelltextfensters"
+
+#: fbdbg.ui:2113 main.ui:2113 stng.ui:536 stng0.ui:843
+msgid "FBC"
+msgstr "FBC"
+
+#: fbdbg.ui:2130 main.ui:2130
+msgid "Use a file chooser dialog to select the FreeBASIC executable"
+msgstr "Ein Dateiauswahlfenster zur Auswahl benutzen"
+
+#: fbdbg.ui:2145 main.ui:2145 stng.ui:565 stng0.ui:872
+msgid "IDE"
+msgstr "IDE"
+
+#: fbdbg.ui:2162 main.ui:2162
+msgid "Use a file chooser dialog to select the IDE executable"
+msgstr "Ein Dateiauswahlfenster zur Auswahl benutzen"
+
+#: fbdbg.ui:2178 main.ui:2178 stng.ui:595 stng0.ui:902
+msgid "Tools location"
+msgstr "Hilfsprogramme"
+
+#: fbdbg.ui:2211 main.ui:2211 stng.ui:628 stng0.ui:935
+msgid "CMPL"
+msgstr "CMPL"
+
+#: fbdbg.ui:2240 main.ui:2240 stng.ui:656 stng0.ui:963
+msgid "DBG"
+msgstr "DBG"
+
+#: fbdbg.ui:2270 main.ui:2270 stng.ui:685 stng0.ui:992
+msgid "Cmdline parameters"
+msgstr "Kommandozeilenparameter"
+
+#: fbdbg.ui:2308 main.ui:2308 stng.ui:717 stng0.ui:1024
+msgid "Screen"
+msgstr "Bildschirm"
+
+#: fbdbg.ui:2323 main.ui:2323 stng.ui:746 stng0.ui:1053
+msgid "Trace Line"
+msgstr "Trace Line"
+
+#: fbdbg.ui:2339 main.ui:2339 stng.ui:762 stng0.ui:1069
+msgid "Trace Proc"
+msgstr "Trace Proc"
+
+#: fbdbg.ui:2398 main.ui:2398 stng.ui:798 stng0.ui:1105
+msgid "Log"
+msgstr "Log"
+
+#: fbdbg.ui:2430 main.ui:2430 stng.ui:830
+msgid ""
+"Tooltips\n"
+"activated"
+msgstr ""
+
+#: fbdbg.ui:2447 main.ui:2447 stng.ui:847
+msgid ""
+"Verbose mode\n"
+"(ProcVar)"
+msgstr ""
+
+#: fbdbg.ui:2466 main.ui:2466 stng.ui:866
+msgid "Delay value in [ms] for auto step mode (minimum 50, maximum 9999)"
+msgstr ""
+"Wartezeit in [ms] zwischen den Steps der Funktion Schritt Modus (min. 50, "
+"max. 9999)"
+
+#: fbdbg.ui:2470 main.ui:2470 stng.ui:870
+msgid "200"
+msgstr ""
+
+#: fbdbg.ui:2491 main.ui:2491 stng.ui:891
+msgid "Shortcuts"
+msgstr "Tastencode"
+
+#: fbdbg.ui:2513 main.ui:2513 stng.ui:911
+msgid "General"
+msgstr "Generell"
+
+#: fbdbg.ui:2569
+msgid "Show/edit keybord shortcuts (fbdbg)"
+msgstr "Zeige/bearbeite Tastenkodes (fbdbg)"
+
+#: fbdbg.ui:2636 main.ui:2621
+msgid "Shurtcut"
+msgstr "Tastenkode"
+
+#: fbdbg.ui:2658 main.ui:2637
+msgid "Label"
+msgstr "Beschriftung"
+
+#: fbdbg.ui:2677 main.ui:2648
+msgid "Tooltip"
+msgstr "Erklärung"
+
+#: fbdbg.ui:2745 main.ui:2724
+msgid ""
+"' "
+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"
+"'< main program generated by utility                           GladeToBac "
+"V3.4 >\n"
+"'< Hauptprogramm erzeugt "
+"von                                                   >\n"
+"'< Generated at / Generierung am                             2015-01-20, "
+"10:56 >\n"
+"' "
+"-----------------------------------------------------------------------------\n"
+"'< Program "
+"info:                                                               >\n"
+"CONST PROJ_NAME = \"fbdbg\" "
+"'                                                    >\n"
+"CONST PROJ_DESC = \"Debugger for FreeBASIC\" "
+"'                                   >\n"
+"CONST PROJ_VERS = \"3.0\" "
+"'                                                      >\n"
+"CONST PROJ_YEAR = \"2015\" "
+"'                                                     >\n"
+"CONST PROJ_AUTH = \"SARG, AGS, TJF\" "
+"'                                           >\n"
+"CONST PROJ_MAIL = \"Thomas.Freiherr@gmx.net\" "
+"'                                  >\n"
+"CONST PROJ_WEBS = \"\" "
+"'                                                         >\n"
+"CONST PROJ_LICE = \"GPLv3\" "
+"'                                                    >\n"
+"'<                                                                             "
+">\n"
+"'< Description / "
+"Beschreibung:                                                 >\n"
+"'<                                                                             "
+">\n"
+"'<                                                                             "
+">\n"
+"'< License / "
+"Lizenz:                                                           >\n"
+"'<                                                                             "
+">\n"
+"'< Put your license here/Lizenz hier einfuegen.\n"
+"'<                                                                             "
+">\n"
+"' "
+"-----------------------------------------------------------------------------\n"
+"'<  GladeToBac:                    general init / Allgemeine "
+"Initialisierungen >\n"
+"    #INCLUDE \"Gir/Gtk-3.0.bi\" '                  GTK+library / GTK+ "
+"Bibliothek >\n"
+"    #INCLUDE \"Gir/GtkSource-3.0.bi\" '            GTK+library / GTK+ "
+"Bibliothek >\n"
+"    gtk_init(@__FB_ARGC__, @__FB_ARGV__) '             start GKT / GTK "
+"starten >\n"
+"    #INCLUDE \"libintl.bi\" '                               load lib / Lib "
+"laden >\n"
+"    bindtextdomain(PROJ_NAME, EXEPATH & \"/locale\") '               path / "
+"Pfad >\n"
+"    bind_textdomain_codeset(PROJ_NAME, \"UTF-8\") '   set encoding / "
+"Zeichensatz >\n"
+"    textdomain(PROJ_NAME) '                               Filename / "
+"Dateiname >\n"
+"'<  GladeToBac:                                          end block / "
+"Blockende >\n"
+"' "
+"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n"
+"\n"
+"\n"
+"\n"
+"' "
+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"
+"'<  GladeToBac:                                 load GTK stuff / GTK "
+"Anbindung >\n"
+"    #INCLUDE \"tobac/main_tobac.bas\" '                        Signale & GUI-"
+"XML >\n"
+"'<  GladeToBac:                                          end block / "
+"Blockende >\n"
+"' "
+"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n"
+"\n"
+"#INCLUDE ONCE \"testing.bas\"\n"
+"\n"
+"' "
+"^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n"
+"'<  GladeToBac:          run GTK main, then end / GTK Hauptschleife, dann "
+"Ende >\n"
+"    gtk_builder_connect_signals(GUI_MAIN.XML, 0) '            Signale "
+"anbinden >\n"
+"    gtk_main() '                                     main loop / "
+"Hauptschleife >\n"
+"    g_object_unref(GUI_MAIN.XML) '              dereference / Referenz "
+"abbauen >\n"
+"'<  GladeToBac:                                          end block / "
+"Blockende >\n"
+"' "
+"vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv\n"
+msgstr ""
+
+#: fbdbg.ui:2800 main.ui:2779
+msgid ""
+"CONST PROJ_NAME = \"fbdbg\" "
+"'                                                    >"
+msgstr ""
+
+#: fbdbg.ui:2832 main.ui:2811
+msgid "FreeBASIC Debugger"
+msgstr ""
+
+#: fbdbg.ui:3165 main.ui:3144
+msgid "Cur. line:"
+msgstr "Akt. Zeile"
+
+#: fbdbg.ui:3211 main.ui:3190
+msgid "Waiting"
+msgstr "Warte"
+
+#: fbdbg.ui:3225 main.ui:3204
+msgid "Thread"
+msgstr "Thread"
+
+#: fbdbg.ui:3238 main.ui:3217
+msgid "Module"
+msgstr "Module"
+
+#: fbdbg.ui:3252 main.ui:3231
+msgid "Proc"
+msgstr "Proc"
+
+#: fbdbg.ui:3266 main.ui:3245
+msgid "Timer"
+msgstr "Timer"
+
+#: fbdbg.ui:3325 main.ui:3304
+msgid "fbdbg.bas"
+msgstr "fbdbg.bas"
+
+#: fbdbg.ui:3380 main.ui:3359
+msgid "Proc/Var"
+msgstr "Proc/Var"
+
+#: fbdbg.ui:3438 main.ui:3417
+msgid "Procs"
+msgstr "Procs"
+
+#: fbdbg.ui:3483 main.ui:3462
+msgid "Threads"
+msgstr "Threads"
+
+#: fbdbg.ui:3528 main.ui:3507
+msgid "Watched"
+msgstr "Watched"
+
+#: fbdbg.ui:3806 main.ui:3786
+msgid "Mem"
+msgstr "Mem"
+
+#: fbdbg.ui:3850 main.ui:3830
+msgid "Stop if myvar<integer>=17 becomes <>17"
+msgstr "Stoppe wenn myvar <integer>=17 ungleich 17 wird"
+
+#: fbdbg.ui:3867 main.ui:3847
+msgid "Bookmarks"
+msgstr "Lesezeichen"
+
+#: fbdbg.ui:3868 main.ui:3848
+msgid "Entry01"
+msgstr ""
+
+#: fbdbg.ui:3869 main.ui:3849
+msgid "Entry02"
+msgstr ""
+
+#: fbdbg.ui:3897 main.ui:3877
+msgid "Watch"
+msgstr ""
+
+#: fbdbg.ui:3915 fbdbg.ui:3930 fbdbg.ui:3945 fbdbg.ui:3960 main.ui:3895
+#: main.ui:3910 main.ui:3925 main.ui:3940
+msgid "< empty >"
+msgstr "< leer >"
+
+#: fbdbg.ui:3974 main.ui:3954
+msgid "1:"
+msgstr "1:"
+
+#: fbdbg.ui:3991 main.ui:3971
+msgid "3:"
+msgstr "3:"
+
+#: fbdbg.ui:4008 main.ui:3988
+msgid "4:"
+msgstr "4:"
+
+#: fbdbg.ui:4025 main.ui:4005
+msgid "2:"
+msgstr "2:"
+
+#: fbdbg.ui:4048 main.ui:4028
+msgid "ADDRESS"
+msgstr "ADRESSE"
+
+#: fbdbg.ui:4066 main.ui:4046
+msgid "+01"
+msgstr "+01"
+
+#: fbdbg.ui:4084 main.ui:4064
+msgid "+02"
+msgstr "+02"
+
+#: fbdbg.ui:4102 main.ui:4082
+msgid "+03"
+msgstr "+03"
+
+#: fbdbg.ui:4120 main.ui:4100
+msgid "+04"
+msgstr "+04"
+
+#: fbdbg.ui:4139 main.ui:4119
+msgid "ASCII"
+msgstr "ASCII"
+
+#: fbdbg.ui:4156 fbdbg.ui:4171 fbdbg.ui:4186 fbdbg.ui:4201 fbdbg.ui:4216
+#: main.ui:4136 main.ui:4151 main.ui:4166 main.ui:4181 main.ui:4196
+msgid "0"
+msgstr ""
+
+#: fbdbg.ui:4232 main.ui:4212
+msgid "Hi all, this is how a long text will look like"
+msgstr "Hallo an alle, so sieht ein langer Text aus"
+
+#: fbdbg.ui:4256 main.ui:4236
+msgid ""
+"Memory\n"
+"dump"
+msgstr ""
+"Speicher\n"
+"auszug"
+
+#: stng.ui:143 stng0.ui:123 stng0.ui:553
+msgid "Breack_point"
+msgstr "Stoppunkt"
+
+#: stng.ui:158 stng0.ui:138 stng0.ui:568
+msgid "Breackpoint _tmp"
+msgstr "Temp. Stoppunkt"
+
+#: stng.ui:177 stng0.ui:157 stng0.ui:587
+msgid "Source view font"
+msgstr "Quelltext Zeichensatz"
+
+#: stng.ui:418 stng0.ui:289 stng0.ui:719
+msgid "_Prepocessors"
+msgstr "Präprozessorbefehle"
+
+#: stng0.ui:49 stng0.ui:479
+msgid "Line position"
+msgstr "Zeilenposition"
+
+#~ msgid "callback on_actLoad_activate"
+#~ msgstr "Rückruf-Funktion on_actLoad_activate"
+
+#~ msgid "Load"
+#~ msgstr "Laden"
+
+#~ msgid "Run the loaded executable."
+#~ msgstr "Ausführen des geladenen Programms"
+
+#~ msgid "Quit"
+#~ msgstr "Beenden"
+
+#~ msgid "Finish the fbdbg application."
+#~ msgstr "Beendet die FB debugger Applikation."
+
+#~ msgid "Info"
+#~ msgstr "Information"
+
+#~ msgid "_File"
+#~ msgstr "_Datei"
+
+#~ msgid "_Edit"
+#~ msgstr "_Bearbeiten"
+
+#~ msgid "_View"
+#~ msgstr "_Ansicht"
 
 #~ msgid "_Datei"
 #~ msgstr "_Datei"

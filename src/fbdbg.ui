@@ -12,9 +12,9 @@
       <source stock-id="dbg-restart" filename="img/restart.bmp"/>
       <source stock-id="dbg-exemod" filename="img/exemod.bmp"/>
       <source stock-id="dbg-minicmd" filename="img/minicmd.bmp"/>
-      <source stock-id="dbg-tools" filename="img/tools.bmp"/>
       <source stock-id="dbg-auto" filename="img/auto.bmp"/>
       <source stock-id="dbg-step_out" filename="img/step_out.bmp"/>
+      <source stock-id="dbg-source" filename="img/source.bmp"/>
       <source stock-id="dbg-files" filename="img/files.bmp"/>
       <source stock-id="dbg-stop" filename="img/stop.bmp"/>
       <source stock-id="dbg-step_start" filename="img/step_start.bmp"/>
@@ -23,10 +23,10 @@
       <source stock-id="dbg-kill" filename="img/kill.bmp"/>
       <source stock-id="dbg-attachexe" filename="img/attachexe.bmp"/>
       <source stock-id="dbg-step" filename="img/step.png"/>
+      <source stock-id="dbg-tools" filename="img/tools.bmp"/>
+      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-run" filename="img/run.bmp"/>
       <source stock-id="dbg-free" filename="img/free.bmp"/>
-      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
-      <source stock-id="dbg-source" filename="img/source.bmp"/>
       <source stock-id="dbg-notes" filename="img/notes.bmp"/>
     </sources>
   </object>
@@ -2467,7 +2467,7 @@ activated</property>
                             <property name="hexpand">True</property>
                             <property name="max_length">4</property>
                             <property name="width_chars">7</property>
-                            <property name="text" translatable="yes">200</property>
+                            <property name="text">200</property>
                             <property name="xalign">1</property>
                             <property name="caps_lock_warning">False</property>
                             <property name="primary_icon_stock">gtk-media-pause</property>
@@ -2551,7 +2551,22 @@ activated</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
+  <object class="GtkListStore" id="liststore600">
+    <columns>
+      <!-- column-name guint1 -->
+      <column type="guint"/>
+      <!-- column-name guint2 -->
+      <column type="guint"/>
+      <!-- column-name gchararray1 -->
+      <column type="gchararray"/>
+      <!-- column-name gchararray2 -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
   <object class="GtkDialog" id="dialog600">
+    <property name="width_request">570</property>
+    <property name="height_request">460</property>
+    <property name="title" translatable="yes">Show/edit keybord shortcuts (fbdbg)</property>
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
@@ -2620,11 +2635,17 @@ activated</property>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn601">
                     <property name="title" translatable="yes">Shurtcut</property>
                     <property name="clickable">True</property>
+                    <property name="alignment">1</property>
                     <property name="reorderable">True</property>
                     <property name="sort_indicator">True</property>
                     <property name="sort_column_id">0</property>
                     <child>
-                      <object class="GtkCellRendererAccel" id="cellrendereraccel601"/>
+                      <object class="GtkCellRendererAccel" id="cellrendereraccel601">
+                        <property name="xalign">1</property>
+                        <property name="editable">True</property>
+                        <signal name="accel-cleared" handler="on_accel_cleared" object="liststore600" swapped="no"/>
+                        <signal name="accel-edited" handler="on_accel_edited" object="liststore600" swapped="no"/>
+                      </object>
                       <attributes>
                         <attribute name="accel-key">0</attribute>
                         <attribute name="accel-mods">1</attribute>
@@ -2635,8 +2656,15 @@ activated</property>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn602">
                     <property name="title" translatable="yes">Label</property>
+                    <property name="clickable">True</property>
+                    <property name="alignment">0.5</property>
+                    <property name="reorderable">True</property>
+                    <property name="sort_indicator">True</property>
+                    <property name="sort_column_id">2</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext601"/>
+                      <object class="GtkCellRendererText" id="cellrenderertext601">
+                        <property name="xalign">0.5</property>
+                      </object>
                       <attributes>
                         <attribute name="text">2</attribute>
                       </attributes>
@@ -2645,7 +2673,12 @@ activated</property>
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn603">
+                    <property name="sizing">autosize</property>
                     <property name="title" translatable="yes">Tooltip</property>
+                    <property name="clickable">True</property>
+                    <property name="reorderable">True</property>
+                    <property name="sort_indicator">True</property>
+                    <property name="sort_column_id">3</property>
                     <child>
                       <object class="GtkCellRendererText" id="cellrenderertext602"/>
                       <attributes>
@@ -2669,18 +2702,6 @@ activated</property>
       <action-widget response="1">button601</action-widget>
       <action-widget response="0">button602</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkListStore" id="liststore600">
-    <columns>
-      <!-- column-name guint1 -->
-      <column type="guint"/>
-      <!-- column-name guint1 -->
-      <column type="guint"/>
-      <!-- column-name gchararray1 -->
-      <column type="gchararray"/>
-      <!-- column-name gchararray2 -->
-      <column type="gchararray"/>
-    </columns>
   </object>
   <object class="GtkListStore" id="lstoreMemory">
     <columns>
@@ -2721,7 +2742,7 @@ activated</property>
     </columns>
   </object>
   <object class="GtkSourceBuffer" id="srcbuff">
-    <property name="text" translatable="yes">' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    <property name="text">' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '&lt; main program generated by utility                           GladeToBac V3.4 &gt;
 '&lt; Hauptprogramm erzeugt von                                                   &gt;
 '&lt; Generated at / Generierung am                             2015-01-20, 10:56 &gt;
@@ -2776,7 +2797,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
     <property name="max_undo_levels">0</property>
   </object>
   <object class="GtkSourceBuffer" id="srcbuffCur">
-    <property name="text" translatable="yes">CONST PROJ_NAME = "fbdbg" '                                                    &gt;</property>
+    <property name="text">CONST PROJ_NAME = "fbdbg" '                                                    &gt;</property>
     <property name="max_undo_levels">0</property>
   </object>
   <object class="GtkTreeStore" id="tstoreProcVar">
@@ -3187,7 +3208,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-                <property name="label" translatable="yes">Waiting</property>
+                <property name="label">Waiting</property>
                 <property name="lines">1</property>
               </object>
               <packing>
@@ -3201,7 +3222,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0.25</property>
-                <property name="label" translatable="yes">Thread</property>
+                <property name="label">Thread</property>
                 <property name="lines">1</property>
               </object>
               <packing>
@@ -3214,7 +3235,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
               <object class="GtkLabel" id="sbarlab3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="label" translatable="yes">Module</property>
+                <property name="label">Module</property>
                 <property name="lines">1</property>
               </object>
               <packing>
@@ -3228,7 +3249,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0.75</property>
-                <property name="label" translatable="yes">Proc</property>
+                <property name="label">Proc</property>
                 <property name="lines">1</property>
               </object>
               <packing>
@@ -3242,7 +3263,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">1</property>
-                <property name="label" translatable="yes">Timer</property>
+                <property name="label">Timer</property>
                 <property name="lines">1</property>
               </object>
               <packing>
@@ -3301,7 +3322,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                   <object class="GtkLabel" id="label1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">fbdbg.bas</property>
+                    <property name="label">fbdbg.bas</property>
                   </object>
                   <packing>
                     <property name="tab_fill">False</property>
@@ -3543,7 +3564,6 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                               </object>
                               <attributes>
                                 <attribute name="text">0</attribute>
-                                <attribute name="placeholder-text">0</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -3827,7 +3847,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                 <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkButton" id="button2">
-                    <property name="label" translatable="yes">Stop if myvar&lt;integer&gt;=17 becomes &lt;&gt;17</property>
+                    <property name="label">Stop if myvar&lt;integer&gt;=17 becomes &lt;&gt;17</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
@@ -3844,9 +3864,9 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="can_focus">False</property>
                     <property name="active">0</property>
                     <items>
-                      <item id="0" translatable="yes">Bookmarks</item>
-                      <item id="1" translatable="yes">Entry01</item>
-                      <item id="2" translatable="yes">Entry02</item>
+                      <item id="0">Bookmarks</item>
+                      <item id="1">Entry01</item>
+                      <item id="2">Entry02</item>
                     </items>
                   </object>
                   <packing>
@@ -3892,7 +3912,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt; empty &gt;</property>
+                    <property name="label">&lt; empty &gt;</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -3907,7 +3927,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt; empty &gt;</property>
+                    <property name="label">&lt; empty &gt;</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -3922,7 +3942,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt; empty &gt;</property>
+                    <property name="label">&lt; empty &gt;</property>
                   </object>
                   <packing>
                     <property name="left_attach">4</property>
@@ -3937,7 +3957,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt; empty &gt;</property>
+                    <property name="label">&lt; empty &gt;</property>
                   </object>
                   <packing>
                     <property name="left_attach">4</property>
@@ -3951,7 +3971,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                    <property name="label" translatable="yes">1:</property>
+                    <property name="label">1:</property>
                     <attributes>
                       <attribute name="style" value="oblique"/>
                     </attributes>
@@ -3968,7 +3988,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                    <property name="label" translatable="yes">3:</property>
+                    <property name="label">3:</property>
                     <attributes>
                       <attribute name="style" value="italic"/>
                     </attributes>
@@ -3985,7 +4005,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                    <property name="label" translatable="yes">4:</property>
+                    <property name="label">4:</property>
                     <attributes>
                       <attribute name="style" value="italic"/>
                     </attributes>
@@ -4002,7 +4022,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="xalign">1</property>
-                    <property name="label" translatable="yes">2:</property>
+                    <property name="label">2:</property>
                     <attributes>
                       <attribute name="style" value="italic"/>
                     </attributes>
@@ -4043,7 +4063,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">+01</property>
+                        <property name="label">+01</property>
                         <property name="ellipsize">start</property>
                         <attributes>
                           <attribute name="style" value="italic"/>
@@ -4061,7 +4081,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">+02</property>
+                        <property name="label">+02</property>
                         <property name="ellipsize">start</property>
                         <attributes>
                           <attribute name="style" value="italic"/>
@@ -4079,7 +4099,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">+03</property>
+                        <property name="label">+03</property>
                         <property name="ellipsize">start</property>
                         <attributes>
                           <attribute name="style" value="italic"/>
@@ -4097,7 +4117,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">+04</property>
+                        <property name="label">+04</property>
                         <property name="ellipsize">start</property>
                         <attributes>
                           <attribute name="style" value="italic"/>
@@ -4133,7 +4153,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="ellipsize">start</property>
                       </object>
                       <packing>
@@ -4148,7 +4168,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="ellipsize">start</property>
                       </object>
                       <packing>
@@ -4163,7 +4183,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="ellipsize">start</property>
                       </object>
                       <packing>
@@ -4178,7 +4198,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="ellipsize">start</property>
                       </object>
                       <packing>
@@ -4193,7 +4213,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">0</property>
+                        <property name="label">0</property>
                         <property name="ellipsize">start</property>
                       </object>
                       <packing>
@@ -4209,7 +4229,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                         <property name="can_focus">False</property>
                         <property name="hexpand">True</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">Hi all, this is how a long text will look like</property>
+                        <property name="label">Hi all, this is how a long text will look like</property>
                         <property name="ellipsize">start</property>
                       </object>
                       <packing>

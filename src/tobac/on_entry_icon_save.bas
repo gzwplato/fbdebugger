@@ -10,13 +10,27 @@
 '< callback SUB/FUNCTION                                          insert code! >
 '< Ereignis Unterprogramm/Funktion                        Quelltext einfuegen! >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-SUB on_entry_icon_press CDECL ALIAS "on_entry_icon_press" ( _
+SUB on_entry_icon_save CDECL ALIAS "on_entry_icon_save" ( _
   BYVAL entry AS GtkEntry PTR, _
   BYVAL icon_pos AS GtkEntryIconPosition, _
   BYVAL event AS GdkEvent PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-' place your source code here / eigenen Quelltext hier einfuegen
-?*__("--> callback on_entry_icon_press")
+  VAR fnam = *gtk_entry_get_text(entry) ' don't free this one!
+  VAR dia = gtk_file_chooser_dialog_new(*__("Save file"), NULL _
+    , GTK_FILE_CHOOSER_ACTION_SAVE _
+    , "gtk-cancel", GTK_RESPONSE_CANCEL _
+    , "gtk-ok", GTK_RESPONSE_ACCEPT _
+    , NULL)
+  'gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(dia), TRUE)
+  gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(dia), fnam)
+
+  IF GTK_RESPONSE_ACCEPT = gtk_dialog_run(GTK_DIALOG(dia)) THEN
+    VAR fnam = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dia))
+    gtk_entry_set_text(entry, fnam)
+    g_free (fnam)
+  END IF
+
+  gtk_widget_destroy(dia)
 
 END SUB

@@ -36,7 +36,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    >
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:                                 load GTK stuff / GTK Anbindung >
-    #INCLUDE "tobac/main_tobac.bas" '                        Signale & GUI-XML >
+    #INCLUDE "tobac/fbdbg_tobac.bas" '                       Signale & GUI-XML >
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
