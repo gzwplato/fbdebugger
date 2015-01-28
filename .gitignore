@@ -7,12 +7,13 @@ cmake_install.cmake
 install_manifest.txt
 
 fbdbg
-
+fbdbg.pot
 
 # Use wildcards as well
 *.ui~
 
 # Can also ignore all directories and files in a directory.
+locale/**/*.mo
 test/**/*
 SARG/**/*
 src/img/**/*
