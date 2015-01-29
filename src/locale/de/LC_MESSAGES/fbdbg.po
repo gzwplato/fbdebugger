@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: fbdbg-2.0\n"
 "Report-Msgid-Bugs-To: Thomas.Freiherr@gmx.net\n"
 "POT-Creation-Date: 2015-01-28 12:48+0100\n"
-"PO-Revision-Date: 2015-01-28 12:48+0100\n"
+"PO-Revision-Date: 2015-01-29 01:30+0100\n"
 "Last-Translator: Thomas Freiherr <Thomas.Freiherr@gmx.net>\n"
 "Language-Team: TJF\n"
 "Language: de\n"
@@ -19,169 +19,146 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: act_Settings.bas:145
-#, fuzzy
 msgid "callback act_Settings"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_Settings"
 
 #: act_Settings.bas:148
 msgid "callback act_Settings -> get changed settings"
-msgstr ""
+msgstr "Rückruffunktion act_Settings -> ermittle veränderte Parameter"
 
 #: act_Settings.bas:151
 msgid "callback act_Settings -> dialog canceled, restore form"
 msgstr ""
+"Rückruffunktion act_Settings -> Dialog abgebrochen, Formular wiederherstellen"
 
 #: act_Shortcut.bas:69
 msgid "--> callback act_Shortcut"
-msgstr ""
+msgstr "--> Rückruffunktion act_Shortcut"
 
 #: act_Shortcut.bas:72
 msgid "callback act_Shortcut -> get changed settings"
-msgstr ""
+msgstr "Rückruffunktion act_Shortcut -> lese veränderte Parameter"
 
 #: act_Shortcut.bas:75
 msgid "callback act_Shortcut -> dialog canceled, restore form"
 msgstr ""
+"Rückruffunktion act_Shortcut -> dialog abgebrochen, Formular wiederherstellen"
 
 #: act_ToDo.bas:17
 msgid "callback act_ToDo"
-msgstr ""
+msgstr "Rückruffunktion act_ToDo"
 
 #: act_attachexe.bas:17
-#, fuzzy
 msgid "callback act_attachexe"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_attachexe"
 
 #: act_auto.bas:17
-#, fuzzy
 msgid "callback act_auto"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_auto"
 
 #: act_exemod.bas:17
-#, fuzzy
 msgid "callback act_exemod"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_exemod"
 
 #: act_fastrun.bas:17
-#, fuzzy
 msgid "callback act_fastrun"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_fastrun"
 
 #: act_files.bas:17
-#, fuzzy
 msgid "callback act_files"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_files"
 
 #: act_free.bas:17
-#, fuzzy
 msgid "callback act_free"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_free"
 
 #: act_help.bas:17
-#, fuzzy
 msgid "callback act_help"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_help"
 
 #: act_kill.bas:17
-#, fuzzy
 msgid "callback act_kill"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_kill"
 
 #: act_memory.bas:17
-#, fuzzy
 msgid "callback act_memory"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_memory"
 
 #: act_minicmd.bas:17
 msgid "callback act_minicmd"
-msgstr ""
+msgstr "Rückruffunktion act_minicmd"
 
 #: act_multiexe.bas:17
-#, fuzzy
 msgid "callback act_multiexe"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_multiexe"
 
 #: act_notes.bas:17
-#, fuzzy
 msgid "callback act_notes"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktionact_notes"
 
 #: act_restart.bas:17
-#, fuzzy
 msgid "callback act_restart"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_restart"
 
 #: act_run.bas:17
-#, fuzzy
 msgid "callback act_run"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_run"
 
 #: act_runto.bas:17
-#, fuzzy
 msgid "callback act_runto"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_runto"
 
 #: act_source.bas:17
-#, fuzzy
 msgid "callback act_source"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_source"
 
 #: act_step.bas:17
-#, fuzzy
 msgid "callback act_step"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_step"
 
 #: act_step_end.bas:17
-#, fuzzy
 msgid "callback act_step_end"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_step_end"
 
 #: act_step_out.bas:17
-#, fuzzy
 msgid "callback act_step_out"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_step_out"
 
 #: act_step_over.bas:17
-#, fuzzy
 msgid "callback act_step_over"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_step_over"
 
 #: act_step_start.bas:17
-#, fuzzy
 msgid "callback act_step_start"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_step_start"
 
 #: act_stop.bas:17
-#, fuzzy
 msgid "callback act_stop"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_stop"
 
 #: act_varproc.bas:17
-#, fuzzy
 msgid "callback act_varproc"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion act_varproc"
 
 #: on_accel_cleared.bas:19
-#, fuzzy
 msgid "--> callback on_accel_cleared"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion on_accel_cleared"
 
 #: on_accel_edited.bas:22
-#, fuzzy
 msgid "--> callback on_accel_edited"
-msgstr "Rückruf-Funktion on_actRun_activate"
+msgstr "Rückruf-Funktion on_accel_edited"
 
 #: on_entry_icon_load.bas:19
 msgid "Select file"
-msgstr ""
+msgstr "Datei auswählen"
 
 #: on_entry_icon_load.bas:27
 msgid "Executables (*.exe)"
-msgstr ""
+msgstr "Ausführbare Dateien (*.exe)"
 
 #: on_entry_icon_save.bas:20
 msgid "Save file"
-msgstr ""
+msgstr "Datei speichern"
 
 #: fbdbg.ui:38
 msgid "SARG"
@@ -207,35 +184,35 @@ msgstr ""
 
 #: fbdbg.ui:79
 msgid "Run to Cursor"
-msgstr ""
+msgstr "Ausführen bis Cursorposition"
 
 #: fbdbg.ui:80
 msgid "Execute the debuggee up to the cursor position"
-msgstr ""
+msgstr "Ausführen bis zur nächsten Cursorposition"
 
 #: fbdbg.ui:88
 msgid "Next step"
-msgstr ""
+msgstr "Nächster Schritt"
 
 #: fbdbg.ui:89
 msgid "Execute the debuggee step by step"
-msgstr ""
+msgstr "Schritt f. Schritt ausführen"
 
 #: fbdbg.ui:97
 msgid "Step over procs"
-msgstr ""
+msgstr "Springe über Prozedur"
 
 #: fbdbg.ui:98
 msgid "Step over a SUB or FUNCTION"
-msgstr ""
+msgstr "Springe über SUB od. FUNCTION"
 
 #: fbdbg.ui:106
 msgid "Step out current proc"
-msgstr ""
+msgstr "Verlasse aktuelle Prozedur"
 
 #: fbdbg.ui:107
 msgid "Exit the current SUB or FUNCTION"
-msgstr ""
+msgstr "Bearbeite aktuelle SUB od. FUNCTION"
 
 #: fbdbg.ui:115
 msgid "Step top called proc"
@@ -259,11 +236,11 @@ msgstr "Ausführen"
 
 #: fbdbg.ui:134
 msgid "Run until halt"
-msgstr ""
+msgstr "Ausführen bis Halt"
 
 #: fbdbg.ui:142
 msgid "Fast Run"
-msgstr ""
+msgstr "Schnelles Ausführen"
 
 #: fbdbg.ui:143
 msgid "Caution fast run to cursor"
@@ -271,15 +248,15 @@ msgstr ""
 
 #: fbdbg.ui:151
 msgid "Halt running debuggee"
-msgstr ""
+msgstr "Stoppe laufendes Programm"
 
 #: fbdbg.ui:152
 msgid "Halt running program"
-msgstr ""
+msgstr "Stoppe laufenden Prozess"
 
 #: fbdbg.ui:160
 msgid "Kill debuggee"
-msgstr ""
+msgstr "Lösche Programm"
 
 #: fbdbg.ui:161
 msgid "Caution kill process"
@@ -307,15 +284,15 @@ msgstr ""
 
 #: fbdbg.ui:195
 msgid "Variable Dump"
-msgstr ""
+msgstr "Variablenanzeige"
 
 #: fbdbg.ui:201
 msgid "Edit var value"
-msgstr ""
+msgstr "Bearbeite Variable"
 
 #: fbdbg.ui:207
 msgid "Show/Expand variable"
-msgstr ""
+msgstr "Zeige/verberge Variablen"
 
 #: fbdbg.ui:213
 msgid "Show z/w/string"
@@ -323,7 +300,7 @@ msgstr ""
 
 #: fbdbg.ui:219
 msgid "Shortcut key list"
-msgstr ""
+msgstr "Tastenkürzel"
 
 #: fbdbg.ui:226 fbdbg.ui:774
 msgid "Set watched"
@@ -342,17 +319,16 @@ msgid "Set watched+trace on ???"
 msgstr ""
 
 #: fbdbg.ui:240
-#, fuzzy
 msgid "Information about this application"
 msgstr "Informationen zu diesem Programm."
 
 #: fbdbg.ui:247
 msgid "Break on var value"
-msgstr ""
+msgstr "Stoppe gem. Variablenwert "
 
 #: fbdbg.ui:253
 msgid "Select index"
-msgstr ""
+msgstr "Wähle Index"
 
 #: fbdbg.ui:259
 msgid "Change byte <> zstring type"
@@ -360,11 +336,11 @@ msgstr ""
 
 #: fbdbg.ui:265
 msgid "Show proc in source"
-msgstr ""
+msgstr "Zeige Prozedur im Quelltext"
 
 #: fbdbg.ui:271
 msgid "Locate calling line"
-msgstr ""
+msgstr "Lokalisiere die aufrufende Zeile"
 
 #: fbdbg.ui:277
 msgid "Collaps calling line"
@@ -384,7 +360,7 @@ msgstr ""
 
 #: fbdbg.ui:301
 msgid "ASM code of proc"
-msgstr ""
+msgstr "Assembler Quelltext e. Prozedur"
 
 #: fbdbg.ui:307
 msgid "Toggle sort by module or by proc"
@@ -404,11 +380,11 @@ msgstr ""
 
 #: fbdbg.ui:331
 msgid "Toggle Tracing"
-msgstr ""
+msgstr "Verfolgung abbrechen"
 
 #: fbdbg.ui:337
 msgid "Cancel all Tracing"
-msgstr ""
+msgstr "Alle Verfolgungen abbrechen"
 
 #: fbdbg.ui:343
 msgid "Switch watch1"
@@ -428,11 +404,11 @@ msgstr ""
 
 #: fbdbg.ui:367
 msgid "Delete"
-msgstr ""
+msgstr "Lösche"
 
 #: fbdbg.ui:373
 msgid "Delete all"
-msgstr ""
+msgstr "Lösche alles"
 
 #: fbdbg.ui:379
 msgid "Set/Clear Breakpoint"
@@ -452,7 +428,7 @@ msgstr ""
 
 #: fbdbg.ui:406
 msgid "Show var"
-msgstr ""
+msgstr "Zeige Variable"
 
 #: fbdbg.ui:412
 msgid "Set watched var"
@@ -460,7 +436,7 @@ msgstr ""
 
 #: fbdbg.ui:418
 msgid "Find text"
-msgstr ""
+msgstr "Finde Text"
 
 #: fbdbg.ui:425
 msgid "Toggle bookmark"
@@ -476,23 +452,23 @@ msgstr ""
 
 #: fbdbg.ui:446
 msgid "Goto Line"
-msgstr ""
+msgstr "Gehe zu Zeile"
 
 #: fbdbg.ui:452
 msgid "ASM data"
-msgstr ""
+msgstr "ASM Daten"
 
 #: fbdbg.ui:458
 msgid "Line Address"
-msgstr ""
+msgstr "Zeilenadresse"
 
 #: fbdbg.ui:464
 msgid "ASM code of line"
-msgstr ""
+msgstr "ASM Quelltext der Zeile"
 
 #: fbdbg.ui:470
 msgid "ASM code of proc (from line)"
-msgstr ""
+msgstr "ASN Quelltext der Prozedur (von Zeile)"
 
 #: fbdbg.ui:476
 #, fuzzy
@@ -501,11 +477,11 @@ msgstr "Laden und ausführen"
 
 #: fbdbg.ui:482
 msgid "Focus lines"
-msgstr ""
+msgstr "Fokussiere Zeile"
 
 #: fbdbg.ui:489
 msgid "Add notes"
-msgstr ""
+msgstr "Notizen hinzufügen"
 
 #: fbdbg.ui:495 fbdbg.ui:496
 msgid "Release debugged programm"
@@ -513,7 +489,7 @@ msgstr ""
 
 #: fbdbg.ui:503 fbdbg.ui:504
 msgid "Mini command window"
-msgstr ""
+msgstr "Kleines Kommando Fenster"
 
 #: fbdbg.ui:511 fbdbg.ui:512
 msgid "Restart debugging"
@@ -538,27 +514,27 @@ msgstr ""
 
 #: fbdbg.ui:535
 msgid "Select EXE/BAS"
-msgstr ""
+msgstr "EXE/BAS Datei auswählen"
 
 #: fbdbg.ui:536
 msgid "Select EXE/BAS file"
-msgstr ""
+msgstr "Auswählen einer EXE oder BAS Datei"
 
 #: fbdbg.ui:543
 msgid "Tools"
-msgstr ""
+msgstr "Werkzeuge"
 
 #: fbdbg.ui:544
 msgid "Some usefull....Tools"
-msgstr ""
+msgstr "Einige hilfreiche....Werkzeuge"
 
 #: fbdbg.ui:551
 msgid "Open/close notes"
-msgstr ""
+msgstr "Zeige/verberge Notizen"
 
 #: fbdbg.ui:552
 msgid "Open or close notes"
-msgstr ""
+msgstr "Zeige/verberge Notizen"
 
 #: fbdbg.ui:559 fbdbg.ui:560
 msgid "Enlarge/reduce source"
@@ -574,112 +550,111 @@ msgstr ""
 
 #: fbdbg.ui:583
 msgid "Select next thread to be executed"
-msgstr ""
+msgstr "Wähle nächsten Thread"
 
 #: fbdbg.ui:589
 msgid "Show next executed line (source)"
-msgstr ""
+msgstr "Zeige nächste Zeile (Source)"
 
 #: fbdbg.ui:595
 msgid "Show line creating thread (source) "
-msgstr ""
+msgstr "Zeige Zeile des Threadaufrufs (Source)"
 
 #: fbdbg.ui:601
 msgid "Show first proc of thread (suorce)"
-msgstr ""
+msgstr "Zeige erste Prozedur e. Thread (Quelltext)"
 
 #: fbdbg.ui:607
 msgid "Show proc (proc/var)"
-msgstr ""
+msgstr "Zeige Prozeduren (Proc/Var)"
 
 #: fbdbg.ui:613
 msgid "Proc call Backtracking"
-msgstr ""
+msgstr "Prozeduraufruf Rückverfolgung"
 
 #: fbdbg.ui:619
 msgid "Proc call Chaining"
-msgstr ""
+msgstr "Prozeduraufruf Verkettung"
 
 #: fbdbg.ui:625
 msgid "Proc Adress"
-msgstr ""
+msgstr "Prozedur Adresse"
 
 #: fbdbg.ui:631
 msgid "Kill thread"
-msgstr ""
+msgstr "Stoppe Thread"
 
 #: fbdbg.ui:637
 msgid "Expand one thread"
-msgstr ""
+msgstr "Öffne einen Thread"
 
 #: fbdbg.ui:643
 msgid "Collapse all threads"
-msgstr ""
+msgstr "Schließe alle Threads"
 
 #: fbdbg.ui:649
 msgid "List all threads"
-msgstr ""
+msgstr "Liste aller Threads"
 
 #: fbdbg.ui:655
 msgid "Settings"
-msgstr ""
+msgstr "Einstellungen"
 
 #: fbdbg.ui:661
 msgid "Compile info"
 msgstr ""
 
 #: fbdbg.ui:667
-#, fuzzy
 msgid "Help"
-msgstr "_Hilfe"
+msgstr "Hilfe"
 
 #: fbdbg.ui:674
 msgid "Launch tutorial"
-msgstr ""
+msgstr "Starte Tutorial"
 
 #: fbdbg.ui:680
 msgid "Launch IDE"
-msgstr ""
+msgstr "Starte Entwicklungsumgebung (IDE)"
 
 #: fbdbg.ui:687
 msgid "Quick edit"
-msgstr ""
+msgstr "Schnellbearbeitung (quick edit)"
 
 #: fbdbg.ui:694
 msgid "Compile and run"
-msgstr ""
+msgstr "Kompiliere und starte"
 
 #: fbdbg.ui:701
 msgid "Copy note to clipboard"
-msgstr ""
+msgstr "Kopiere Notiz (Clipboard)"
 
 #: fbdbg.ui:707
 msgid "Show log file"
-msgstr ""
+msgstr "Zeige Protokoll Datei"
 
 #: fbdbg.ui:713
 msgid "Hide log file"
-msgstr ""
+msgstr "Verberge Protokoll"
 
 #: fbdbg.ui:719
 msgid "Delete log file"
-msgstr ""
+msgstr "Lösche Protokoll Datei"
 
 #: fbdbg.ui:725
 msgid "List enum"
-msgstr ""
+msgstr "ENUM Liste"
 
 #: fbdbg.ui:731
 msgid "Process list"
-msgstr ""
+msgstr "Orozess Liste"
 
 #: fbdbg.ui:737
 msgid "DLLs list"
-msgstr ""
+msgstr "DLL/.so Liste"
 
 #: fbdbg.ui:743
 msgid "Translate Win Message"
-msgstr ""
+msgstr "Übersetze Fenster Nachricht"
 
 #: fbdbg.ui:749
 msgid "Bin/Dec/Hex"
@@ -687,7 +662,7 @@ msgstr ""
 
 #: fbdbg.ui:755
 msgid "Show fast run timer"
-msgstr ""
+msgstr "Zeige Zeitnehmer (fast run)"
 
 #: fbdbg.ui:761
 msgid "Set JIT debugger"
@@ -695,7 +670,7 @@ msgstr ""
 
 #: fbdbg.ui:1591
 msgid "Settings (fbdbg)"
-msgstr "Einstellungen"
+msgstr "Einstellungen (fbdbg)"
 
 #: fbdbg.ui:1664
 msgid "_Background"
@@ -762,12 +737,10 @@ msgid "Current line position"
 msgstr "Aktuelle Zeilenposition"
 
 #: fbdbg.ui:1962
-#, fuzzy
 msgid "Comments"
 msgstr "Kommentar"
 
 #: fbdbg.ui:1977
-#, fuzzy
 msgid "_Comments"
 msgstr "Kommentar"
 
@@ -793,7 +766,7 @@ msgstr "Zeilennummern"
 
 #: fbdbg.ui:2078
 msgid "Source View Appearance"
-msgstr "Erscheinungsbild des Quelltextfensters"
+msgstr "Erscheinungsbild Quelltext"
 
 #: fbdbg.ui:2113
 msgid "FBC"
@@ -833,27 +806,31 @@ msgstr "Bildschirm"
 
 #: fbdbg.ui:2323
 msgid "Trace Line"
-msgstr "Trace Line"
+msgstr "Verf. Zeile"
 
 #: fbdbg.ui:2339
 msgid "Trace Proc"
-msgstr "Trace Proc"
+msgstr "Verf. Proc."
 
 #: fbdbg.ui:2398
 msgid "Log"
-msgstr "Log"
+msgstr "Protokoll"
 
 #: fbdbg.ui:2430
 msgid ""
 "Tooltips\n"
 "activated"
 msgstr ""
+"Kurzhilfe\n"
+"aktiv"
 
 #: fbdbg.ui:2447
 msgid ""
 "Verbose mode\n"
 "(ProcVar)"
 msgstr ""
+"Ausführlich\n"
+"(ProcVar)"
 
 #: fbdbg.ui:2466
 msgid "Delay value in [ms] for auto step mode (minimum 50, maximum 9999)"
@@ -915,7 +892,7 @@ msgstr "Mem"
 
 #: fbdbg.ui:3897
 msgid "Watch"
-msgstr ""
+msgstr "Beobachte"
 
 #: fbdbg.ui:4048
 msgid "ADDRESS"
