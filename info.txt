@@ -1,8 +1,0 @@
-/usr/share/glade/catalogs/gtksourceview.xml:
-
-  Line for GtkSourceBuffer added.
-
-/home/tom/.local/share/gtksourceview-3.0/language-specs/freebasic.lang
-
-  New file for syntax highlighting.
-
