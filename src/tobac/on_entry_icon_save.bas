@@ -6,25 +6,28 @@
 
 
 /'* \brief Signal handler for icons in GtkEntries (id="entry501", "entry502")
-\param entry The entry widget where the icon was clicked
-\param icon_pos The icon position (GTK_ENTRY_ICON_PRIMARY or GTK_ENTRY_ICON_SECONDARY)
-\param event The GdkEvent that triggered the signal
-\param user_data Empty (no user_data specified)
+\param Entry The entry widget where the icon was clicked
+\param IconPos The icon position (GTK_ENTRY_ICON_PRIMARY or GTK_ENTRY_ICON_SECONDARY)
+\param Event The GdkEvent that triggered the signal (unused)
+\param user_data (unused)
 
 This signal handler pops up a file chooser dialog in "save" mode. The
 user can either select an existing file, or select a folder and enter a
 name for a new file.
 
-\note We may pass a GtkFileFilter as user_data in future
+\todo Decide if we pass a GtkFileFilter as user_data in future (LINUX/non-LINUX)
+\todo Decide if we enable the overwrite confirmation
 
 '/
 SUB on_entry_icon_save CDECL ALIAS "on_entry_icon_save" ( _
-  BYVAL entry AS GtkEntry PTR, _
-  BYVAL icon_pos AS GtkEntryIconPosition, _
-  BYVAL event AS GdkEvent PTR, _
+  BYVAL Entry AS GtkEntry PTR, _
+  BYVAL IconPos AS GtkEntryIconPosition, _
+  BYVAL Event AS GdkEvent PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-  VAR fnam = *gtk_entry_get_text(entry) ' don't free this one!
+  IF IconPos <> GTK_ENTRY_ICON_SECONDARY THEN EXIT SUB
+
+  VAR fnam = *gtk_entry_get_text(Entry) ' don't free this one!
   VAR dia = gtk_file_chooser_dialog_new(*__("Save file"), NULL _
     , GTK_FILE_CHOOSER_ACTION_SAVE _
     , "gtk-cancel", GTK_RESPONSE_CANCEL _
@@ -35,7 +38,7 @@ SUB on_entry_icon_save CDECL ALIAS "on_entry_icon_save" ( _
 
   IF GTK_RESPONSE_ACCEPT = gtk_dialog_run(GTK_DIALOG(dia)) THEN
     VAR fnam = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dia))
-    gtk_entry_set_text(entry, fnam)
+    gtk_entry_set_text(Entry, fnam)
     g_free (fnam)
   END IF
 

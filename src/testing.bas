@@ -1,27 +1,51 @@
-' call this after loading the ini file to initially populate the dialog
-SettingsForm()
-ShortcutsForm()
+
+
+' here's how to set the texts in the status bar
+gtk_label_set_text(GTK_LABEL(GUI.sbarlab1), "Waiting")
+gtk_label_set_text(GTK_LABEL(GUI.sbarlab2), "Thread")
+gtk_label_set_text(GTK_LABEL(GUI.sbarlab3), "Module")
+gtk_label_set_text(GTK_LABEL(GUI.sbarlab4), "Proc")
+gtk_label_set_text(GTK_LABEL(GUI.sbarlab5), "Timer")
+
+' here's how to set the texts in the watch bar
+gtk_label_set_text(GTK_LABEL(GUI.watch1), "< empty >")
+gtk_label_set_text(GTK_LABEL(GUI.watch2), "< empty >")
+gtk_label_set_text(GTK_LABEL(GUI.watch3), "< empty >")
+gtk_label_set_text(GTK_LABEL(GUI.watch4), "< empty >")
+
 
 ' here's how to set the source view, font and language for syntax highlighting
 scope
   VAR pf = pango_font_description_from_string(@"monospace 8")
-  gtk_widget_modify_font(GTK_WIDGET(GUI_MAIN.srcview), pf)
-  gtk_widget_modify_font(GTK_WIDGET(GUI_MAIN.srcviewCur), pf)
+  gtk_widget_override_font(GTK_WIDGET(GUI.srcview), pf)
+  gtk_widget_override_font(GTK_WIDGET(GUI.srcviewCur), pf)
   pango_font_description_free(pf)
+  'gtk_widget_get_pango_context(GTK_WIDGET(GUI.srcview))
 
   var lm = gtk_source_language_manager_get_default()
   var sl = gtk_source_language_manager_get_language(lm, "fbc")
   if 0 = sl then
     ?PROJ_NAME & ": language fbc not available -> no syntax highlighting"
   else
-    var sb = GTKSOURCE_SOURCE_BUFFER(GUI_MAIN.srcbuff)
+    var sb = GTKSOURCE_SOURCE_BUFFER(GUI.srcbuff)
     gtk_source_buffer_set_language(sb, sl)
 
-    sb = GTKSOURCE_SOURCE_BUFFER(GUI_MAIN.srcbuffCur)
+    sb = GTKSOURCE_SOURCE_BUFFER(GUI.srcbuffCur)
     gtk_source_buffer_set_language(sb, sl)
   end if
 end scope
 
+scope
+  'var pc = gtk_widget_get_pango_context(GTK_WIDGET(GUI.nbook2))
+  var pc = gtk_widget_get_pango_context(GTK_WIDGET(GUI.tviewThreads))
+  var fd = pango_context_get_font_description(pc)
+  var size = pango_font_description_get_size(fd)
+
+?"HIER: ";size
+'?*pango_font_family_get_name(fd)
+
+pango_font_description_set_size(fd, size * 1.5)
+end scope
 
 ' here's an example on how to populate tree stores
 scope
@@ -37,10 +61,10 @@ scope
 
   dim as GtkTreeIter iter(1) '                iterators, two levels here
   dim as GObject PTR stores(...) = { _ '          all stores we populate
-      GUI_MAIN.tstoreProcVar _
-    , GUI_MAIN.tstoreProcs _
-    , GUI_MAIN.tstoreThread _
-    , GUI_MAIN.tstoreWatch _
+      GUI.tstoreProcVar _
+    , GUI.tstoreProcs _
+    , GUI.tstoreThreads _
+    , GUI.tstoreWatch _
     }
 
   FOR i AS INTEGER = 0 TO ubound(stores)
@@ -69,27 +93,18 @@ scope
     gtk_tree_store_set(store, @iter(1), 0, entries(6), -1)
   NEXT
 
-'var rend = gtk_builder_get_object(GUI_MAIN.XML, "cellrenderertoggle1")
-'g_object_set(rend, _
-    '"mode", GTK_CELL_RENDERER_MODE_EDITABLE _
-  ', "activatable", TRUE _
-  ', "radio", FALSE _
-  ', "active", TRUE _
-  ', "visible", TRUE _
-  ', NULL)
 
   ' GtkTreeViews are collapsed by default.
 
   ' example: expand all sublevels of the tree view
-  gtk_tree_view_expand_all(GTK_TREE_VIEW(GUI_MAIN.tvProcVar))
-  gtk_tree_view_expand_all(GTK_TREE_VIEW(GUI_MAIN.tvProcs))
+  gtk_tree_view_expand_all(GTK_TREE_VIEW(GUI.tviewProcVar))
+  gtk_tree_view_expand_all(GTK_TREE_VIEW(GUI.tviewProcs))
 
   ' example: expand to a certain row of the tree view
   var path = gtk_tree_path_new_from_string("0:2")
-  gtk_tree_view_expand_to_path(GTK_TREE_VIEW(GUI_MAIN.tvWatch), path)
+  gtk_tree_view_expand_to_path(GTK_TREE_VIEW(GUI.tviewWatch), path)
   gtk_tree_path_free(path)
 
-  'var model = GTK_TREE_MODEL(GUI_MAIN.tvProcs)
   var model = GTK_TREE_MODEL(stores(1))
   var store = GTK_TREE_STORE(stores(1))
 
@@ -131,12 +146,12 @@ END SUB
 
 SCOPE
   ' choose visible columns
-  VAR list = gtk_tree_view_get_columns(GTK_TREE_VIEW(GUI_MAIN.lvMemory))
-  g_list_foreach(list, @list_column_visible, CAST(gpointer, 8))
+  VAR list = gtk_tree_view_get_columns(GTK_TREE_VIEW(GUI.lviewMemory))
+  g_list_foreach(list, @list_column_visible, CAST(gpointer, 8)) ' <= no of columns (1 to 16)
   g_list_free(list)
 
   ' populate the list store
-  VAR store = GTK_LIST_STORE(GUI_MAIN.lstoreMemory)
+  VAR store = GTK_LIST_STORE(GUI.lstoreMemory)
   gtk_list_store_clear(store) '                          empty the store
   DIM AS GtkTreeIter iter '       one iterator, list store has one level
   FOR r AS LONG = 0 TO 15 '                                     all rows

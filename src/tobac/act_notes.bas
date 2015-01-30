@@ -5,9 +5,12 @@
 '/
 
 SUB act_notes CDECL ALIAS "act_notes" ( _
-  BYVAL action AS GtkAction PTR, _
-  BYVAL user_data AS gpointer) EXPORT
+  BYVAL Action AS GtkAction PTR, _
+  BYVAL TextView AS gpointer) EXPORT
 
 ?*__("callback act_notes")
+  dim as gboolean visible
+  g_object_get(TextView, "visible", @visible, NULL)
+  g_object_set(TextView, "visible", IIF(visible, FALSE, TRUE), NULL)
 
 END SUB

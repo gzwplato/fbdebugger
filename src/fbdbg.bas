@@ -38,13 +38,13 @@ CONST PROJ_LICE = "GPLv3"                   '*< The licence of the project
     #INCLUDE "Gir/GtkSource-3.0.bi" '            GTK+library / GTK+ Bibliothek >
     gtk_init(@__FB_ARGC__, @__FB_ARGV__) '             start GKT / GTK starten >
     #INCLUDE "libintl.bi" '                               load lib / Lib laden >
-    bindtextdomain(PROJ_NAME, EXEPATH & "/locale") '               path / Pfad >
+    bindtextdomain(PROJ_NAME, EXEPATH & "/locale_") '               path / Pfad >
     bind_textdomain_codeset(PROJ_NAME, "UTF-8") '   set encoding / Zeichensatz >
     textdomain(PROJ_NAME) '                               Filename / Dateiname >
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-
+' \todo ini file should get loaded here
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:                                 load GTK stuff / GTK Anbindung >
@@ -56,8 +56,8 @@ CONST PROJ_LICE = "GPLv3"                   '*< The licence of the project
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:          run GTK main, then end / GTK Hauptschleife, dann Ende >
-    gtk_builder_connect_signals(GUI_MAIN.XML, 0) '            Signale anbinden >
+    gtk_builder_connect_signals(GUI.XML, 0) '                 Signale anbinden >
     gtk_main() '                                     main loop / Hauptschleife >
-    g_object_unref(GUI_MAIN.XML) '              dereference / Referenz abbauen >
+    g_object_unref(GUI.XML) '                   dereference / Referenz abbauen >
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv

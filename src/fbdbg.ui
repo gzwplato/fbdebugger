@@ -6,7 +6,6 @@
   <object class="GtkIconFactory" id="iconfactory1">
     <sources>
       <source stock-id="dbg-fastrun" filename="img/fastrun.bmp"/>
-      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-step_end" filename="img/step_end.bmp"/>
       <source stock-id="dbg-step_over" filename="img/step_over.bmp"/>
       <source stock-id="dbg-varproc" filename="img/varproc.bmp"/>
@@ -15,6 +14,7 @@
       <source stock-id="dbg-minicmd" filename="img/minicmd.bmp"/>
       <source stock-id="dbg-auto" filename="img/auto.bmp"/>
       <source stock-id="dbg-step_out" filename="img/step_out.bmp"/>
+      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
       <source stock-id="dbg-files" filename="img/files.bmp"/>
       <source stock-id="dbg-stop" filename="img/stop.bmp"/>
       <source stock-id="dbg-step_start" filename="img/step_start.bmp"/>
@@ -22,17 +22,17 @@
       <source stock-id="dbg-runto" filename="img/runto.bmp"/>
       <source stock-id="dbg-kill" filename="img/kill.bmp"/>
       <source stock-id="dbg-attachexe" filename="img/attachexe.bmp"/>
-      <source stock-id="dbg-run" filename="img/run.bmp"/>
+      <source stock-id="dbg-step" filename="img/step.png"/>
       <source stock-id="dbg-tools" filename="img/tools.bmp"/>
       <source stock-id="dbg-free" filename="img/free.bmp"/>
-      <source stock-id="dbg-step" filename="img/step.png"/>
+      <source stock-id="dbg-run" filename="img/run.bmp"/>
       <source stock-id="dbg-source" filename="img/source.bmp"/>
-      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
+      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
     </sources>
   </object>
   <object class="GtkAboutDialog" id="aboutdialog1">
-    <property name="icon">img/logo.png</property>
     <property name="can_focus">False</property>
+    <property name="icon">img/logo.png</property>
     <property name="type_hint">dialog</property>
     <property name="program_name">FB debugger</property>
     <property name="version">3.0</property>
@@ -546,7 +546,7 @@ TJF</property>
         <property name="label" translatable="yes">Open/close notes</property>
         <property name="tooltip" translatable="yes">Open or close the notes ???</property>
         <property name="stock_id">dbg-notes</property>
-        <signal name="activate" handler="act_notes" swapped="no"/>
+        <signal name="activate" handler="act_notes" object="textview1" swapped="no"/>
       </object>
     </child>
     <child>
@@ -1570,22 +1570,20 @@ TJF</property>
   </object>
   <object class="GtkAdjustment" id="adjustment1">
     <property name="upper">100</property>
-    <property name="value">37</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
   <object class="GtkAdjustment" id="adjustment2">
     <property name="lower">50</property>
     <property name="upper">9999</property>
-    <property name="value">200</property>
     <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
+    <property name="page_increment">50</property>
   </object>
   <object class="GtkDialog" id="dialog500">
-    <property name="icon">img/logo.png</property>
     <property name="can_focus">False</property>
     <property name="border_width">5</property>
     <property name="title" translatable="yes">Settings (fbdbg)</property>
+    <property name="icon">img/logo.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
       <object class="GtkBox" id="box500">
@@ -1677,7 +1675,6 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Background</property>
-                        <property name="rgba">rgb(255,255,255)</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1741,7 +1738,6 @@ TJF</property>
                         <property name="receives_default">True</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
-                        <property name="font">Sans 12</property>
                         <property name="preview_text">CONST AS STRING = "Can you read me? ;:,."</property>
                         <property name="title" translatable="yes">Font for source view</property>
                         <property name="use_font">True</property>
@@ -1780,7 +1776,6 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Background current line</property>
-                        <property name="rgba">rgb(136,138,133)</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1797,7 +1792,6 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Breakpoint</property>
-                        <property name="rgba">rgb(204,0,0)</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1814,7 +1808,6 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Temporary Breakpoint</property>
-                        <property name="rgba">rgb(173,127,168)</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1831,7 +1824,6 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Keyword</property>
-                        <property name="rgba">rgb(245,121,0)</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1880,7 +1872,6 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Strings</property>
-                        <property name="rgba">rgb(196,160,0)</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1897,7 +1888,6 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Preprocessors</property>
-                        <property name="rgba">rgb(115,210,22)</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1957,7 +1947,6 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Comments</property>
-                        <property name="rgba">rgb(85,87,83)</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2022,7 +2011,6 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Foreground</property>
-                        <property name="rgba">rgb(0,0,0)</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2057,7 +2045,6 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Line numbers</property>
-                        <property name="rgba">rgb(0,0,0)</property>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2563,19 +2550,19 @@ activated</property>
     </columns>
   </object>
   <object class="GtkDialog" id="dialog600">
-    <property name="icon">img/logo.png</property>
     <property name="width_request">570</property>
     <property name="height_request">460</property>
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Show/edit keybord shortcuts (fbdbg)</property>
+    <property name="icon">img/logo.png</property>
     <property name="type_hint">dialog</property>
     <child internal-child="vbox">
-      <object class="GtkBox" id="dialog-vbox3">
+      <object class="GtkBox" id="box600">
         <property name="can_focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child internal-child="action_area">
-          <object class="GtkButtonBox" id="dialog-action_area3">
+          <object class="GtkButtonBox" id="buttonbox600">
             <property name="can_focus">False</property>
             <property name="layout_style">end</property>
             <child>
@@ -2627,9 +2614,9 @@ activated</property>
                 <property name="vexpand">True</property>
                 <property name="model">liststore600</property>
                 <property name="reorderable">True</property>
-                <property name="search_column">1</property>
+                <property name="search_column">2</property>
                 <child internal-child="selection">
-                  <object class="GtkTreeSelection" id="treeview-selection3"/>
+                  <object class="GtkTreeSelection" id="treeselection3"/>
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn601">
@@ -2812,7 +2799,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
       <column type="gboolean"/>
     </columns>
   </object>
-  <object class="GtkTreeStore" id="tstoreThread">
+  <object class="GtkTreeStore" id="tstoreThreads">
     <columns>
       <!-- column-name colThread0 -->
       <column type="gchararray"/>
@@ -2842,6 +2829,83 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
         <property name="hexpand">True</property>
         <property name="vexpand">True</property>
         <property name="orientation">vertical</property>
+        <child>
+          <object class="GtkBox" id="box5">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <child>
+              <object class="GtkLabel" id="sbarlab1">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0</property>
+                <property name="lines">1</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="sbarlab2">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0.25</property>
+                <property name="lines">1</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="sbarlab3">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="lines">1</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="sbarlab4">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">0.75</property>
+                <property name="lines">1</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="sbarlab5">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="xalign">1</property>
+                <property name="lines">1</property>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">4</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
         <child>
           <object class="GtkToolbar" id="toolbar1">
             <property name="visible">True</property>
@@ -3147,7 +3211,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
@@ -3193,88 +3257,6 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkBox" id="box5">
-            <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="homogeneous">True</property>
-            <child>
-              <object class="GtkLabel" id="sbarlab1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0</property>
-                <property name="label">Waiting</property>
-                <property name="lines">1</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="sbarlab2">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0.25</property>
-                <property name="label">Thread</property>
-                <property name="lines">1</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="sbarlab3">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="label">Module</property>
-                <property name="lines">1</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="sbarlab4">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">0.75</property>
-                <property name="label">Proc</property>
-                <property name="lines">1</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">3</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkLabel" id="sbarlab5">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-                <property name="xalign">1</property>
-                <property name="label">Timer</property>
-                <property name="lines">1</property>
-              </object>
-              <packing>
-                <property name="expand">True</property>
-                <property name="fill">True</property>
-                <property name="position">4</property>
-              </packing>
-            </child>
-          </object>
-          <packing>
-            <property name="expand">True</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
             <property name="position">2</property>
           </packing>
         </child>
@@ -3315,6 +3297,9 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                       </object>
                     </child>
                   </object>
+                  <packing>
+                    <property name="reorderable">True</property>
+                  </packing>
                 </child>
                 <child type="tab">
                   <object class="GtkLabel" id="label1">
@@ -3333,7 +3318,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
               </packing>
             </child>
             <child>
-              <object class="GtkNotebook" id="notebook2">
+              <object class="GtkNotebook" id="nbook2">
                 <property name="width_request">280</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
@@ -3346,7 +3331,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="can_focus">True</property>
                     <property name="shadow_type">in</property>
                     <child>
-                      <object class="GtkTreeView" id="tvProcVar">
+                      <object class="GtkTreeView" id="tviewProcVar">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="model">tstoreProcVar</property>
@@ -3387,7 +3372,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="can_focus">True</property>
                     <property name="shadow_type">in</property>
                     <child>
-                      <object class="GtkTreeView" id="tvProcs">
+                      <object class="GtkTreeView" id="tviewProcs">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="model">tstoreProcs</property>
@@ -3446,10 +3431,10 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="can_focus">True</property>
                     <property name="shadow_type">in</property>
                     <child>
-                      <object class="GtkTreeView" id="tvThread">
+                      <object class="GtkTreeView" id="tviewThreads">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="model">tstoreThread</property>
+                        <property name="model">tstoreThreads</property>
                         <property name="headers_visible">False</property>
                         <property name="search_column">0</property>
                         <property name="enable_tree_lines">True</property>
@@ -3491,7 +3476,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="can_focus">True</property>
                     <property name="shadow_type">in</property>
                     <child>
-                      <object class="GtkTreeView" id="tvWatch">
+                      <object class="GtkTreeView" id="tviewWatch">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="model">tstoreWatch</property>
@@ -3536,7 +3521,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="can_focus">True</property>
                     <property name="shadow_type">in</property>
                     <child>
-                      <object class="GtkTreeView" id="lvMemory">
+                      <object class="GtkTreeView" id="lviewMemory">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="hexpand">True</property>
@@ -3822,17 +3807,6 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
           </packing>
         </child>
         <child>
-          <object class="GtkTextView" id="textview1">
-            <property name="height_request">120</property>
-            <property name="can_focus">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="position">4</property>
-          </packing>
-        </child>
-        <child>
           <object class="GtkBox" id="box9">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
@@ -3849,6 +3823,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <signal name="clicked" handler="on_StopVar_clicked" swapped="no"/>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -3905,12 +3880,11 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label4">
+                  <object class="GtkLabel" id="watch1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="xalign">0</property>
-                    <property name="label">&lt; empty &gt;</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -3920,12 +3894,11 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label10">
+                  <object class="GtkLabel" id="watch3">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="xalign">0</property>
-                    <property name="label">&lt; empty &gt;</property>
                   </object>
                   <packing>
                     <property name="left_attach">2</property>
@@ -3935,12 +3908,11 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label11">
+                  <object class="GtkLabel" id="watch2">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="xalign">0</property>
-                    <property name="label">&lt; empty &gt;</property>
                   </object>
                   <packing>
                     <property name="left_attach">4</property>
@@ -3950,12 +3922,11 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkLabel" id="label12">
+                  <object class="GtkLabel" id="watch4">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
                     <property name="hexpand">True</property>
                     <property name="xalign">0</property>
-                    <property name="label">&lt; empty &gt;</property>
                   </object>
                   <packing>
                     <property name="left_attach">4</property>
@@ -4268,14 +4239,27 @@ dump</property>
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">True</property>
+                <property name="fill">False</property>
                 <property name="position">1</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="pack_type">end</property>
+            <property name="position">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkTextView" id="textview1">
+            <property name="height_request">120</property>
+            <property name="can_focus">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
             <property name="fill">True</property>
+            <property name="pack_type">end</property>
             <property name="position">5</property>
           </packing>
         </child>

@@ -20,7 +20,7 @@ Handle the data in the settings dialog. The SUB either
 
 When called first, the widgets get searched in the GUI description file.
 
-\ToDo Replace the literals by your matching parameter variables in the
+\todo Replace the literals by your matching parameter variables in the
       SELECT block.
 
 '/
@@ -35,7 +35,7 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
   , numDelay, numCurpos, fontSource
 
   IF 0 = fontSource THEN '      initial get objects from GUI description
-    VAR xml = GUI_MAIN.XML
+    VAR xml = GUI.XML
          colForegr = gtk_builder_get_object(xml, "colorbutton501")
          colBackbr = gtk_builder_get_object(xml, "colorbutton509")
       colBackgrCur = gtk_builder_get_object(xml, "colorbutton510")
@@ -142,7 +142,7 @@ END SUB
 This signal handler shows the settings dialog in modal mode. Depending
 on the user action it either cancels all changes or reads the new data.
 
-\note Further action buttons may get added.
+\todo Decide if we need a help button.
 
 '/
 SUB act_Settings CDECL ALIAS "act_Settings" ( _
@@ -157,9 +157,10 @@ SUB act_Settings CDECL ALIAS "act_Settings" ( _
     CASE 1
       ?*__("callback act_Settings -> dialog canceled, restore form")
       SettingsForm(1) ' restore form, because user canceled
-
-  ' CASE ... further dialog actions, ie. a Help button
   END SELECT
   gtk_widget_hide(user_data)
 
 END SUB
+
+' Here we initialize the dialog context (before starting the main window)
+SettingsForm()

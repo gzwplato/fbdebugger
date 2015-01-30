@@ -10,6 +10,7 @@
       <tab type="user" url="@ref ChaExamples" title="Examples"/>
       <tab type="user" url="@ref ChaMessages" title="Messages"/>
       <tab type="user" url="@ref ChaChangelog" title="Changelog &amp; Credits"/>
+      <tab type="user" url="@ref todo" title="ToDo List"/>
     </tab>
     <tab type="usergroup" title="Manual">
       <tab type="user" url="SARG/accessviol.html" title="accessviol"/>
