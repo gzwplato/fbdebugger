@@ -2,6 +2,7 @@ $ cat .gitignore
 
 # Can ignore specific files
 Makefile
+info.txt
 fbdbg.geany
 cmake_install.cmake
 install_manifest.txt
@@ -16,7 +17,7 @@ fbdbg.pot
 locale/**/*.mo
 test/**/*
 SARG/**/*
-src/img/**/*
+
 doc/html/**/*
 doc/latex/**/*
 CMakeFiles/**/*
