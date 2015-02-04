@@ -22,12 +22,12 @@
       <source stock-id="dbg-runto" filename="img/runto.bmp"/>
       <source stock-id="dbg-kill" filename="img/kill.bmp"/>
       <source stock-id="dbg-attachexe" filename="img/attachexe.bmp"/>
-      <source stock-id="dbg-step" filename="img/step.png"/>
-      <source stock-id="dbg-tools" filename="img/tools.bmp"/>
-      <source stock-id="dbg-free" filename="img/free.bmp"/>
       <source stock-id="dbg-run" filename="img/run.bmp"/>
-      <source stock-id="dbg-source" filename="img/source.bmp"/>
+      <source stock-id="dbg-tools" filename="img/tools.bmp"/>
       <source stock-id="dbg-memory" filename="img/memory.bmp"/>
+      <source stock-id="dbg-step" filename="img/step.png"/>
+      <source stock-id="dbg-free" filename="img/free.bmp"/>
+      <source stock-id="dbg-source" filename="img/source.bmp"/>
     </sources>
   </object>
   <object class="GtkAboutDialog" id="aboutdialog1">
@@ -82,7 +82,6 @@ TJF</property>
         <property name="stock_id">dbg-runto</property>
         <signal name="activate" handler="act_runto" swapped="no"/>
       </object>
-      <accelerator key="c"/>
     </child>
     <child>
       <object class="GtkAction" id="action002">
@@ -91,7 +90,6 @@ TJF</property>
         <property name="stock_id">dbg-step</property>
         <signal name="activate" handler="act_step" swapped="no"/>
       </object>
-      <accelerator key="s"/>
     </child>
     <child>
       <object class="GtkAction" id="action003">
@@ -100,7 +98,6 @@ TJF</property>
         <property name="stock_id">dbg-step_over</property>
         <signal name="activate" handler="act_step_over" swapped="no"/>
       </object>
-      <accelerator key="o"/>
     </child>
     <child>
       <object class="GtkAction" id="action004">
@@ -109,7 +106,6 @@ TJF</property>
         <property name="stock_id">dbg-step_out</property>
         <signal name="activate" handler="act_step_out" swapped="no"/>
       </object>
-      <accelerator key="e"/>
     </child>
     <child>
       <object class="GtkAction" id="action005">
@@ -118,7 +114,6 @@ TJF</property>
         <property name="stock_id">dbg-step_start</property>
         <signal name="activate" handler="act_step_start" swapped="no"/>
       </object>
-      <accelerator key="t"/>
     </child>
     <child>
       <object class="GtkAction" id="action006">
@@ -127,7 +122,6 @@ TJF</property>
         <property name="stock_id">dbg-step_end</property>
         <signal name="activate" handler="act_step_end" swapped="no"/>
       </object>
-      <accelerator key="b"/>
     </child>
     <child>
       <object class="GtkAction" id="action007">
@@ -136,7 +130,6 @@ TJF</property>
         <property name="stock_id">dbg-run</property>
         <signal name="activate" handler="act_run" swapped="no"/>
       </object>
-      <accelerator key="r"/>
     </child>
     <child>
       <object class="GtkAction" id="action008">
@@ -145,7 +138,6 @@ TJF</property>
         <property name="stock_id">dbg-fastrun</property>
         <signal name="activate" handler="act_fastrun" swapped="no"/>
       </object>
-      <accelerator key="f"/>
     </child>
     <child>
       <object class="GtkAction" id="action009">
@@ -154,7 +146,6 @@ TJF</property>
         <property name="stock_id">dbg-stop</property>
         <signal name="activate" handler="act_stop" swapped="no"/>
       </object>
-      <accelerator key="h"/>
     </child>
     <child>
       <object class="GtkAction" id="action010">
@@ -163,7 +154,6 @@ TJF</property>
         <property name="stock_id">dbg-kill</property>
         <signal name="activate" handler="act_kill" swapped="no"/>
       </object>
-      <accelerator key="k"/>
     </child>
     <child>
       <object class="GtkAction" id="action011">
@@ -172,7 +162,6 @@ TJF</property>
         <property name="stock_id">dbg-auto</property>
         <signal name="activate" handler="act_auto" swapped="no"/>
       </object>
-      <accelerator key="a"/>
     </child>
     <child>
       <object class="GtkAction" id="action012">
@@ -180,7 +169,6 @@ TJF</property>
         <property name="stock_id">dbg-run</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="d"/>
     </child>
     <child>
       <object class="GtkAction" id="action013">
@@ -189,7 +177,6 @@ TJF</property>
         <property name="stock_id">dbg-exemod</property>
         <signal name="activate" handler="act_exemod" swapped="no"/>
       </object>
-      <accelerator key="m"/>
     </child>
     <child>
       <object class="GtkAction" id="action020">
@@ -217,10 +204,10 @@ TJF</property>
     </child>
     <child>
       <object class="GtkAction" id="action024">
-        <property name="label" translatable="yes">Shortcut key list</property>
+        <property name="short-label" translatable="yes">Shortcuts ...</property>
+        <property name="label" translatable="yes">Shortcut key list ...</property>
         <signal name="activate" handler="act_Shortcut" object="dialog600" swapped="no"/>
       </object>
-      <accelerator key="y"/>
     </child>
     <child>
       <object class="GtkAction" id="action1001">
@@ -380,21 +367,18 @@ TJF</property>
         <property name="label" translatable="yes">Set/Clear Breakpoint</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="F3"/>
     </child>
     <child>
       <object class="GtkAction" id="action415">
         <property name="label" translatable="yes">Set/Clear tempo Breakpoint</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="F3" modifiers="GDK_SHIFT_MASK"/>
     </child>
     <child>
       <object class="GtkAction" id="action416">
         <property name="label" translatable="yes">Enable/Disable Breakpoint</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="F3" modifiers="GDK_CONTROL_MASK"/>
     </child>
     <child>
       <object class="GtkAction" id="action417">
@@ -419,28 +403,24 @@ TJF</property>
         <property name="label" translatable="yes">Find text</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="f" modifiers="GDK_CONTROL_MASK"/>
     </child>
     <child>
       <object class="GtkAction" id="action421">
         <property name="label" translatable="yes">Toggle bookmark</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="F2" modifiers="GDK_CONTROL_MASK"/>
     </child>
     <child>
       <object class="GtkAction" id="action422">
         <property name="label" translatable="yes">Next bookmark</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="F2"/>
     </child>
     <child>
       <object class="GtkAction" id="action423">
         <property name="label" translatable="yes">Previous bookmark</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="F2" modifiers="GDK_SHIFT_MASK"/>
     </child>
     <child>
       <object class="GtkAction" id="action424">
@@ -477,7 +457,6 @@ TJF</property>
         <property name="label" translatable="yes">Focus lines</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="l"/>
     </child>
     <child>
       <object class="GtkAction" id="action431">
@@ -647,7 +626,7 @@ TJF</property>
     </child>
     <child>
       <object class="GtkAction" id="action900">
-        <property name="label" translatable="yes">Settings</property>
+        <property name="label" translatable="yes">Settings ...</property>
         <signal name="activate" handler="act_Settings" object="dialog500" swapped="no"/>
       </object>
     </child>
@@ -662,7 +641,6 @@ TJF</property>
         <property name="label" translatable="yes">Help</property>
         <signal name="activate" handler="act_help" swapped="no"/>
       </object>
-      <accelerator key="F1"/>
     </child>
     <child>
       <object class="GtkAction" id="action904">
@@ -675,21 +653,18 @@ TJF</property>
         <property name="label" translatable="yes">Launch IDE</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="F10"/>
     </child>
     <child>
       <object class="GtkAction" id="action906">
         <property name="label" translatable="yes">Quick edit</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="F11"/>
     </child>
     <child>
       <object class="GtkAction" id="action907">
         <property name="label" translatable="yes">Compile and run</property>
         <signal name="activate" handler="act_ToDo" swapped="no"/>
       </object>
-      <accelerator key="F9"/>
     </child>
     <child>
       <object class="GtkAction" id="action908">
@@ -1568,12 +1543,12 @@ TJF</property>
       </object>
     </child>
   </object>
-  <object class="GtkAdjustment" id="adjustment1">
-    <property name="upper">100</property>
+  <object class="GtkAdjustment" id="adjustment502">
+    <property name="upper">99</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
   </object>
-  <object class="GtkAdjustment" id="adjustment2">
+  <object class="GtkAdjustment" id="adjustment501">
     <property name="lower">50</property>
     <property name="upper">9999</property>
     <property name="step_increment">1</property>
@@ -1738,6 +1713,7 @@ TJF</property>
                         <property name="receives_default">True</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
+                        <property name="font">Sans 12</property>
                         <property name="preview_text">CONST AS STRING = "Can you read me? ;:,."</property>
                         <property name="title" translatable="yes">Font for source view</property>
                         <property name="use_font">True</property>
@@ -1919,8 +1895,7 @@ TJF</property>
                             <property name="can_focus">True</property>
                             <property name="vexpand">True</property>
                             <property name="orientation">vertical</property>
-                            <property name="adjustment">adjustment1</property>
-                            <property name="fill_level">99</property>
+                            <property name="adjustment">adjustment502</property>
                             <property name="round_digits">0</property>
                             <property name="digits">0</property>
                             <property name="has_origin">False</property>
@@ -2111,7 +2086,7 @@ TJF</property>
                         <property name="vexpand">True</property>
                         <property name="truncate_multiline">True</property>
                         <property name="secondary_icon_stock">gtk-open</property>
-                        <property name="secondary_icon_tooltip_text" translatable="yes">Use a file chooser dialog to select the FreeBASIC executable</property>
+                        <property name="secondary_icon_tooltip_text" translatable="yes">Opens a file chooser dialog to select the FreeBASIC executable</property>
                         <signal name="icon-press" handler="on_entry_icon_load" swapped="no"/>
                       </object>
                       <packing>
@@ -2143,7 +2118,7 @@ TJF</property>
                         <property name="vexpand">True</property>
                         <property name="truncate_multiline">True</property>
                         <property name="secondary_icon_stock">gtk-open</property>
-                        <property name="secondary_icon_tooltip_text" translatable="yes">Use a file chooser dialog to select the IDE executable</property>
+                        <property name="secondary_icon_tooltip_text" translatable="yes">Opens a file chooser dialog to select the IDE executable</property>
                         <signal name="icon-press" handler="on_entry_icon_load" swapped="no"/>
                       </object>
                       <packing>
@@ -2451,14 +2426,13 @@ activated</property>
                             <property name="hexpand">True</property>
                             <property name="max_length">4</property>
                             <property name="width_chars">7</property>
-                            <property name="text">200</property>
                             <property name="xalign">1</property>
                             <property name="caps_lock_warning">False</property>
                             <property name="primary_icon_stock">gtk-media-pause</property>
                             <property name="primary_icon_activatable">False</property>
                             <property name="primary_icon_sensitive">False</property>
                             <property name="input_purpose">number</property>
-                            <property name="adjustment">adjustment2</property>
+                            <property name="adjustment">adjustment501</property>
                             <property name="climb_rate">5</property>
                             <property name="numeric">True</property>
                             <property name="wrap">True</property>
@@ -2472,7 +2446,6 @@ activated</property>
                         </child>
                         <child>
                           <object class="GtkButton" id="button503">
-                            <property name="label" translatable="yes">Shortcuts</property>
                             <property name="use_action_appearance">True</property>
                             <property name="related_action">action024</property>
                             <property name="visible">True</property>
@@ -2521,19 +2494,6 @@ activated</property>
       <action-widget response="1">button501</action-widget>
       <action-widget response="0">button502</action-widget>
     </action-widgets>
-  </object>
-  <object class="GtkAdjustment" id="adjustment501">
-    <property name="upper">100</property>
-    <property name="value">37</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
-  <object class="GtkAdjustment" id="adjustment502">
-    <property name="lower">50</property>
-    <property name="upper">9999</property>
-    <property name="value">200</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
   </object>
   <object class="GtkListStore" id="liststore600">
     <columns>
@@ -2649,7 +2609,7 @@ activated</property>
                     <property name="sort_indicator">True</property>
                     <property name="sort_column_id">2</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext601"/>
+                      <object class="GtkCellRendererText" id="cellrenderertext602"/>
                       <attributes>
                         <attribute name="text">2</attribute>
                       </attributes>
@@ -2665,7 +2625,7 @@ activated</property>
                     <property name="sort_indicator">True</property>
                     <property name="sort_column_id">3</property>
                     <child>
-                      <object class="GtkCellRendererText" id="cellrenderertext602"/>
+                      <object class="GtkCellRendererText" id="cellrenderertext603"/>
                       <attributes>
                         <attribute name="text">3</attribute>
                       </attributes>
@@ -2727,62 +2687,9 @@ activated</property>
     </columns>
   </object>
   <object class="GtkSourceBuffer" id="srcbuff">
-    <property name="text">' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-'&lt; main program generated by utility                           GladeToBac V3.4 &gt;
-'&lt; Hauptprogramm erzeugt von                                                   &gt;
-'&lt; Generated at / Generierung am                             2015-01-20, 10:56 &gt;
-' -----------------------------------------------------------------------------
-'&lt; Program info:                                                               &gt;
-CONST PROJ_NAME = "fbdbg" '                                                    &gt;
-CONST PROJ_DESC = "Debugger for FreeBASIC" '                                   &gt;
-CONST PROJ_VERS = "3.0" '                                                      &gt;
-CONST PROJ_YEAR = "2015" '                                                     &gt;
-CONST PROJ_AUTH = "SARG, AGS, TJF" '                                           &gt;
-CONST PROJ_MAIL = "Thomas.Freiherr@gmx.net" '                                  &gt;
-CONST PROJ_WEBS = "" '                                                         &gt;
-CONST PROJ_LICE = "GPLv3" '                                                    &gt;
-'&lt;                                                                             &gt;
-'&lt; Description / Beschreibung:                                                 &gt;
-'&lt;                                                                             &gt;
-'&lt;                                                                             &gt;
-'&lt; License / Lizenz:                                                           &gt;
-'&lt;                                                                             &gt;
-'&lt; Put your license here/Lizenz hier einfuegen.
-'&lt;                                                                             &gt;
-' -----------------------------------------------------------------------------
-'&lt;  GladeToBac:                    general init / Allgemeine Initialisierungen &gt;
-    #INCLUDE "Gir/Gtk-3.0.bi" '                  GTK+library / GTK+ Bibliothek &gt;
-    #INCLUDE "Gir/GtkSource-3.0.bi" '            GTK+library / GTK+ Bibliothek &gt;
-    gtk_init(@__FB_ARGC__, @__FB_ARGV__) '             start GKT / GTK starten &gt;
-    #INCLUDE "libintl.bi" '                               load lib / Lib laden &gt;
-    bindtextdomain(PROJ_NAME, EXEPATH &amp; "/locale") '               path / Pfad &gt;
-    bind_textdomain_codeset(PROJ_NAME, "UTF-8") '   set encoding / Zeichensatz &gt;
-    textdomain(PROJ_NAME) '                               Filename / Dateiname &gt;
-'&lt;  GladeToBac:                                          end block / Blockende &gt;
-' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-
-
-
-' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-'&lt;  GladeToBac:                                 load GTK stuff / GTK Anbindung &gt;
-    #INCLUDE "tobac/main_tobac.bas" '                        Signale &amp; GUI-XML &gt;
-'&lt;  GladeToBac:                                          end block / Blockende &gt;
-' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-
-#INCLUDE ONCE "testing.bas"
-
-' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-'&lt;  GladeToBac:          run GTK main, then end / GTK Hauptschleife, dann Ende &gt;
-    gtk_builder_connect_signals(GUI_MAIN.XML, 0) '            Signale anbinden &gt;
-    gtk_main() '                                     main loop / Hauptschleife &gt;
-    g_object_unref(GUI_MAIN.XML) '              dereference / Referenz abbauen &gt;
-'&lt;  GladeToBac:                                          end block / Blockende &gt;
-' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-</property>
     <property name="max_undo_levels">0</property>
   </object>
   <object class="GtkSourceBuffer" id="srcbuffCur">
-    <property name="text">CONST PROJ_NAME = "fbdbg" '                                                    &gt;</property>
     <property name="max_undo_levels">0</property>
   </object>
   <object class="GtkTreeStore" id="tstoreProcVar">
@@ -3816,34 +3723,31 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="spacing">5</property>
-                <property name="homogeneous">True</property>
                 <child>
                   <object class="GtkButton" id="button2">
                     <property name="label">Stop if myvar&lt;integer&gt;=17 becomes &lt;&gt;17</property>
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="receives_default">True</property>
+                    <property name="hexpand">True</property>
                     <signal name="clicked" handler="on_StopVar_clicked" swapped="no"/>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">0</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkComboBoxText" id="comboboxtext2">
+                  <object class="GtkComboBoxText" id="comboBookmarks">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="hexpand">True</property>
                     <property name="active">0</property>
-                    <items>
-                      <item id="0">Bookmarks</item>
-                      <item id="1">Entry01</item>
-                      <item id="2">Entry02</item>
-                    </items>
+                    <signal name="changed" handler="on_comboBookmarks_changed" swapped="no"/>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
@@ -3851,7 +3755,7 @@ CONST PROJ_LICE = "GPLv3" '                                                    &
               </object>
               <packing>
                 <property name="expand">False</property>
-                <property name="fill">True</property>
+                <property name="fill">False</property>
                 <property name="position">0</property>
               </packing>
             </child>

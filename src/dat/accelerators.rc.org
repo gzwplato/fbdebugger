@@ -14,7 +14,7 @@
 (gtk_accel_path "<Actions>/actiongroup1/action414" "F3")
 ; (gtk_accel_path "<Actions>/actiongroup1/action101" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action100" "")
-(gtk_accel_path "<Actions>/actiongroup1/action024" "y")
+; (gtk_accel_path "<Actions>/actiongroup1/action024" "y")
 ; (gtk_accel_path "<Actions>/actiongroup1/action023" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action022" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action021" "")

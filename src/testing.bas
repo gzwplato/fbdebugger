@@ -1,27 +1,69 @@
 
+' here we call SUBs / FUNCTIONs from the core part
+core1_sub(__FILE__)
+?"==> result: " ;core2_func(__FILE__)
 
 ' here's how to set the texts in the status bar
-gtk_label_set_text(GTK_LABEL(GUI.sbarlab1), "Waiting")
-gtk_label_set_text(GTK_LABEL(GUI.sbarlab2), "Thread")
-gtk_label_set_text(GTK_LABEL(GUI.sbarlab3), "Module")
-gtk_label_set_text(GTK_LABEL(GUI.sbarlab4), "Proc")
-gtk_label_set_text(GTK_LABEL(GUI.sbarlab5), "Timer")
+WITH GUI
+  gtk_label_set_text(GTK_LABEL(.sbarlab1), "Waiting")
+  gtk_label_set_text(GTK_LABEL(.sbarlab2), "Thread")
+  gtk_label_set_text(GTK_LABEL(.sbarlab3), "Module")
+  gtk_label_set_text(GTK_LABEL(.sbarlab4), "Proc")
+  gtk_label_set_text(GTK_LABEL(.sbarlab5), "Timer")
+END WITH
+
 
 ' here's how to set the texts in the watch bar
-gtk_label_set_text(GTK_LABEL(GUI.watch1), "< empty >")
-gtk_label_set_text(GTK_LABEL(GUI.watch2), "< empty >")
-gtk_label_set_text(GTK_LABEL(GUI.watch3), "< empty >")
-gtk_label_set_text(GTK_LABEL(GUI.watch4), "< empty >")
+WITH GUI
+  gtk_label_set_text(GTK_LABEL(.watch1), "< empty >")
+  gtk_label_set_text(GTK_LABEL(.watch2), "< empty >")
+  gtk_label_set_text(GTK_LABEL(.watch3), "< empty >")
+  gtk_label_set_text(GTK_LABEL(.watch4), "< empty >")
+END WITH
+
+
+' here's how to set the texts in combo box
+scope
+  var box = GTK_COMBO_BOX_TEXT(GUI.comboBookmarks)
+  gtk_combo_box_text_insert(box, -1, "0", "BMK --> testthread.bas[10] Print ""yes and then... valeur origine="";p")
+  gtk_combo_box_text_insert(box, -1, "1", "BMK --> testthread.bas[21] ""c=""test (""+Str(b)+""+Str(i)")
+  gtk_combo_box_text_insert(box, -1, "SARG", "BMK --> testthread.bas[24] j+=1")
+  g_object_set(GUI.comboBookmarks, "active-id", "SARG", NULL)
+end scope
 
 
 ' here's how to set the source view, font and language for syntax highlighting
 scope
+  var buff = GTK_TEXT_BUFFER(GUI.srcbuff)
+  ' load a file and set the text buffer
+  VAR fnr = FREEFILE
+  IF 0 = OPEN(__FILE__ FOR INPUT AS fnr) THEN
+    VAR l = LOF(fnr)
+    IF l <= G_MAXINT THEN
+      VAR t = STRING(l, 0)
+      GET #fnr, , t
+      CLOSE #fnr
+
+      gtk_text_buffer_set_text(buff, t, l)
+    END IF
+  END IF
+
+'' scroll to a certain line
+  dim as GtkTextIter iter
+  gtk_text_buffer_get_iter_at_line(buff, @iter, 150)
+  var mark = gtk_text_mark_new("curr line", TRUE)
+  gtk_text_buffer_add_mark(buff, mark, @iter)
+  gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(GUI.srcview), mark, 0.0, TRUE, 0.0, 0.05)
+  g_object_unref(mark)
+
+'' change the font
   VAR pf = pango_font_description_from_string(@"monospace 8")
   gtk_widget_override_font(GTK_WIDGET(GUI.srcview), pf)
   gtk_widget_override_font(GTK_WIDGET(GUI.srcviewCur), pf)
   pango_font_description_free(pf)
   'gtk_widget_get_pango_context(GTK_WIDGET(GUI.srcview))
 
+'' set syntax highlighting
   var lm = gtk_source_language_manager_get_default()
   var sl = gtk_source_language_manager_get_language(lm, "fbc")
   if 0 = sl then
