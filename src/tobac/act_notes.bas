@@ -9,8 +9,9 @@ SUB act_notes CDECL ALIAS "act_notes" ( _
   BYVAL TextView AS gpointer) EXPORT
 
 ?*__("callback act_notes")
-  dim as gboolean visible
-  g_object_get(TextView, "visible", @visible, NULL)
-  g_object_set(TextView, "visible", IIF(visible, FALSE, TRUE), NULL)
+  'dim as gboolean visible
+  'g_object_get(TextView, "visible", @visible, NULL)
+  'g_object_set(TextView, "visible", IIF(visible, FALSE, TRUE), NULL)
+  TXT.Notes()
 
 END SUB

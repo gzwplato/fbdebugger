@@ -1,7 +1,10 @@
 
-' here we call SUBs / FUNCTIONs from the core part
-core1_sub(__FILE__)
-?"==> result: " ;core2_func(__FILE__)
+'' This is how to include SUBs / FUNCTIONs / EXTERNs from the core part
+'#INCLUDE ONCE "core/core.bi"
+
+'' and here we test SUBs / FUNCTIONs calls from the core part
+'core1_sub(__FILE__)
+'?"==> result: " ;core2_func(__FILE__)
 
 ' here's how to set the texts in the status bar
 WITH GUI
@@ -214,3 +217,39 @@ SCOPE
   NEXT
 END SCOPE
 
+' here's an example for a non-modal message dialog (like accesviol.jpg)
+SUB access_viol( _
+    BYVAL Adr AS gint _
+  , byval Fnam AS zSTRING PTR _
+  , byval Proc AS zSTRING PTR _
+  , byval Lin_ AS gint _
+  , byval Text AS zSTRING PTR _
+  )
+
+  VAR dia = gtk_message_dialog_new_with_markup(GTK_WINDOW(GUI.window1) _
+    , GTK_DIALOG_MODAL OR GTK_DIALOG_DESTROY_WITH_PARENT _
+    , GTK_MESSAGE_WARNING _
+    , GTK_BUTTONS_YES_NO _
+    , ( _
+      *__(!"TRYING TO WRITE AT ADR: <b>%d</b>\n") _
+    & *__(!"Possible error on this line but not SURE\n\n") _
+    & *__(!"<i>File</i>: <b>%s</b>\n") _
+    & *__(!"<i>Proc</i>: <b>%s</b>\n") _
+    & *__(!"<i>Line</i>: <b>%d</b> (selected and put in red)\n") _
+    & *__(!"<b>%s</b>\n\n") _
+    & *__(!"Try to continue ? (if yes change value and/or use [M]odify execution)\n") _
+    ) _
+    , Adr _
+    , Fnam _
+    , Proc _
+    , Lin_ _
+    , Text _
+    , NULL)
+
+  IF GTK_RESPONSE_YES = gtk_dialog_run(GTK_DIALOG(dia)) THEN
+    ?*__("==> YES selected")
+  ELSE
+    ?*__("==> NO selected")
+  END IF
+  gtk_widget_destroy(dia)
+END SUB

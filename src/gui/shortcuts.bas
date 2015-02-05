@@ -11,7 +11,7 @@ The actions in file fbdbg.ui are grouped after their appereance
 - action1xx = actions in menue100 = ProVar
 - action2xx = actions in menue200 = Procs
 - action3xx = actions in menue300 = Watched
-- action4xx = actions in menue400 = Source
+- action4xx = actions in menue400 = Source + toolbar
 - action5xx = actions in menue500 = Threads
 - action9xx = actions in menue900 = tools
 
@@ -41,8 +41,10 @@ SUB populateShortcuts CDECL(BYVAL Act AS gpointer, BYVAL Store AS gpointer)
 
   VAR action = GTK_ACTION(Act)
   VAR accel_path = gtk_action_get_accel_path(action)
-  IF 0 = accel_path ORELSE _
-     0 = gtk_accel_map_lookup_entry(accel_path, @acck) THEN EXIT SUB
+
+  IF 0 = accel_path THEN                                        EXIT SUB
+  if 0 = gtk_accel_map_lookup_entry(accel_path, @acck) _
+    then gtk_accel_map_add_entry(accel_path, 0, 0)
 
   gtk_list_store_append(Store, @iter)
   gtk_list_store_set(Store, @iter _
@@ -186,28 +188,76 @@ END SUB
 \param Store The GtkListStore where to change the data (user_data)
 
 This signal handler gets called when the user edited a keyboard
-shortcut in the shortcuts dialog. It up-dates the data in the related
-list store.
+shortcut in the shortcuts dialog. It checks for double-tees and
+up-dates the data in the related list store.
 
-\todo Check for double defines (Cancel, Redefine, Remove)
+\todo Decide if warning (no modifiers) should be used
 
 '/
 SUB on_accel_edited CDECL ALIAS "on_accel_edited" ( _
-  BYVAL Accel AS GtkCellRendererAccel PTR, _
-  BYVAL PathString AS gchar PTR, _
-  BYVAL AccelKey AS guint, _
-  BYVAL AccelMods AS GdkModifierType, _
-  BYVAL HardwareKeycode AS guint, _
-  BYVAL Store AS gpointer) EXPORT
+    BYVAL Accel AS GtkCellRendererAccel PTR _
+  , BYVAL PathString AS gchar PTR _
+  , BYVAL AccelKey AS guint _
+  , BYVAL AccelMods AS GdkModifierType _
+  , BYVAL HardwareKeycode AS guint _
+  , BYVAL Store AS gpointer) EXPORT
+
+  VAR model = GTK_TREE_MODEL(Store)
+
+  DIM AS guint k, m
+  DIM AS GtkTreeIter search
+  IF gtk_tree_model_get_iter_first(model, @search) THEN
+    DO
+      gtk_tree_model_get(model, @search, 0, @k, 1, @m, -1)
+      IF k <> AccelKey ORELSE m <> AccelMods THEN            CONTINUE DO
+
+      DIM AS gchar PTR txt
+      gtk_tree_model_get(model, @search, 2, @txt, -1)
+      VAR dia = gtk_message_dialog_new_with_markup(GTK_WINDOW(GUI.window1) _
+        , GTK_DIALOG_MODAL OR GTK_DIALOG_DESTROY_WITH_PARENT _
+        , GTK_MESSAGE_QUESTION _
+        , GTK_BUTTONS_YES_NO _
+        , ( _
+          *__(!"Shortcut already defined for\n\n") _
+        & *__(!"<b>%s</b>\n\n") _
+        & *__(!"Override existing\n") _
+        ) _
+        , txt _
+        , NULL)
+      g_free(txt)
+
+      VAR r = gtk_dialog_run(GTK_DIALOG(dia))
+      gtk_widget_destroy(dia) : IF r <> GTK_RESPONSE_YES THEN   EXIT SUB
+      gtk_list_store_set(Store, @search _
+        , 0, CAST(guint, 0) _
+        , 1, CAST(guint, 0) _
+        , -1) :                                                  EXIT DO
+    LOOP UNTIL 0 = gtk_tree_model_iter_next(model, @search)
+  END IF
+
+  IF 0 = AccelMods THEN '                          shall we use this ???
+    VAR dia = gtk_message_dialog_new_with_markup(GTK_WINDOW(GUI.window1) _
+      , GTK_DIALOG_MODAL OR GTK_DIALOG_DESTROY_WITH_PARENT _
+      , GTK_MESSAGE_QUESTION _
+      , GTK_BUTTONS_YES_NO _
+      , ( _
+        *__(!"Shortcut has no modifier\n\n") _
+      & *__(!"This interferes with the search\n") _
+      & *__(!"function in the tree views\n\n") _
+      & *__(!"Anyway, use it ...") _
+      ) _
+      , NULL)
+
+    VAR r = gtk_dialog_run(GTK_DIALOG(dia))
+    gtk_widget_destroy(dia) : IF r <> GTK_RESPONSE_YES THEN     EXIT SUB
+  END IF
 
   DIM AS GtkTreeIter iter
-  VAR model = GTK_TREE_MODEL(Store)
   gtk_tree_model_get_iter_from_string(model, @iter, PathString)
   gtk_list_store_set(Store, @iter _
     , 0, AccelKey _
     , 1, AccelMods _
-    , -1) '                                    parameter list terminator
-
+    , -1)
 END SUB
 
 

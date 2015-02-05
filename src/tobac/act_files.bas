@@ -1,5 +1,5 @@
 /'* \file act_files.bas
-\brief Signal handler for a toolbar button files (id="action465")
+\brief Signal handler for toolbar button files (id="action465")
 
 \since 3.0
 '/

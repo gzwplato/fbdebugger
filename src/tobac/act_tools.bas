@@ -1,5 +1,5 @@
 /'* \file act_tools.bas
-\brief Signal handler for a GtkAction (id="action466")
+\brief Signal handler for a GtkAction
 
 \since 3.0
 '/

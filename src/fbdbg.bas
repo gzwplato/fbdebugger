@@ -44,9 +44,18 @@ CONST PROJ_LICE = "GPLv3"                   '*< The licence of the project
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-#INCLUDE ONCE "core/core.bi"
 ' \todo ini file should get loaded here
 #INCLUDE ONCE "gui/filechoosers.bas"
+#INCLUDE ONCE "gui/log_notes.bas"
+
+declare SUB access_viol( _
+    BYVAL Adr AS gint _
+  , byval Fnam AS zSTRING PTR _
+  , byval Proc AS zSTRING PTR _
+  , byval Lin_ AS gint _
+  , byval Text AS zSTRING PTR _
+  )
+
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:                                 load GTK stuff / GTK Anbindung >
@@ -57,6 +66,7 @@ CONST PROJ_LICE = "GPLv3"                   '*< The licence of the project
 #INCLUDE ONCE "gui/main.bas"
 #INCLUDE ONCE "gui/settings.bas"
 #INCLUDE ONCE "gui/shortcuts.bas"
+'#INCLUDE ONCE "gui/log_notes.bas"
 #INCLUDE ONCE "testing.bas"
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

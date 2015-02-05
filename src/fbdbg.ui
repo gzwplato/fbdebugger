@@ -12,9 +12,9 @@
       <source stock-id="dbg-restart" filename="img/restart.bmp"/>
       <source stock-id="dbg-exemod" filename="img/exemod.bmp"/>
       <source stock-id="dbg-minicmd" filename="img/minicmd.bmp"/>
+      <source stock-id="dbg-tools" filename="img/tools.bmp"/>
       <source stock-id="dbg-auto" filename="img/auto.bmp"/>
       <source stock-id="dbg-step_out" filename="img/step_out.bmp"/>
-      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
       <source stock-id="dbg-files" filename="img/files.bmp"/>
       <source stock-id="dbg-stop" filename="img/stop.bmp"/>
       <source stock-id="dbg-step_start" filename="img/step_start.bmp"/>
@@ -22,12 +22,12 @@
       <source stock-id="dbg-runto" filename="img/runto.bmp"/>
       <source stock-id="dbg-kill" filename="img/kill.bmp"/>
       <source stock-id="dbg-attachexe" filename="img/attachexe.bmp"/>
-      <source stock-id="dbg-run" filename="img/run.bmp"/>
-      <source stock-id="dbg-tools" filename="img/tools.bmp"/>
-      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-step" filename="img/step.png"/>
+      <source stock-id="dbg-run" filename="img/run.bmp"/>
       <source stock-id="dbg-free" filename="img/free.bmp"/>
+      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-source" filename="img/source.bmp"/>
+      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
     </sources>
   </object>
   <object class="GtkAboutDialog" id="aboutdialog1">
@@ -78,7 +78,7 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action001">
         <property name="label" translatable="yes">Run to Cursor</property>
-        <property name="tooltip" translatable="yes">Execute the debuggee up to the cursor position</property>
+        <property name="tooltip" translatable="yes">Execute the debuggee up to the line under cursor</property>
         <property name="stock_id">dbg-runto</property>
         <signal name="activate" handler="act_runto" swapped="no"/>
       </object>
@@ -110,7 +110,7 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action005">
         <property name="label" translatable="yes">Step top called proc</property>
-        <property name="tooltip" translatable="yes">Top the next called SUB or FUNCTION</property>
+        <property name="tooltip" translatable="yes">Top of the next called SUB or FUNCTION</property>
         <property name="stock_id">dbg-step_start</property>
         <signal name="activate" handler="act_step_start" swapped="no"/>
       </object>
@@ -118,7 +118,7 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action006">
         <property name="label" translatable="yes">Step bottom current proc</property>
-        <property name="tooltip" translatable="yes">Bottom the current SUB or FUNCTION</property>
+        <property name="tooltip" translatable="yes">Bottom of the current SUB or FUNCTION</property>
         <property name="stock_id">dbg-step_end</property>
         <signal name="activate" handler="act_step_end" swapped="no"/>
       </object>
@@ -126,7 +126,7 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action007">
         <property name="label" translatable="yes">Run</property>
-        <property name="tooltip" translatable="yes">Run until halt</property>
+        <property name="tooltip" translatable="yes">Run until halt by user or by breakpoint</property>
         <property name="stock_id">dbg-run</property>
         <signal name="activate" handler="act_run" swapped="no"/>
       </object>
@@ -134,7 +134,7 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action008">
         <property name="label" translatable="yes">Fast Run</property>
-        <property name="tooltip" translatable="yes">Caution fast run to cursor</property>
+        <property name="tooltip" translatable="yes">Fast run up to the line under cursor, CAUTION : some errors could arise</property>
         <property name="stock_id">dbg-fastrun</property>
         <signal name="activate" handler="act_fastrun" swapped="no"/>
       </object>
@@ -150,30 +150,30 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action010">
         <property name="label" translatable="yes">Kill debuggee</property>
-        <property name="tooltip" translatable="yes">Caution kill process</property>
+        <property name="tooltip" translatable="yes">Kill program, CAUTION : hard termination</property>
         <property name="stock_id">dbg-kill</property>
         <signal name="activate" handler="act_kill" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action011">
-        <property name="label" translatable="yes">Step auto</property>
-        <property name="tooltip" translatable="yes">Step automatically, stopped by halt</property>
+        <property name="label" translatable="yes">Step auto current thread</property>
+        <property name="tooltip" translatable="yes">Step automatically the current thread, stopped by halt</property>
         <property name="stock_id">dbg-auto</property>
         <signal name="activate" handler="act_auto" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action012">
-        <property name="label" translatable="yes">Step auto multi threads</property>
+        <property name="label" translatable="yes">Step auto every thread</property>
         <property name="stock_id">dbg-run</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_automulti" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action013">
         <property name="label" translatable="yes">Modify execution</property>
-        <property name="tooltip" translatable="yes">CAUTION: modify execution, continue with line under cursor</property>
+        <property name="tooltip" translatable="yes">CAUTION: modify execution, the line under cursor will be the next executed line</property>
         <property name="stock_id">dbg-exemod</property>
         <signal name="activate" handler="act_exemod" swapped="no"/>
       </object>
@@ -181,31 +181,32 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action020">
         <property name="label" translatable="yes">Variable Dump</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_vardump" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action021">
         <property name="label" translatable="yes">Edit var value</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varedit" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action022">
         <property name="label" translatable="yes">Show/Expand variable</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varexpand" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action023">
         <property name="label" translatable="yes">Show z/w/string</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_stringshow" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action024">
-        <property name="short-label" translatable="yes">Shortcuts ...</property>
         <property name="label" translatable="yes">Shortcut key list ...</property>
+        <property name="short_label" translatable="yes">Shortcuts ...</property>
+        <property name="tooltip" translatable="yes">Open the dialog to show or edit the list of keyboard shortcuts</property>
         <signal name="activate" handler="act_Shortcut" object="dialog600" swapped="no"/>
       </object>
     </child>
@@ -213,14 +214,14 @@ TJF</property>
       <object class="GtkAction" id="action1001">
         <property name="label" translatable="yes">Set watched</property>
         <property name="tooltip" translatable="yes">Set watched ???</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varwatched" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action1002">
         <property name="label" translatable="yes">Set watched+trace</property>
         <property name="tooltip" translatable="yes">Set watched+trace on ???</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varwtchtrace" swapped="no"/>
       </object>
     </child>
     <child>
@@ -233,235 +234,235 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action100">
         <property name="label" translatable="yes">Break on var value</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varbrk" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action101">
         <property name="label" translatable="yes">Select index</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varindex" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action106">
         <property name="label" translatable="yes">Change byte &lt;&gt; zstring type</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_bzexchange" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action050">
         <property name="label" translatable="yes">Show proc in source</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_procinsource" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action108">
         <property name="label" translatable="yes">Locate calling line</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_proccall" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action109">
-        <property name="label" translatable="yes">Collaps calling line</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <property name="label" translatable="yes">Collapse proc/var</property>
+        <signal name="activate" handler="act_varcollapse" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action110">
         <property name="label" translatable="yes">Expand proc/var</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varexpand" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action111">
         <property name="label" translatable="yes">List all proc/var (log)</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varlistall" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action112">
         <property name="label" translatable="yes">List selected proc/var (log)</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varlistsel" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action201">
         <property name="label" translatable="yes">ASM code of proc</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_procasm" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action202">
         <property name="label" translatable="yes">Toggle sort by module or by proc</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_procsort" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action203">
         <property name="label" translatable="yes">All procs followed</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_procfollow" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action204">
         <property name="label" translatable="yes">No procs followed</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_procnofollow" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action300">
         <property name="label" translatable="yes">Show in var window</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_procinvar" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action305">
         <property name="label" translatable="yes">Toggle Tracing</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_wtchtrace" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action306">
         <property name="label" translatable="yes">Cancel all Tracing</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_wtchnotrace" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action307">
         <property name="label" translatable="yes">Switch watch1</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_wtch1" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action308">
         <property name="label" translatable="yes">Switch watch2</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_wtch2" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action309">
         <property name="label" translatable="yes">Switch watch3</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_wtch3" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action310">
         <property name="label" translatable="yes">Switch watch4</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_wtch4" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action311">
         <property name="label" translatable="yes">Delete</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_wtchdel" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action312">
         <property name="label" translatable="yes">Delete all</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_wtchdellall" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action414">
         <property name="label" translatable="yes">Set/Clear Breakpoint</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_brkset" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action415">
         <property name="label" translatable="yes">Set/Clear tempo Breakpoint</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_brktempset" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action416">
         <property name="label" translatable="yes">Enable/Disable Breakpoint</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_brkenable" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action417">
         <property name="label" translatable="yes">Manage Breakpoints</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_brkmanage" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action418">
         <property name="label" translatable="yes">Show var</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varsrcshow" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action419">
         <property name="label" translatable="yes">Set watched var</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varsrcwtch" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action420">
         <property name="label" translatable="yes">Find text</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_textfind" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action421">
         <property name="label" translatable="yes">Toggle bookmark</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_bmktoogle" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action422">
         <property name="label" translatable="yes">Next bookmark</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_bmknext" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action423">
         <property name="label" translatable="yes">Previous bookmark</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_bmkprev" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action424">
         <property name="label" translatable="yes">Goto Line</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_linegoto" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action426">
         <property name="label" translatable="yes">Line Address</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_lineaddress" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action427">
         <property name="label" translatable="yes">ASM code of line</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_lineasm" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action428">
         <property name="label" translatable="yes">ASM code of proc (from line)</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_procsrcasm" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action429">
         <property name="label" translatable="yes">Mark no executable lines</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_linenoexec" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action430">
         <property name="label" translatable="yes">Focus lines</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_linefocus" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action431">
         <property name="label" translatable="yes">Add notes</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_notesadd" swapped="no"/>
       </object>
     </child>
     <child>
@@ -491,7 +492,7 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action463">
         <property name="label" translatable="yes">Last 10 exe</property>
-        <property name="tooltip" translatable="yes">Last 10 executable(s)</property>
+        <property name="tooltip" translatable="yes">Show last 10 executable(s), select one</property>
         <property name="stock_id">dbg-multiexe</property>
         <signal name="activate" handler="act_multiexe" swapped="no"/>
       </object>
@@ -523,9 +524,9 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action467">
         <property name="label" translatable="yes">Open/close notes</property>
-        <property name="tooltip" translatable="yes">Open or close the notes ???</property>
+        <property name="tooltip" translatable="yes">Open or close the notes window</property>
         <property name="stock_id">dbg-notes</property>
-        <signal name="activate" handler="act_notes" object="textview1" swapped="no"/>
+        <signal name="activate" handler="act_notes" swapped="no"/>
       </object>
     </child>
     <child>
@@ -538,8 +539,8 @@ TJF</property>
     </child>
     <child>
       <object class="GtkAction" id="action469">
-        <property name="label" translatable="yes">Enlarge/reduce proc/var</property>
-        <property name="tooltip" translatable="yes">Enlarge/reduce proc/var</property>
+        <property name="label" translatable="yes">Enlarge/reduce treview</property>
+        <property name="tooltip" translatable="yes">Enlarge/reduce the current treeview : proc/var, procs, threads, watched vars</property>
         <property name="stock_id">dbg-varproc</property>
         <signal name="activate" handler="act_varproc" swapped="no"/>
       </object>
@@ -553,75 +554,93 @@ TJF</property>
       </object>
     </child>
     <child>
+      <object class="GtkAction" id="action3330">
+        <property name="label" translatable="yes">Copy to Clipboard all proc/var (log)</property>
+        <signal name="activate" handler="act_varcopyall" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkAction" id="action3331">
+        <property name="label" translatable="yes">Copy to Clipboard selected proc/var (log)</property>
+        <signal name="activate" handler="act_varcopysel" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkAction" id="action3332">
+        <property name="label" translatable="yes">Pointed data dump</property>
+        <signal name="activate" handler="act_varderefdump" swapped="no"/>
+      </object>
+    </child>
+    <child>
       <object class="GtkAction" id="action500">
         <property name="label" translatable="yes">Select next thread to be executed</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_threadselect" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action501">
         <property name="label" translatable="yes">Show next executed line (source)</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_threadline" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action502">
         <property name="label" translatable="yes">Show line creating thread (source) </property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_threadcreate" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action503">
-        <property name="label" translatable="yes">Show first proc of thread (suorce)</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <property name="label" translatable="yes">Show first proc of thread (source)</property>
+        <signal name="activate" handler="act_threadproc" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action504">
         <property name="label" translatable="yes">Show proc (proc/var)</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_threadvar" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action506">
         <property name="label" translatable="yes">Proc call Backtracking</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_procbacktrack" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action507">
         <property name="label" translatable="yes">Proc call Chaining</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_procchain" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action508">
-        <property name="label" translatable="yes">Proc Adress</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <property name="label" translatable="yes">Proc Adresses</property>
+        <signal name="activate" handler="act_procaddresses" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action509">
         <property name="label" translatable="yes">Kill thread</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_threadkill" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action510">
         <property name="label" translatable="yes">Expand one thread</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_threadexpand" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action511">
         <property name="label" translatable="yes">Collapse all threads</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_threadcollapse" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action512">
         <property name="label" translatable="yes">List all threads</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_threadlist" swapped="no"/>
       </object>
     </child>
     <child>
@@ -633,7 +652,7 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action902">
         <property name="label" translatable="yes">Compile info</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_compinfo" swapped="no"/>
       </object>
     </child>
     <child>
@@ -645,91 +664,91 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action904">
         <property name="label" translatable="yes">Launch tutorial</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_tuto" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action905">
         <property name="label" translatable="yes">Launch IDE</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_idelaunch" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action906">
         <property name="label" translatable="yes">Quick edit</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_quickedit" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action907">
         <property name="label" translatable="yes">Compile and run</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_compnrun" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action908">
         <property name="label" translatable="yes">Copy note to clipboard</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_notescopy" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action909">
         <property name="label" translatable="yes">Show log file</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_logshow" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action910">
         <property name="label" translatable="yes">Hide log file</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_loghide" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action911">
         <property name="label" translatable="yes">Delete log file</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_logdel" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action912">
         <property name="label" translatable="yes">List enum</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_enumlist" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action913">
         <property name="label" translatable="yes">Process list</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_processlist" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action914">
         <property name="label" translatable="yes">DLLs list</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_dlllist" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action916">
         <property name="label" translatable="yes">Translate Win Message</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_winmsg" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action917">
         <property name="label" translatable="yes">Bin/Dec/Hex</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_bdhtrans" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action918">
         <property name="label" translatable="yes">Show fast run timer</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_fasttimer" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action919">
         <property name="label" translatable="yes">Set JIT debugger</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_jitset" swapped="no"/>
       </object>
     </child>
   </object>
@@ -1023,6 +1042,90 @@ TJF</property>
       <object class="GtkMenuItem" id="menuitem312">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action312</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkMenu" id="menu3333">
+    <property name="can_focus">False</property>
+    <property name="double_buffered">False</property>
+    <property name="take_focus">False</property>
+    <property name="accel_group">accelgroup1</property>
+    <property name="reserve_toggle_size">False</property>
+    <child>
+      <object class="GtkMenuItem" id="menuitem460">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action460</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem461">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action461</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem462">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action462</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem463">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action463</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem464">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action464</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem465">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action465</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem466">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action466</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem467">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action467</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem468">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action468</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem469">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action469</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem470">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action470</property>
         <property name="can_focus">False</property>
       </object>
     </child>
@@ -1543,16 +1646,16 @@ TJF</property>
       </object>
     </child>
   </object>
-  <object class="GtkAdjustment" id="adjustment502">
-    <property name="upper">99</property>
-    <property name="step_increment">1</property>
-    <property name="page_increment">10</property>
-  </object>
   <object class="GtkAdjustment" id="adjustment501">
     <property name="lower">50</property>
     <property name="upper">9999</property>
     <property name="step_increment">1</property>
     <property name="page_increment">50</property>
+  </object>
+  <object class="GtkAdjustment" id="adjustment502">
+    <property name="upper">99</property>
+    <property name="step_increment">1</property>
+    <property name="page_increment">10</property>
   </object>
   <object class="GtkDialog" id="dialog500">
     <property name="can_focus">False</property>
@@ -2588,6 +2691,7 @@ activated</property>
                     <property name="sort_column_id">0</property>
                     <child>
                       <object class="GtkCellRendererAccel" id="cellrendereraccel601">
+                        <property name="width">180</property>
                         <property name="xalign">1</property>
                         <property name="editable">True</property>
                         <signal name="accel-cleared" handler="on_accel_cleared" object="liststore600" swapped="no"/>
@@ -2740,6 +2844,7 @@ activated</property>
           <object class="GtkBox" id="box5">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <property name="hexpand">False</property>
             <property name="homogeneous">True</property>
             <child>
               <object class="GtkLabel" id="sbarlab1">
@@ -3125,7 +3230,7 @@ activated</property>
           <object class="GtkBox" id="box2">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="border_width">0</property>
+            <property name="hexpand">False</property>
             <child>
               <object class="GtkLabel" id="label2">
                 <property name="visible">True</property>
@@ -3907,239 +4012,6 @@ activated</property>
                     <property name="height">1</property>
                   </packing>
                 </child>
-                <child>
-                  <object class="GtkGrid" id="grid4">
-                    <property name="sensitive">False</property>
-                    <property name="can_focus">False</property>
-                    <property name="double_buffered">False</property>
-                    <property name="column_spacing">5</property>
-                    <child>
-                      <object class="GtkLabel" id="label32">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label" translatable="yes">ADDRESS</property>
-                        <property name="ellipsize">start</property>
-                        <attributes>
-                          <attribute name="style" value="italic"/>
-                        </attributes>
-                      </object>
-                      <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">0</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label33">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label">+01</property>
-                        <property name="ellipsize">start</property>
-                        <attributes>
-                          <attribute name="style" value="italic"/>
-                        </attributes>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">0</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label34">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label">+02</property>
-                        <property name="ellipsize">start</property>
-                        <attributes>
-                          <attribute name="style" value="italic"/>
-                        </attributes>
-                      </object>
-                      <packing>
-                        <property name="left_attach">2</property>
-                        <property name="top_attach">0</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label35">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label">+03</property>
-                        <property name="ellipsize">start</property>
-                        <attributes>
-                          <attribute name="style" value="italic"/>
-                        </attributes>
-                      </object>
-                      <packing>
-                        <property name="left_attach">3</property>
-                        <property name="top_attach">0</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label36">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label">+04</property>
-                        <property name="ellipsize">start</property>
-                        <attributes>
-                          <attribute name="style" value="italic"/>
-                        </attributes>
-                      </object>
-                      <packing>
-                        <property name="left_attach">4</property>
-                        <property name="top_attach">0</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label37">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="xalign">0</property>
-                        <property name="label" translatable="yes">ASCII</property>
-                        <attributes>
-                          <attribute name="style" value="italic"/>
-                        </attributes>
-                      </object>
-                      <packing>
-                        <property name="left_attach">5</property>
-                        <property name="top_attach">0</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label38">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label">0</property>
-                        <property name="ellipsize">start</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">0</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label39">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label">0</property>
-                        <property name="ellipsize">start</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label40">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label">0</property>
-                        <property name="ellipsize">start</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label41">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label">0</property>
-                        <property name="ellipsize">start</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">3</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label42">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="label">0</property>
-                        <property name="ellipsize">start</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">4</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkLabel" id="label43">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="hexpand">True</property>
-                        <property name="xalign">0</property>
-                        <property name="label">Hi all, this is how a long text will look like</property>
-                        <property name="ellipsize">start</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">5</property>
-                        <property name="top_attach">1</property>
-                        <property name="width">1</property>
-                        <property name="height">1</property>
-                      </packing>
-                    </child>
-                  </object>
-                  <packing>
-                    <property name="left_attach">1</property>
-                    <property name="top_attach">2</property>
-                    <property name="width">4</property>
-                    <property name="height">2</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel" id="label44">
-                    <property name="can_focus">False</property>
-                    <property name="margin_right">5</property>
-                    <property name="hexpand">False</property>
-                    <property name="xalign">1</property>
-                    <property name="label" translatable="yes">Memory
-dump</property>
-                    <property name="justify">right</property>
-                    <attributes>
-                      <attribute name="weight" value="bold"/>
-                    </attributes>
-                  </object>
-                  <packing>
-                    <property name="left_attach">0</property>
-                    <property name="top_attach">2</property>
-                    <property name="width">1</property>
-                    <property name="height">2</property>
-                  </packing>
-                </child>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -4153,18 +4025,6 @@ dump</property>
             <property name="fill">False</property>
             <property name="pack_type">end</property>
             <property name="position">4</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkTextView" id="textview1">
-            <property name="height_request">120</property>
-            <property name="can_focus">True</property>
-          </object>
-          <packing>
-            <property name="expand">False</property>
-            <property name="fill">True</property>
-            <property name="pack_type">end</property>
-            <property name="position">5</property>
           </packing>
         </child>
       </object>
