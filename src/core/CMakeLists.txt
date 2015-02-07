@@ -4,7 +4,7 @@ SET(CORE_BAS
   )
 
 ADD_LIBRARY(fbdbg_core OBJECT ${CORE_BAS})
-#SET_TARGET_PROPERTIES(fbdbg_gui PROPERTIES
-  #COMPILE_FLAGS "-m fbdbg -w all"
+#SET_TARGET_PROPERTIES(fbdbg_core PROPERTIES
+  #COMPILE_FLAGS "-w all"
   #)
 ADD_Fbc_SRC_DEPS(fbdbg_core)

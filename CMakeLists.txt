@@ -1,34 +1,33 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
-
 PROJECT(fbdbg Fbc)
 
-#INCLUDE(AddFileDependencies)
-
+ADD_SUBDIRECTORY(src/core)
 ADD_SUBDIRECTORY(src)
 ADD_EXECUTABLE(fbdbg $<TARGET_OBJECTS:fbdbg_gui> $<TARGET_OBJECTS:fbdbg_core>)
 
 SET_TARGET_PROPERTIES(fbdbg PROPERTIES
-  COMPILE_FLAGS "-m fbdbg -w all"
+  LINK_FLAGS "-export"
   )
 
 SET(UI_FILES
   src/fbdbg.ui
+  src/log.ui
   )
 INSTALL(FILES ${UI_FILES}
-        DESTINATION bin
-        )
+   DESTINATION bin
+   )
 INSTALL(DIRECTORY src/dat src/img src/locale
-        DESTINATION bin
-        )
+  DESTINATION bin
+  )
 INSTALL(TARGETS fbdbg
-        DESTINATION bin
-        )
+  DESTINATION bin
+  )
 
-
-#SET_TARGET_PROPERTIES(fbdbg PROPERTIES
-  #COMPILE_FLAGS "-m fbdbg -w all"
+#FILE(
+  #COPY src/img src/locale src/dat ${UI_FILES}
+  #DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
   #)
 
 #ADD_LIBRARY(pruio SHARED $<TARGET_OBJECTS:fbcode>)
@@ -57,4 +56,4 @@ INSTALL(TARGETS fbdbg
 #SET(CPACK_GENERATOR "DEB")
 #SET(CPACK_DEBIAN_PACKAGE_MAINTAINER "Thomas Freiherr") #required
 
-INCLUDE(CPack)
+#INCLUDE(CPack)

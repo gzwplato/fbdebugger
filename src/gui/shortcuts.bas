@@ -8,7 +8,7 @@ dialog and some auxiliary code. Shortcuts are stored in file
 The actions in file fbdbg.ui are grouped after their appereance
 
 - action0xx = actions that proxies multiple widgets
-- action1xx = actions in menue100 = ProVar
+- action1xx = actions in menue100 = ProcVar
 - action2xx = actions in menue200 = Procs
 - action3xx = actions in menue300 = Watched
 - action4xx = actions in menue400 = Source + toolbar

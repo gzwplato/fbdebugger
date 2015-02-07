@@ -26,13 +26,13 @@ END WITH
 
 
 ' here's how to set the texts in combo box
-scope
-  var box = GTK_COMBO_BOX_TEXT(GUI.comboBookmarks)
+SCOPE
+  VAR box = GTK_COMBO_BOX_TEXT(GUI.comboBookmarks)
   gtk_combo_box_text_insert(box, -1, "0", "BMK --> testthread.bas[10] Print ""yes and then... valeur origine="";p")
   gtk_combo_box_text_insert(box, -1, "1", "BMK --> testthread.bas[21] ""c=""test (""+Str(b)+""+Str(i)")
   gtk_combo_box_text_insert(box, -1, "SARG", "BMK --> testthread.bas[24] j+=1")
   g_object_set(GUI.comboBookmarks, "active-id", "SARG", NULL)
-end scope
+END SCOPE
 
 
 ' here's how to set the source view, font and language for syntax highlighting
@@ -67,34 +67,34 @@ scope
   'gtk_widget_get_pango_context(GTK_WIDGET(GUI.srcview))
 
 '' set syntax highlighting
-  var lm = gtk_source_language_manager_get_default()
-  var sl = gtk_source_language_manager_get_language(lm, "fbc")
-  if 0 = sl then
+  VAR lm = gtk_source_language_manager_get_default()
+  VAR sl = gtk_source_language_manager_get_language(lm, "fbc")
+  IF 0 = sl THEN
     ?PROJ_NAME & ": language fbc not available -> no syntax highlighting"
-  else
-    var sb = GTKSOURCE_SOURCE_BUFFER(GUI.srcbuff)
+  ELSE
+    VAR sb = GTKSOURCE_SOURCE_BUFFER(GUI.srcbuff)
     gtk_source_buffer_set_language(sb, sl)
 
     sb = GTKSOURCE_SOURCE_BUFFER(GUI.srcbuffCur)
     gtk_source_buffer_set_language(sb, sl)
-  end if
+  END IF
 end scope
 
-scope
-  'var pc = gtk_widget_get_pango_context(GTK_WIDGET(GUI.nbook2))
-  var pc = gtk_widget_get_pango_context(GTK_WIDGET(GUI.tviewThreads))
-  var fd = pango_context_get_font_description(pc)
-  var size = pango_font_description_get_size(fd)
+'scope
+  ''var pc = gtk_widget_get_pango_context(GTK_WIDGET(GUI.nbook2))
+  'var pc = gtk_widget_get_pango_context(GTK_WIDGET(GUI.tviewThreads))
+  'var fd = pango_context_get_font_description(pc)
+  'var size = pango_font_description_get_size(fd)
 
-?"HIER: ";size
-'?*pango_font_family_get_name(fd)
+'?"HIER: ";size
+''?*pango_font_family_get_name(fd)
 
-pango_font_description_set_size(fd, size * 1.5)
-end scope
+''pango_font_description_set_size(fd, size * 1.5)
+'end scope
 
 ' here's an example on how to populate tree stores
-scope
-  dim as zstring ptr entries(...) = { _ '                 some rows data
+SCOPE
+  DIM AS ZSTRING PTR entries(...) = { _ '                 some rows data
     @"Globals(shared/common in : main" _
   , @"NS : TESTNAMES.XX < Shared / Integer >" _
   , @"VENUM <Shared /EENMU>=0 >> Unknowm" _
@@ -104,16 +104,16 @@ scope
   , @"__FB_ARGV__ <Byval param / Long>=0" _
   }
 
-  dim as GtkTreeIter iter(1) '                iterators, two levels here
-  dim as GObject PTR stores(...) = { _ '          all stores we populate
+  DIM AS GtkTreeIter iter(1) '                iterators, two levels here
+  DIM AS GObject PTR stores(...) = { _ '          all stores we populate
       GUI.tstoreProcVar _
     , GUI.tstoreProcs _
     , GUI.tstoreThreads _
     , GUI.tstoreWatch _
     }
 
-  FOR i AS INTEGER = 0 TO ubound(stores)
-    var store = GTK_TREE_STORE(stores(i))
+  FOR i AS INTEGER = 0 TO UBOUND(stores)
+    VAR store = GTK_TREE_STORE(stores(i))
     gtk_tree_store_clear(store) '                        empty the store
 
     gtk_tree_store_append(store, @iter(0), NULL) '              level 0
@@ -146,12 +146,12 @@ scope
   gtk_tree_view_expand_all(GTK_TREE_VIEW(GUI.tviewProcs))
 
   ' example: expand to a certain row of the tree view
-  var path = gtk_tree_path_new_from_string("0:2")
+  VAR path = gtk_tree_path_new_from_string("0:2")
   gtk_tree_view_expand_to_path(GTK_TREE_VIEW(GUI.tviewWatch), path)
   gtk_tree_path_free(path)
 
-  var model = GTK_TREE_MODEL(stores(1))
-  var store = GTK_TREE_STORE(stores(1))
+  VAR model = GTK_TREE_MODEL(stores(1))
+  VAR store = GTK_TREE_STORE(stores(1))
 
   gtk_tree_model_get_iter_from_string(model, @iter(0), "0:1")
   gtk_tree_store_set(store, @iter(0), 1, TRUE, -1)
@@ -161,7 +161,7 @@ scope
 
   gtk_tree_model_get_iter_from_string(model, @iter(0), "1:0")
   gtk_tree_store_set(store, @iter(0), 1, TRUE, -1)
-end scope
+END SCOPE
 
 scope
   'var path = gtk_tree_path_new_from_string("0:2")
@@ -220,10 +220,10 @@ END SCOPE
 ' here's an example for a non-modal message dialog (like accesviol.jpg)
 SUB access_viol( _
     BYVAL Adr AS gint _
-  , byval Fnam AS zSTRING PTR _
-  , byval Proc AS zSTRING PTR _
-  , byval Lin_ AS gint _
-  , byval Text AS zSTRING PTR _
+  , BYVAL Fnam AS ZSTRING PTR _
+  , BYVAL Proc AS ZSTRING PTR _
+  , BYVAL Lin_ AS gint _
+  , BYVAL Text AS ZSTRING PTR _
   )
 
   VAR dia = gtk_message_dialog_new_with_markup(GTK_WINDOW(GUI.window1) _
@@ -253,3 +253,6 @@ SUB access_viol( _
   END IF
   gtk_widget_destroy(dia)
 END SUB
+
+
+#include once "tobac/act_ToDo.bas"

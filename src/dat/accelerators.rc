@@ -2,7 +2,7 @@
 ; this file is an automated accelerator map dump
 ;
 ; (gtk_accel_path "<Actions>/actiongroup1/action300" "")
-(gtk_accel_path "<Actions>/actiongroup1/action99" "<Primary>i")
+(gtk_accel_path "<Actions>/actiongroup1/action099" "<Primary>i")
 ; (gtk_accel_path "<Actions>/actiongroup1/action419" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action109" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action108" "")
@@ -54,7 +54,7 @@
 ; (gtk_accel_path "<Actions>/actiongroup1/action204" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action203" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action202" "")
-; (gtk_accel_path "<Actions>/actiongroup1/action201" "")
+; (gtk_accel_path "<Actions>/actiongroup1/action027" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action512" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action511" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action510" "")
@@ -81,8 +81,8 @@
 ; (gtk_accel_path "<Actions>/actiongroup1/action509" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action508" "")
 (gtk_accel_path "<Actions>/actiongroup1/action422" "F2")
-; (gtk_accel_path "<Actions>/actiongroup1/action506" "")
-; (gtk_accel_path "<Actions>/actiongroup1/action507" "")
+; (gtk_accel_path "<Actions>/actiongroup1/action025" "")
+; (gtk_accel_path "<Actions>/actiongroup1/action026" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action424" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action503" "")
 ; (gtk_accel_path "<Actions>/actiongroup1/action502" "")

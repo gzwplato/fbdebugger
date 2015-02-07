@@ -17,7 +17,11 @@
   #)
 
 
-ADD_SUBDIRECTORY(core)
+#ADD_SUBDIRECTORY(core)
+FILE(
+  COPY img locale dat fbdbg.ui log.ui
+  DESTINATION ${CMAKE_BINARY_DIR}
+  )
 
 
 ADD_LIBRARY(fbdbg_gui OBJECT fbdbg.bas)

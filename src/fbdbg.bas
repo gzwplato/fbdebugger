@@ -59,14 +59,25 @@ declare SUB access_viol( _
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:                                 load GTK stuff / GTK Anbindung >
-    #INCLUDE "tobac/fbdbg_tobac.bas" '                       Signale & GUI-XML >
+    '#INCLUDE "tobac/fbdbg_tobac.bas" '                       Signale & GUI-XML >
+    #INCLUDE "gui/gui.bas" '                                 Signale & GUI-XML >
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-#INCLUDE ONCE "gui/main.bas"
-#INCLUDE ONCE "gui/settings.bas"
-#INCLUDE ONCE "gui/shortcuts.bas"
+'#INCLUDE ONCE "gui/multi_action.bas"
+'#INCLUDE ONCE "gui/mbar_buttons.bas"
+'#INCLUDE ONCE "gui/menu_procvar.bas"
+'#INCLUDE ONCE "gui/menu_procs.bas"
+'#INCLUDE ONCE "gui/menu_source.bas"
+'#INCLUDE ONCE "gui/menu_watch.bas"
+'#INCLUDE ONCE "gui/menu_threads.bas"
+'#INCLUDE ONCE "gui/menu_tools.bas"
+
+'#INCLUDE ONCE "gui/main.bas"
+'#INCLUDE ONCE "gui/settings.bas"
+'#INCLUDE ONCE "gui/shortcuts.bas"
 '#INCLUDE ONCE "gui/log_notes.bas"
+'#INCLUDE ONCE "gui/gui.bas"
 #INCLUDE ONCE "testing.bas"
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
