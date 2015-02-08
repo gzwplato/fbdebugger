@@ -2,7 +2,7 @@
 \brief The main source code of the debugger.
 
 This is the main source code of the debugger. You may compile it by `fbc
--w all fbdbg.bas` to get an executable.
+-w all fbdbg.bas` to create the executable.
 
 \since 3.0
 '/
@@ -44,9 +44,6 @@ CONST PROJ_LICE = "GPLv3"                   '*< The licence of the project
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-' \todo ini file should get loaded here
-#INCLUDE ONCE "gui/filechoosers.bas"
-#INCLUDE ONCE "gui/log_notes.bas"
 
 declare SUB access_viol( _
     BYVAL Adr AS gint _
@@ -64,20 +61,6 @@ declare SUB access_viol( _
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
-'#INCLUDE ONCE "gui/multi_action.bas"
-'#INCLUDE ONCE "gui/mbar_buttons.bas"
-'#INCLUDE ONCE "gui/menu_procvar.bas"
-'#INCLUDE ONCE "gui/menu_procs.bas"
-'#INCLUDE ONCE "gui/menu_source.bas"
-'#INCLUDE ONCE "gui/menu_watch.bas"
-'#INCLUDE ONCE "gui/menu_threads.bas"
-'#INCLUDE ONCE "gui/menu_tools.bas"
-
-'#INCLUDE ONCE "gui/main.bas"
-'#INCLUDE ONCE "gui/settings.bas"
-'#INCLUDE ONCE "gui/shortcuts.bas"
-'#INCLUDE ONCE "gui/log_notes.bas"
-'#INCLUDE ONCE "gui/gui.bas"
 #INCLUDE ONCE "testing.bas"
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
