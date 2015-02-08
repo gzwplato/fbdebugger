@@ -1,4 +1,4 @@
-/'* \file multi_actions.bas
+/'* \file multi_action.bas
 \brief Signal handlers for actions that poxies more than one widgets
 
 \since 3.0
@@ -152,6 +152,7 @@ SUB act_varedit CDECL ALIAS "act_varedit" ( _
 END SUB
 
 
+'??? same as action 116 ???
 SUB act_varexpand CDECL ALIAS "act_varexpand" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT

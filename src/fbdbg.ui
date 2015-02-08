@@ -236,65 +236,45 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action1001">
+      <object class="GtkAction" id="action1000">
         <property name="label" translatable="yes">Set watched</property>
         <property name="tooltip" translatable="yes">Set watched ???</property>
         <signal name="activate" handler="act_varwatched" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action1002">
+      <object class="GtkAction" id="action1001">
         <property name="label" translatable="yes">Set watched+trace</property>
         <property name="tooltip" translatable="yes">Set watched+trace on ???</property>
         <signal name="activate" handler="act_varwtchtrace" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action100">
+      <object class="GtkAction" id="action101">
         <property name="label" translatable="yes">Break on var value</property>
         <signal name="activate" handler="act_varbrk" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action101">
+      <object class="GtkAction" id="action102">
         <property name="label" translatable="yes">Select index</property>
         <signal name="activate" handler="act_varindex" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action102">
+      <object class="GtkAction" id="action104">
         <property name="label" translatable="yes">Pointed data dump</property>
         <signal name="activate" handler="act_varderefdump" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action1011">
+      <object class="GtkAction" id="action108">
         <property name="label" translatable="yes">Show char at position</property>
-        <signal name="activate" handler="act_varderefdump" swapped="no"/>
-      </object>
-    </child>
-<!--
-    <child>
-      <object class="GtkAction" id="action1012">
-        <property name="label" translatable="yes">Proc call backtracking</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_varcharpos" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action1013">
-        <property name="label" translatable="yes">Proc call chaining</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkAction" id="action1014">
-        <property name="label" translatable="yes">ASM code of proc</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
-      </object>
-    </child>
--->
-    <child>
-      <object class="GtkAction" id="action106">
+      <object class="GtkAction" id="action109">
         <property name="label" translatable="yes">Change byte &lt;&gt; zstring type</property>
         <signal name="activate" handler="act_bzexchange" swapped="no"/>
       </object>
@@ -306,49 +286,47 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action108">
+      <object class="GtkAction" id="action111">
         <property name="label" translatable="yes">Locate calling line</property>
         <signal name="activate" handler="act_proccall" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action109">
+      <object class="GtkAction" id="action115">
         <property name="label" translatable="yes">Collapse proc/var</property>
         <signal name="activate" handler="act_varcollapse" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action110">
+      <object class="GtkAction" id="action116">
         <property name="label" translatable="yes">Expand proc/var ???</property>
         <signal name="activate" handler="act_varexpand" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action1110">
-        <property name="label" translatable="yes">ToDo</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+      <object class="GtkAction" id="action1170">
+        <property name="label" translatable="yes">List all procs</property>
+        <signal name="activate" handler="act_clipprocs" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action1130">
+      <object class="GtkAction" id="action1171">
+        <property name="label" translatable="yes">List selected proc</property>
+        <signal name="activate" handler="act_clipselpr" swapped="no"/>
+      </object>
+    </child>
+    <child>
+      <object class="GtkAction" id="action1180">
         <property name="label" translatable="yes">Copy all proc/var</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_copyprocvar" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action1131">
+      <object class="GtkAction" id="action1181">
         <property name="label" translatable="yes">Copy selected proc/var</property>
-        <signal name="activate" handler="act_ToDo" swapped="no"/>
+        <signal name="activate" handler="act_copyselprocvar" swapped="no"/>
       </object>
     </child>
-<!--
-    <child>
-      <object class="GtkAction" id="action201">
-        <property name="label" translatable="yes">ASM code of proc</property>
-        <signal name="activate" handler="act_procasm" swapped="no"/>
-      </object>
-    </child>
--->
     <child>
       <object class="GtkAction" id="action202">
         <property name="label" translatable="yes">Toggle sort by module or by proc</property>
@@ -488,19 +466,19 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action426">
+      <object class="GtkAction" id="action4250">
         <property name="label" translatable="yes">Line Address</property>
         <signal name="activate" handler="act_lineaddress" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action427">
+      <object class="GtkAction" id="action4251">
         <property name="label" translatable="yes">ASM code of line</property>
         <signal name="activate" handler="act_lineasm" swapped="no"/>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action428">
+      <object class="GtkAction" id="action4252">
         <property name="label" translatable="yes">ASM code of proc (from line)</property>
         <signal name="activate" handler="act_procsrcasm" swapped="no"/>
       </object>
@@ -576,7 +554,7 @@ TJF</property>
         <property name="label" translatable="yes">Tools</property>
         <property name="tooltip" translatable="yes">Some usefull....Tools</property>
         <property name="stock_id">dbg-tools</property>
-        <signal name="activate" handler="act_tools" object="menu900" swapped="no"/>
+        <signal name="activate" handler="act_tools" object="menu90" swapped="no"/>
       </object>
     </child>
     <child>
@@ -653,20 +631,6 @@ TJF</property>
         <signal name="activate" handler="act_threadvar" swapped="no"/>
       </object>
     </child>
-<!--
-    <child>
-      <object class="GtkAction" id="action506">
-        <property name="label" translatable="yes">Proc call Backtracking</property>
-        <signal name="activate" handler="act_procbacktrack" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkAction" id="action507">
-        <property name="label" translatable="yes">Proc call Chaining</property>
-        <signal name="activate" handler="act_procchain" swapped="no"/>
-      </object>
-    </child>
--->
     <child>
       <object class="GtkAction" id="action508">
         <property name="label" translatable="yes">Proc Adresses</property>
@@ -806,20 +770,27 @@ TJF</property>
       </object>
     </child>
   </object>
-  <object class="GtkMenu" id="menu100">
+  <object class="GtkMenu" id="menu10">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="accel_group">accelgroup1</property>
     <child>
-      <object class="GtkMenuItem" id="menuitem97">
+      <object class="GtkMenuItem" id="menuitem100">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Set watched</property>
         <property name="use_underline">True</property>
         <child type="submenu">
-          <object class="GtkMenu" id="menu2">
+          <object class="GtkMenu" id="menu100">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
+            <child>
+              <object class="GtkMenuItem" id="menuitem1000">
+                <property name="use_action_appearance">True</property>
+                <property name="related_action">action1000</property>
+                <property name="can_focus">False</property>
+              </object>
+            </child>
             <child>
               <object class="GtkMenuItem" id="menuitem1001">
                 <property name="use_action_appearance">True</property>
@@ -827,28 +798,8 @@ TJF</property>
                 <property name="can_focus">False</property>
               </object>
             </child>
-            <child>
-              <object class="GtkMenuItem" id="menuitem1002">
-                <property name="use_action_appearance">True</property>
-                <property name="related_action">action1002</property>
-                <property name="can_focus">False</property>
-              </object>
-            </child>
           </object>
         </child>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="menuitem100">
-        <property name="use_action_appearance">True</property>
-        <property name="related_action">action100</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem98">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
       </object>
     </child>
     <child>
@@ -859,14 +810,13 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem102">
-        <property name="use_action_appearance">True</property>
-        <property name="related_action">action020</property>
+      <object class="GtkSeparatorMenuItem" id="menuitem17">
+        <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem1020">
+      <object class="GtkMenuItem" id="menuitem102">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action102</property>
         <property name="can_focus">False</property>
@@ -875,48 +825,35 @@ TJF</property>
     <child>
       <object class="GtkMenuItem" id="menuitem103">
         <property name="use_action_appearance">True</property>
-        <property name="related_action">action021</property>
+        <property name="related_action">action020</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
       <object class="GtkMenuItem" id="menuitem104">
         <property name="use_action_appearance">True</property>
-        <property name="related_action">action022</property>
+        <property name="related_action">action104</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
       <object class="GtkMenuItem" id="menuitem105">
         <property name="use_action_appearance">True</property>
-        <property name="related_action">action023</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="menuitem1050">
-        <property name="use_action_appearance">True</property>
-        <property name="related_action">action1011</property>
+        <property name="related_action">action021</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
       <object class="GtkMenuItem" id="menuitem106">
         <property name="use_action_appearance">True</property>
-        <property name="related_action">action106</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem99">
-        <property name="visible">True</property>
+        <property name="related_action">action022</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
       <object class="GtkMenuItem" id="menuitem107">
         <property name="use_action_appearance">True</property>
-        <property name="related_action">action050</property>
+        <property name="related_action">action023</property>
         <property name="can_focus">False</property>
       </object>
     </child>
@@ -928,27 +865,6 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem1080">
-        <property name="use_action_appearance">True</property>
-        <property name="related_action">action025</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="menuitem1081">
-        <property name="use_action_appearance">True</property>
-        <property name="related_action">action026</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
-      <object class="GtkMenuItem" id="menuitem1082">
-        <property name="use_action_appearance">True</property>
-        <property name="related_action">action027</property>
-        <property name="can_focus">False</property>
-      </object>
-    </child>
-    <child>
       <object class="GtkMenuItem" id="menuitem109">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action109</property>
@@ -956,26 +872,81 @@ TJF</property>
       </object>
     </child>
     <child>
+      <object class="GtkSeparatorMenuItem" id="menuitem18">
+        <property name="visible">True</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
       <object class="GtkMenuItem" id="menuitem110">
         <property name="use_action_appearance">True</property>
-        <property name="related_action">action110</property>
+        <property name="related_action">action050</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
       <object class="GtkMenuItem" id="menuitem111">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action111</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem112">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action025</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem113">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action026</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem114">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action027</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem115">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action115</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem116">
+        <property name="use_action_appearance">True</property>
+        <property name="related_action">action116</property>
+        <property name="can_focus">False</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkMenuItem" id="menuitem117">
         <property name="visible">True</property>
         <property name="use_underline">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">List to log</property>
         <child type="submenu">
-          <object class="GtkMenu" id="menu111">
+          <object class="GtkMenu" id="menu117">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkMenuItem" id="menuitem2">
+              <object class="GtkMenuItem" id="menuitem1170">
                 <property name="use_action_appearance">True</property>
-                <property name="related_action">action1110</property>
+                <property name="related_action">action1170</property>
+                <property name="can_focus">False</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkMenuItem" id="menuitem1171">
+                <property name="use_action_appearance">True</property>
+                <property name="related_action">action1170</property>
                 <property name="can_focus">False</property>
               </object>
             </child>
@@ -984,32 +955,32 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem112">
+      <object class="GtkSeparatorMenuItem" id="menuitem19">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem113">
+      <object class="GtkMenuItem" id="menuitem118">
         <property name="visible">True</property>
         <property name="use_underline">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Copy to clipboard</property>
         <child type="submenu">
-          <object class="GtkMenu" id="menu113">
+          <object class="GtkMenu" id="menu118">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkMenuItem" id="menuitem1130">
+              <object class="GtkMenuItem" id="menuitem1180">
                 <property name="use_action_appearance">True</property>
-                <property name="related_action">action1130</property>
+                <property name="related_action">action1180</property>
                 <property name="can_focus">False</property>
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menuitem1131">
+              <object class="GtkMenuItem" id="menuitem1181">
                 <property name="use_action_appearance">True</property>
-                <property name="related_action">action1131</property>
+                <property name="related_action">action1181</property>
                 <property name="can_focus">False</property>
               </object>
             </child>
@@ -1018,7 +989,7 @@ TJF</property>
       </object>
     </child>
   </object>
-  <object class="GtkMenu" id="menu200">
+  <object class="GtkMenu" id="menu20">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
@@ -1043,7 +1014,7 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem199">
+      <object class="GtkSeparatorMenuItem" id="menuitem29">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
@@ -1063,7 +1034,7 @@ TJF</property>
       </object>
     </child>
   </object>
-  <object class="GtkMenu" id="menu300">
+  <object class="GtkMenu" id="menu30">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
@@ -1102,7 +1073,7 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem297">
+      <object class="GtkSeparatorMenuItem" id="menuitem37">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
@@ -1122,7 +1093,7 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem298">
+      <object class="GtkSeparatorMenuItem" id="menuitem38">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
@@ -1156,7 +1127,7 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem299">
+      <object class="GtkSeparatorMenuItem" id="menuitem39">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
@@ -1176,7 +1147,7 @@ TJF</property>
       </object>
     </child>
   </object>
-  <object class="GtkMenu" id="menu3333">
+  <object class="GtkMenu" id="menu333">
     <property name="can_focus">False</property>
     <property name="double_buffered">False</property>
     <property name="take_focus">False</property>
@@ -1260,7 +1231,7 @@ TJF</property>
       </object>
     </child>
   </object>
-  <object class="GtkMenu" id="menu400">
+  <object class="GtkMenu" id="menu40">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
@@ -1327,28 +1298,28 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem419">
+      <object class="GtkMenuItem" id="menuitem410">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action010</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem420">
+      <object class="GtkMenuItem" id="menuitem411">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action011</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem421">
+      <object class="GtkMenuItem" id="menuitem412">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action012</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem422">
+      <object class="GtkMenuItem" id="menuitem413">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action013</property>
         <property name="can_focus">False</property>
@@ -1361,28 +1332,28 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem424">
+      <object class="GtkMenuItem" id="menuitem414">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action414</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem425">
+      <object class="GtkMenuItem" id="menuitem415">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action415</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem426">
+      <object class="GtkMenuItem" id="menuitem416">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action416</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem427">
+      <object class="GtkMenuItem" id="menuitem417">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action417</property>
         <property name="can_focus">False</property>
@@ -1395,14 +1366,14 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem429">
+      <object class="GtkMenuItem" id="menuitem418">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action418</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem430">
+      <object class="GtkMenuItem" id="menuitem419">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action419</property>
         <property name="can_focus">False</property>
@@ -1415,35 +1386,35 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem432">
+      <object class="GtkMenuItem" id="menuitem420">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action420</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem433">
+      <object class="GtkMenuItem" id="menuitem421">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action421</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem434">
+      <object class="GtkMenuItem" id="menuitem422">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action422</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem435">
+      <object class="GtkMenuItem" id="menuitem423">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action423</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem436">
+      <object class="GtkMenuItem" id="menuitem424">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action424</property>
         <property name="can_focus">False</property>
@@ -1456,33 +1427,33 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem438">
+      <object class="GtkMenuItem" id="menuitem425">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">ASM data</property>
         <property name="use_underline">True</property>
         <child type="submenu">
-          <object class="GtkMenu" id="menu1">
+          <object class="GtkMenu" id="menu425">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
             <child>
-              <object class="GtkMenuItem" id="menuitem439">
+              <object class="GtkMenuItem" id="menuitem4250">
                 <property name="use_action_appearance">True</property>
-                <property name="related_action">action426</property>
+                <property name="related_action">action4250</property>
                 <property name="can_focus">False</property>
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menuitem440">
+              <object class="GtkMenuItem" id="menuitem4251">
                 <property name="use_action_appearance">True</property>
-                <property name="related_action">action427</property>
+                <property name="related_action">action4251</property>
                 <property name="can_focus">False</property>
               </object>
             </child>
             <child>
-              <object class="GtkMenuItem" id="menuitem441">
+              <object class="GtkMenuItem" id="menuitem4252">
                 <property name="use_action_appearance">True</property>
-                <property name="related_action">action428</property>
+                <property name="related_action">action4252</property>
                 <property name="can_focus">False</property>
               </object>
             </child>
@@ -1497,14 +1468,14 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem443">
+      <object class="GtkMenuItem" id="menuitem426">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action429</property>
         <property name="can_focus">False</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem444">
+      <object class="GtkMenuItem" id="menuitem427">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action430</property>
         <property name="can_focus">False</property>
@@ -1517,14 +1488,14 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkMenuItem" id="menuitem446">
+      <object class="GtkMenuItem" id="menuitem428">
         <property name="use_action_appearance">True</property>
         <property name="related_action">action431</property>
         <property name="can_focus">False</property>
       </object>
     </child>
   </object>
-  <object class="GtkMenu" id="menu500">
+  <object class="GtkMenu" id="menu50">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <property name="accel_group">accelgroup1</property>
@@ -1620,7 +1591,7 @@ TJF</property>
       </object>
     </child>
   </object>
-  <object class="GtkMenu" id="menu900">
+  <object class="GtkMenu" id="menu90">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
     <child>
@@ -1659,7 +1630,7 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem398">
+      <object class="GtkSeparatorMenuItem" id="menuitem98">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
@@ -1714,7 +1685,7 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkSeparatorMenuItem" id="menuitem399">
+      <object class="GtkSeparatorMenuItem" id="menuitem99">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
@@ -3415,7 +3386,7 @@ activated</property>
                 <property name="hexpand">True</property>
                 <property name="vexpand">True</property>
                 <property name="scrollable">True</property>
-                <signal name="button-press-event" handler="menu_button3_event" object="menu400" swapped="no"/>
+                <signal name="button-press-event" handler="menu_button3_event" object="menu40" swapped="no"/>
                 <child>
                   <object class="GtkScrolledWindow" id="scrolledwindow1">
                     <property name="visible">True</property>
@@ -3435,7 +3406,7 @@ activated</property>
                         <property name="indent_width">2</property>
                         <property name="highlight_current_line">True</property>
                         <property name="indent_on_tab">False</property>
-                        <signal name="button-press-event" handler="menu_button3_event" object="menu400" swapped="no"/>
+                        <signal name="button-press-event" handler="menu_button3_event" object="menu40" swapped="no"/>
                       </object>
                     </child>
                   </object>
@@ -3521,7 +3492,7 @@ activated</property>
                         <property name="headers_visible">False</property>
                         <property name="search_column">0</property>
                         <property name="enable_tree_lines">True</property>
-                        <signal name="button-press-event" handler="menu_button3_event" object="menu200" swapped="no"/>
+                        <signal name="button-press-event" handler="menu_button3_event" object="menu20" swapped="no"/>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="treeselection4"/>
                         </child>
@@ -3580,7 +3551,7 @@ activated</property>
                         <property name="headers_visible">False</property>
                         <property name="search_column">0</property>
                         <property name="enable_tree_lines">True</property>
-                        <signal name="button-press-event" handler="menu_button3_event" object="menu500" swapped="no"/>
+                        <signal name="button-press-event" handler="menu_button3_event" object="menu50" swapped="no"/>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="treeselection5"/>
                         </child>
@@ -3625,7 +3596,7 @@ activated</property>
                         <property name="headers_visible">False</property>
                         <property name="search_column">0</property>
                         <property name="enable_tree_lines">True</property>
-                        <signal name="button-press-event" handler="menu_button3_event" object="menu300" swapped="no"/>
+                        <signal name="button-press-event" handler="menu_button3_event" object="menu30" swapped="no"/>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="treeselection6"/>
                         </child>

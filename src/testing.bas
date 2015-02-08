@@ -253,6 +253,3 @@ SUB access_viol( _
   END IF
   gtk_widget_destroy(dia)
 END SUB
-
-
-#include once "tobac/act_ToDo.bas"

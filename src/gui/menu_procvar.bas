@@ -88,4 +88,43 @@ SUB act_varcollapse CDECL ALIAS "act_varcollapse" ( _
 END SUB
 
 
-'??? act_ToDo
+SUB act_clipprocs CDECL ALIAS "act_clipprocs" ( _
+  BYVAL action AS GtkAction PTR, _
+  BYVAL user_data AS gpointer) EXPORT
+
+' place your source code here / eigenen Quelltext hier einfuegen
+?"--> callback act_clipprocs, ToDo: insert code"
+
+END SUB
+
+
+SUB act_clipselpr CDECL ALIAS "act_clipselpr" ( _
+  BYVAL action AS GtkAction PTR, _
+  BYVAL user_data AS gpointer) EXPORT
+
+' place your source code here / eigenen Quelltext hier einfuegen
+?"--> callback act_clipselpr, ToDo: insert code"
+
+END SUB
+
+
+SUB act_copyprocvar CDECL ALIAS "act_copyprocvar" ( _
+  BYVAL action AS GtkAction PTR, _
+  BYVAL user_data AS gpointer) EXPORT
+
+' place your source code here / eigenen Quelltext hier einfuegen
+?"--> callback act_copyprocvar, ToDo: insert code"
+
+END SUB
+
+
+SUB act_copyselprocvar CDECL ALIAS "act_copyselprocvar" ( _
+  BYVAL action AS GtkAction PTR, _
+  BYVAL user_data AS gpointer) EXPORT
+
+' place your source code here / eigenen Quelltext hier einfuegen
+?"--> callback act_copyselprocvar, ToDo: insert code"
+
+END SUB
+
+

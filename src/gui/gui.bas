@@ -76,6 +76,8 @@ WITH GUI
 END WITH
 
 
+#INCLUDE ONCE "filechoosers.bas"
+#INCLUDE ONCE "log_notes.bas"
 #INCLUDE ONCE "multi_action.bas"
 #INCLUDE ONCE "mbar_buttons.bas"
 #INCLUDE ONCE "menu_procvar.bas"
@@ -88,4 +90,3 @@ END WITH
 #INCLUDE ONCE "main.bas"
 #INCLUDE ONCE "settings.bas"
 #INCLUDE ONCE "shortcuts.bas"
-'#INCLUDE ONCE "log_notes.bas"

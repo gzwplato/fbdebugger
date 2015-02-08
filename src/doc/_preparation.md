@@ -43,7 +43,7 @@ Several makefile targets are declared in the build definitions
 - package
 
 
-Compiling {#SubSecAll}
+Compiling {#SubSecMakeAll}
 ---------
 
 In order to create you build tree, first create a new folder for that
@@ -72,7 +72,7 @@ start and test.
       libraries to be installed on your system.
 
 
-Install {#SubSecInstall}
+Install {#SubSecMakeInstall}
 -------
 
 This target installs the executable and all auxiliary files on you
@@ -83,23 +83,27 @@ sudo make install
 ~~~
 
 
-I18N {#SubSecI18N}
+I18N {#SubSecMakeI18N}
 ----
 
 This target re-creates the file src/fbdbg.pot containing all strings
 for the translators. It scans the FB source code and the GUI
-description file (*.ui) and extracts the translatable string contexts.
+description files (*.ui) and extracts the translatable string contexts.
 Translators use this file to update their translation files in order to
 adapt changes.
+
+The file is independant from any build target, and therefor gets
+created in the source tree.
 
 \note This target needs gettext to be installed on your system.
 
 
-Doc {#SubSecDoc}
+Doc {#SubSecMakeDoc}
 ---
 
-This target creates the documentation in form of a html tree, located
-in the build directory.
+This target creates the documentation in form of a html tree. The html
+tree is independant from any build target, and therefor gets created in
+the source tree.
 
 \note This target needs Doxygen and fb-doc to be installed on your
       system.
