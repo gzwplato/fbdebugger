@@ -1,16 +1,21 @@
+# TOP: create executable
+
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 PROJECT(fbdbg Fbc)
 
+# the source folders
 ADD_SUBDIRECTORY(src/core)
 ADD_SUBDIRECTORY(src)
-ADD_EXECUTABLE(fbdbg $<TARGET_OBJECTS:fbdbg_gui> $<TARGET_OBJECTS:fbdbg_core>)
 
+# fbdbg[.exe]: link the final executable
+ADD_EXECUTABLE(fbdbg $<TARGET_OBJECTS:fbdbg_core> $<TARGET_OBJECTS:fbdbg_gui>)
 SET_TARGET_PROPERTIES(fbdbg PROPERTIES
   LINK_FLAGS "-export"
   )
 
+# installation
 SET(UI_FILES
   src/fbdbg.ui
   src/log.ui
@@ -24,30 +29,6 @@ INSTALL(DIRECTORY src/dat src/img src/locale
 INSTALL(TARGETS fbdbg
   DESTINATION bin
   )
-
-#FILE(
-  #COPY src/img src/locale src/dat ${UI_FILES}
-  #DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
-  #)
-
-#ADD_LIBRARY(pruio SHARED $<TARGET_OBJECTS:fbcode>)
-
-#ADD_DEPENDENCIES(pruio fbcode)
-
-#SET(CMAKE_VERBOSE_MAKEFILE 1)
-
-#ADD_CUSTOM_TARGET(examples)
-#ADD_DEPENDENCIES(examples pruio)
-#SET_TARGET_PROPERTIES(examples PROPERTIES EXCLUDE_FROM_ALL 1)
-#ADD_SUBDIRECTORY(src/examples)
-#ADD_SUBDIRECTORY(src/c_examples)
-
-
-#SET(LIBS
-  #"src/pruio/pruio.hp"
-  #"src/c_include/pruio.h"
-  #"src/c_include/pruio_pins.h"
-  #)
 
 #SET(CPACK_GENERATOR "TBZ2")
 

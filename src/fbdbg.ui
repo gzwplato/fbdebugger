@@ -306,25 +306,25 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action1170">
         <property name="label" translatable="yes">List all procs</property>
-        <signal name="activate" handler="act_clipprocs" swapped="no"/>
+        <signal name="activate" handler="act_varclipall" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action1171">
         <property name="label" translatable="yes">List selected proc</property>
-        <signal name="activate" handler="act_clipselpr" swapped="no"/>
+        <signal name="activate" handler="act_varclipsel" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action1180">
         <property name="label" translatable="yes">Copy all proc/var</property>
-        <signal name="activate" handler="act_copyprocvar" swapped="no"/>
+        <signal name="activate" handler="act_varlistall" swapped="no"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action1181">
         <property name="label" translatable="yes">Copy selected proc/var</property>
-        <signal name="activate" handler="act_copyselprocvar" swapped="no"/>
+        <signal name="activate" handler="act_varlistsel" swapped="no"/>
       </object>
     </child>
     <child>

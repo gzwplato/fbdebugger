@@ -1,3 +1,7 @@
+# build rules to create the functional part
+
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
+
 SET(CORE_BAS
   core1.bas
   core2.bas

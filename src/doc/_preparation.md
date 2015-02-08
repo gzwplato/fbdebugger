@@ -101,12 +101,20 @@ created in the source tree.
 Doc {#SubSecMakeDoc}
 ---
 
-This target creates the documentation in form of a html tree. The html
-tree is independant from any build target, and therefor gets created in
-the source tree.
+This target creates the documentation in form of a html tree and a
+directory of LaTeX files. Both folders are is independant from any
+build target, and therefor get created in the source tree.
 
-\note This target needs Doxygen and fb-doc to be installed on your
-      system.
+The html tree is ready for use, just load file index.html in to your
+browser.
+
+\note This target needs Doxygen, graphviz and fb-doc to be installed on
+      your system.
+
+The LaTeX folder contains a makefile, just execute the `make` command
+in the folder to use pdftex for creating the file refman.pdf.
+
+\note Creating the pdf file needs LaTeX to be installed on your system.
 
 
 Tools {#SecTools}
