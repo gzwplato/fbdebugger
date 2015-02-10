@@ -153,13 +153,13 @@ SUB act_Settings CDECL ALIAS "act_Settings" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-  ?*__("callback act_Settings")
+  ?"callback act_Settings"
   SELECT CASE AS CONST gtk_dialog_run(user_data)
     CASE 0
-      ?*__("callback act_Settings -> get changed settings")
+      ?"callback act_Settings -> get changed settings"
       SettingsForm(0) ' load from form
     CASE 1
-      ?*__("callback act_Settings -> dialog canceled, restore form")
+      ?"callback act_Settings -> dialog canceled, restore form"
       SettingsForm(1) ' restore form, because user canceled
   END SELECT
   gtk_widget_hide(user_data)

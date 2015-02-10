@@ -21,7 +21,7 @@ SUB act_help CDECL ALIAS "act_help" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_help")
+?"callback act_help"
 
 END SUB
 

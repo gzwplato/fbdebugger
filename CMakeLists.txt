@@ -3,7 +3,10 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
-PROJECT(fbdbg Fbc)
+PROJECT(fbdebugger Fbc)
+
+# the documentation construction folder
+ADD_SUBDIRECTORY(doc)
 
 # the source folders
 ADD_SUBDIRECTORY(src/core)
@@ -16,10 +19,6 @@ SET_TARGET_PROPERTIES(fbdbg PROPERTIES
   )
 
 # installation
-SET(UI_FILES
-  src/fbdbg.ui
-  src/log.ui
-  )
 INSTALL(FILES ${UI_FILES}
    DESTINATION bin
    )

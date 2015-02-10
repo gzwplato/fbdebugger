@@ -88,42 +88,42 @@ SUB act_varcollapse CDECL ALIAS "act_varcollapse" ( _
 END SUB
 
 
-SUB act_clipprocs CDECL ALIAS "act_clipprocs" ( _
+SUB act_varclipall CDECL ALIAS "act_varclipall" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_clipprocs, ToDo: insert code"
+?"--> callback act_varclipall, ToDo: insert code"
 
 END SUB
 
 
-SUB act_clipselpr CDECL ALIAS "act_clipselpr" ( _
+SUB act_varclipsel CDECL ALIAS "act_varclipsel" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_clipselpr, ToDo: insert code"
+?"--> callback act_varclipsel, ToDo: insert code"
 
 END SUB
 
 
-SUB act_copyprocvar CDECL ALIAS "act_copyprocvar" ( _
+SUB act_varlistall CDECL ALIAS "act_varlistall" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_copyprocvar, ToDo: insert code"
+?"--> callback act_varlistall, ToDo: insert code"
 
 END SUB
 
 
-SUB act_copyselprocvar CDECL ALIAS "act_copyselprocvar" ( _
+SUB act_varlistsel CDECL ALIAS "act_varlistsel" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_copyselprocvar, ToDo: insert code"
+?"--> callback act_varlistsel, ToDo: insert code"
 
 END SUB
 

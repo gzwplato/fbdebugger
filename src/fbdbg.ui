@@ -5,6 +5,7 @@
   <requires lib="gtksourceview" version="3.0"/>
   <object class="GtkIconFactory" id="iconfactory1">
     <sources>
+      <source stock-id="dbg-step" filename="img/step.png"/>
       <source stock-id="dbg-fastrun" filename="img/fastrun.bmp"/>
       <source stock-id="dbg-step_end" filename="img/step_end.bmp"/>
       <source stock-id="dbg-step_over" filename="img/step_over.bmp"/>
@@ -14,7 +15,6 @@
       <source stock-id="dbg-minicmd" filename="img/minicmd.bmp"/>
       <source stock-id="dbg-auto" filename="img/auto.bmp"/>
       <source stock-id="dbg-step_out" filename="img/step_out.bmp"/>
-      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
       <source stock-id="dbg-files" filename="img/files.bmp"/>
       <source stock-id="dbg-stop" filename="img/stop.bmp"/>
       <source stock-id="dbg-step_start" filename="img/step_start.bmp"/>
@@ -23,10 +23,10 @@
       <source stock-id="dbg-kill" filename="img/kill.bmp"/>
       <source stock-id="dbg-attachexe" filename="img/attachexe.bmp"/>
       <source stock-id="dbg-run" filename="img/run.bmp"/>
-      <source stock-id="dbg-step" filename="img/step.png"/>
       <source stock-id="dbg-free" filename="img/free.bmp"/>
-      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-tools" filename="img/tools.bmp"/>
+      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
+      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
       <source stock-id="dbg-source" filename="img/source.bmp"/>
     </sources>
   </object>
@@ -229,6 +229,12 @@ TJF</property>
       </object>
     </child>
     <child>
+      <object class="GtkAction" id="action050">
+        <property name="label" translatable="yes">Show proc in source</property>
+        <signal name="activate" handler="act_procinsource" swapped="no"/>
+      </object>
+    </child>
+    <child>
       <object class="GtkAction" id="action099">
         <property name="tooltip" translatable="yes">Information about this application</property>
         <property name="stock_id">gtk-about</property>
@@ -277,12 +283,6 @@ TJF</property>
       <object class="GtkAction" id="action109">
         <property name="label" translatable="yes">Change byte &lt;&gt; zstring type</property>
         <signal name="activate" handler="act_bzexchange" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkAction" id="action050">
-        <property name="label" translatable="yes">Show proc in source</property>
-        <signal name="activate" handler="act_procinsource" swapped="no"/>
       </object>
     </child>
     <child>
@@ -929,9 +929,9 @@ TJF</property>
     <child>
       <object class="GtkMenuItem" id="menuitem117">
         <property name="visible">True</property>
-        <property name="use_underline">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">List to log</property>
+        <property name="use_underline">True</property>
         <child type="submenu">
           <object class="GtkMenu" id="menu117">
             <property name="visible">True</property>
@@ -963,9 +963,9 @@ TJF</property>
     <child>
       <object class="GtkMenuItem" id="menuitem118">
         <property name="visible">True</property>
-        <property name="use_underline">True</property>
         <property name="can_focus">False</property>
         <property name="label" translatable="yes">Copy to clipboard</property>
+        <property name="use_underline">True</property>
         <child type="submenu">
           <object class="GtkMenu" id="menu118">
             <property name="visible">True</property>
@@ -3451,7 +3451,7 @@ activated</property>
                         <property name="headers_visible">False</property>
                         <property name="search_column">0</property>
                         <property name="enable_tree_lines">True</property>
-                        <signal name="button-press-event" handler="menu_button3_event" object="menu100" swapped="no"/>
+                        <signal name="button-press-event" handler="menu_button3_event" object="menu10" swapped="no"/>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection" id="treeselection1"/>
                         </child>

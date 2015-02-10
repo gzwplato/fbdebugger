@@ -9,7 +9,7 @@ SUB act_runto CDECL ALIAS "act_runto" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_runto")
+?"callback act_runto"
 
 END SUB
 
@@ -36,7 +36,7 @@ SUB act_step_over CDECL ALIAS "act_step_over" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_step_over")
+?"callback act_step_over"
 
 END SUB
 
@@ -45,7 +45,7 @@ SUB act_step_out CDECL ALIAS "act_step_out" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_step_out")
+?"callback act_step_out"
 
 END SUB
 
@@ -54,7 +54,7 @@ SUB act_step_start CDECL ALIAS "act_step_start" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_step_start")
+?"callback act_step_start"
 
 END SUB
 
@@ -63,7 +63,7 @@ SUB act_step_end CDECL ALIAS "act_step_end" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_step_end")
+?"callback act_step_end"
 
 END SUB
 
@@ -72,7 +72,7 @@ SUB act_run CDECL ALIAS "act_run" ( _
   BYVAL button AS GtkButton PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_run")
+?"callback act_run"
 
 END SUB
 
@@ -81,7 +81,7 @@ SUB act_fastrun CDECL ALIAS "act_fastrun" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_fastrun")
+?"callback act_fastrun"
 
 END SUB
 
@@ -90,7 +90,7 @@ SUB act_stop CDECL ALIAS "act_stop" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_stop")
+?"callback act_stop"
 
 END SUB
 
@@ -99,7 +99,7 @@ SUB act_kill CDECL ALIAS "act_kill" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_kill")
+?"callback act_kill"
 
 END SUB
 
@@ -108,7 +108,7 @@ SUB act_auto CDECL ALIAS "act_auto" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_auto")
+?"callback act_auto"
 
 END SUB
 
@@ -127,7 +127,7 @@ SUB act_exemod CDECL ALIAS "act_exemod" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_exemod")
+?"callback act_exemod"
 
 END SUB
 

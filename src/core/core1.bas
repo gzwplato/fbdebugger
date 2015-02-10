@@ -6,6 +6,8 @@
 \since 3.0
 '/
 
+#INCLUDE ONCE "libintl.bi" ' necessary for translatable string literals
+
 SUB core1_sub(BYVAL T AS STRING)
-  ?"==> core1_sub: " & T
+  ?*__("==> core1_sub: " & T)
 END SUB

@@ -9,7 +9,7 @@ SUB act_free CDECL ALIAS "act_free" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_free")
+?"callback act_free"
 
 END SUB
 
@@ -18,7 +18,7 @@ SUB act_minicmd CDECL ALIAS "act_minicmd" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_minicmd")
+?"callback act_minicmd"
 
 END SUB
 
@@ -27,7 +27,7 @@ SUB act_restart CDECL ALIAS "act_restart" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_restart")
+?"callback act_restart"
 
 END SUB
 
@@ -36,7 +36,7 @@ SUB act_multiexe CDECL ALIAS "act_multiexe" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_multiexe")
+?"callback act_multiexe"
 
 END SUB
 
@@ -45,7 +45,7 @@ SUB act_attachexe CDECL ALIAS "act_attachexe" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_attachexe")
+?"callback act_attachexe"
 
 END SUB
 
@@ -67,7 +67,7 @@ SUB act_files CDECL ALIAS "act_files" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_files")
+?"callback act_files"
   VAR dia = DBG_FILE_OPEN("Select debuggee file name")
   gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_all_filter())
   gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_exe_filter())
@@ -106,7 +106,7 @@ SUB act_notes CDECL ALIAS "act_notes" ( _
   BYVAL Action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_notes")
+?"callback act_notes"
   TXT.Notes()
 
 END SUB
@@ -116,7 +116,7 @@ SUB act_source CDECL ALIAS "act_source" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_source")
+?"callback act_source"
 
 END SUB
 
@@ -125,7 +125,7 @@ SUB act_varproc CDECL ALIAS "act_varproc" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_varproc")
+?"callback act_varproc"
 
 END SUB
 
@@ -134,6 +134,6 @@ SUB act_memory CDECL ALIAS "act_memory" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?*__("callback act_memory")
+?"callback act_memory"
 
 END SUB
