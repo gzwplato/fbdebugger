@@ -36,49 +36,70 @@ END SCOPE
 
 
 ' here's how to set the source view, font and language for syntax highlighting
-scope
-  var buff = GTK_TEXT_BUFFER(GUI.srcbuff)
-  ' load a file and set the text buffer
-  VAR fnr = FREEFILE
-  IF 0 = OPEN(__FILE__ FOR INPUT AS fnr) THEN
-    VAR l = LOF(fnr)
-    IF l <= G_MAXINT THEN
-      VAR t = STRING(l, 0)
-      GET #fnr, , t
-      CLOSE #fnr
+'scope
+  'var buff = GTK_TEXT_BUFFER(GUI.srcbuff)
+  '' load a file and set the text buffer
+  'VAR fnr = FREEFILE
+  'IF 0 = OPEN(__FILE__ FOR INPUT AS fnr) THEN
+    'VAR l = LOF(fnr)
+    'IF l <= G_MAXINT THEN
+      'VAR t = STRING(l, 0)
+      'GET #fnr, , t
+      'CLOSE #fnr
 
-      gtk_text_buffer_set_text(buff, t, l)
-    END IF
-  END IF
+      'gtk_text_buffer_set_text(buff, t, l)
+    'END IF
+  'END IF
 
-'' scroll to a certain line
-  dim as GtkTextIter iter
-  gtk_text_buffer_get_iter_at_line(buff, @iter, 150)
-  var mark = gtk_text_mark_new("curr line", TRUE)
-  gtk_text_buffer_add_mark(buff, mark, @iter)
-  gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(GUI.srcview), mark, 0.0, TRUE, 0.0, 0.05)
-  g_object_unref(mark)
+''' scroll to a certain line
+  ''dim as GtkTextIter iter
+  ''gtk_text_buffer_get_iter_at_line(buff, @iter, 150)
+  ''var mark = gtk_text_mark_new("curr line", TRUE)
+  ''gtk_text_buffer_add_mark(buff, mark, @iter)
+  ''g_object_unref(mark)
+  ''gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(GUI.srcview), mark, 0.0, TRUE, 0.0, 0.05)
 
-'' change the font
-  VAR pf = pango_font_description_from_string(@"monospace 8")
-  gtk_widget_override_font(GTK_WIDGET(GUI.srcview), pf)
-  gtk_widget_override_font(GTK_WIDGET(GUI.srcviewCur), pf)
-  pango_font_description_free(pf)
-  'gtk_widget_get_pango_context(GTK_WIDGET(GUI.srcview))
 
-'' set syntax highlighting
-  VAR lm = gtk_source_language_manager_get_default()
-  VAR sl = gtk_source_language_manager_get_language(lm, "fbc")
-  IF 0 = sl THEN
-    ?PROJ_NAME & ": language fbc not available -> no syntax highlighting"
-  ELSE
-    VAR sb = GTKSOURCE_SOURCE_BUFFER(GUI.srcbuff)
-    gtk_source_buffer_set_language(sb, sl)
+  ''gtk_text_view_set_buffer(GTK_TEXT_VIEW(GUI.srcviewCur), buff)
+  'dim as GtkTextIter iter
+  'gtk_text_buffer_get_iter_at_line(buff, @iter, 30+1)
+  'gtk_text_buffer_move_mark_by_name(buff, "selection_bound", @iter)
 
-    sb = GTKSOURCE_SOURCE_BUFFER(GUI.srcbuffCur)
-    gtk_source_buffer_set_language(sb, sl)
-  END IF
-end scope
+  'var eiter = gtk_text_iter_copy(@iter)
+  'gtk_text_iter_backward_line(@iter)
+  'gtk_text_buffer_move_mark_by_name(buff, "insert", @iter)
+  ''?"HIER: ";gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(GUI.srcview), @iter, 0.40, FALSE, 0.5, 0.5)
+  'var mark = gtk_text_buffer_get_mark(buff, "insert")
+  'gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(GUI.srcview), mark, 0.0, TRue, 0.0, 0.00009)
+  'var cur = gtk_text_buffer_get_text(buff, @iter, eiter, TRUE)
+  'gtk_text_iter_free(eiter)
+
+  'gtk_text_buffer_set_text(GTK_TEXT_BUFFER(GUI.srcbuffCur), cur, -1)
+  'g_free(cur)
+
+
+
+
+''' change the font
+  'VAR pf = pango_font_description_from_string(@"monospace 8")
+  'gtk_widget_override_font(GTK_WIDGET(GUI.srcview), pf)
+  'gtk_widget_override_font(GTK_WIDGET(GUI.srcviewCur), pf)
+  'pango_font_description_free(pf)
+  ''gtk_widget_get_pango_context(GTK_WIDGET(GUI.srcview))
+
+''' set syntax highlighting
+  'VAR lm = gtk_source_language_manager_get_default()
+  'VAR sl = gtk_source_language_manager_get_language(lm, "fbc")
+  'IF 0 = sl THEN
+    '?PROJ_NAME & *__(": language fbc not available -> no syntax highlighting")
+  'ELSE
+    'VAR sb = GTKSOURCE_SOURCE_BUFFER(GUI.srcbuff)
+    'gtk_source_buffer_set_language(sb, sl)
+
+    'sb = GTKSOURCE_SOURCE_BUFFER(GUI.srcbuffCur)
+    'gtk_source_buffer_set_language(sb, sl)
+  'END IF
+'end scope
 
 'scope
   ''var pc = gtk_widget_get_pango_context(GTK_WIDGET(GUI.nbook2))

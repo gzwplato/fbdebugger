@@ -27,7 +27,7 @@ TYPE GUIData
   window1, lstoreMemory, srcbuff, srcbuffCur, tstoreProcVar, tstoreProcs,  _
   tstoreThreads, tstoreWatch, sbarlab1, sbarlab2, sbarlab3, sbarlab4, sbarlab5,  _
   srcviewCur, nbookSrc, srcview, nbook2, tviewProcVar, tviewProcs, tviewThreads,  _
-  tviewWatch, lviewMemory, comboBookmarks, watch1, watch3, watch2, watch4
+  tviewWatch, lviewMemory, comboBookmarks, watch1, watch3, watch2, watch4, scrolSrc
 END TYPE
 DIM SHARED AS GUIData GUI
 
@@ -43,12 +43,19 @@ IF 0 = gtk_builder_add_from_file(GUI.XML, "fbdbg.ui", @meld) THEN
   g_error_free(meld)
   END 2
 END IF
+
+VAR dia = GTK_ABOUT_DIALOG(gtk_builder_get_object(GUI.XML, "aboutdialog1"))
+gtk_about_dialog_set_program_name(dia, PROJ_NAME)
+gtk_about_dialog_set_comments(dia, PROJ_DESC)
+gtk_about_dialog_set_version(dia, PROJ_VERS)
+gtk_about_dialog_set_copyright(dia, "© 2006-" & PROJ_YEAR & " by " & PROJ_MAIL & ", " & PROJ_LICE)
+gtk_about_dialog_set_website(dia, PROJ_WEBS)
 END SCOPE
 
 WITH GUI
   .window1 = gtk_builder_get_object(.XML, "window1")
   .lstoreMemory = gtk_builder_get_object(.XML, "lstoreMemory")
-  .srcbuff = gtk_builder_get_object(.XML, "srcbuff")
+  '.srcbuff = gtk_builder_get_object(.XML, "srcbuff")
   .srcbuffCur = gtk_builder_get_object(.XML, "srcbuffCur")
   .tstoreProcVar = gtk_builder_get_object(.XML, "tstoreProcVar")
   .tstoreProcs = gtk_builder_get_object(.XML, "tstoreProcs")
@@ -60,6 +67,7 @@ WITH GUI
   .sbarlab4 = gtk_builder_get_object(.XML, "sbarlab4")
   .sbarlab5 = gtk_builder_get_object(.XML, "sbarlab5")
   .srcviewCur = gtk_builder_get_object(.XML, "srcviewCur")
+  .scrolSrc = gtk_builder_get_object(.XML, "scrolSrc")
   .nbookSrc = gtk_builder_get_object(.XML, "nbookSrc")
   .srcview = gtk_builder_get_object(.XML, "srcview")
   .nbook2 = gtk_builder_get_object(.XML, "nbook2")
@@ -78,6 +86,8 @@ END WITH
 
 #INCLUDE ONCE "filechoosers.bas"
 #INCLUDE ONCE "log_notes.bas"
+#INCLUDE ONCE "source.bas"
+
 #INCLUDE ONCE "multi_action.bas"
 #INCLUDE ONCE "mbar_buttons.bas"
 #INCLUDE ONCE "menu_procvar.bas"

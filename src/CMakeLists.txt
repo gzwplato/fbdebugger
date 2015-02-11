@@ -97,9 +97,9 @@ ADD_CUSTOM_COMMAND(OUTPUT ${POT_FILE}
     --no-wrap
     --from-code=utf-8
     --package-name=${CMAKE_PROJECT_NAME}
-    --package-version=${CMAKE_PROJECT_VERSION}
-    --msgid-bugs-address=sarg@aliceadsl.fr
-    --copyright-holder=sarg@aliceadsl.fr
+    --package-version=${PROJ_VERS}
+    --msgid-bugs-address=${PROJ_MAIL}
+    --copyright-holder=${PROJ_MAIL}
     --language=Glade
     --join-existing
     *.ui

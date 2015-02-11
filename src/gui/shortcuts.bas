@@ -1,5 +1,5 @@
 /'* \file shortcuts.bas
-\brief Signal handler for a GtkAction (id="action024")
+\brief Code for shortcuts dialog
 
 This file contains the code to handle the shortcut key list and edit
 dialog and some auxiliary code. Shortcuts are stored in file

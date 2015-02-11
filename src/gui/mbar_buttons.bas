@@ -83,7 +83,8 @@ SUB act_files CDECL ALIAS "act_files" ( _
         GET #fnr, , t
         CLOSE #fnr
 
-        gtk_text_buffer_set_text(GTK_TEXT_BUFFER(GUI.srcbuff), t, l)
+        'gtk_text_buffer_set_text(GTK_TEXT_BUFFER(GUI.srcbuff), t, l)
+        SRC.add(fnam, t)
       END IF
     END IF
     g_free (fnam)

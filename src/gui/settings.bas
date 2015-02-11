@@ -1,7 +1,7 @@
 /'* \file settings.bas
-\brief Signal handler for a GtkAction (id="action464")
+\brief Code for settings dialog
 
-This file contains the signal handler and some auxiliary code.
+This file contains the source code to handle the settings dialog. ???
 
 \since 3.0
 '/

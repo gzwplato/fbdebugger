@@ -1,8 +1,11 @@
 /'* \file fbdbg.bas
-\brief The main source code of the debugger.
+\brief The main source code of the debugger GUI.
 
-This is the main source code of the debugger. You may compile it by `fbc
--w all fbdbg.bas` to create the executable.
+This is the main source code of the debugger GUI part. It gets compiled
+as a single module, since separate compilation wont gain build speed,
+because the header overhead is much bigger than the source.
+
+See file ../ReadMe.md for licence information.
 
 \since 3.0
 '/
@@ -13,14 +16,14 @@ This is the main source code of the debugger. You may compile it by `fbc
 '< Generated at / Generierung am                             2015-01-20, 10:56 >
 ' -----------------------------------------------------------------------------
 '< Program info:                                                               >
-CONST PROJ_NAME = "fbdbg"                   '*< The project name
-CONST PROJ_DESC = "FreeBASIC Debugger"      '*< The project description
-CONST PROJ_VERS = "3.0"                     '*< The version number
-CONST PROJ_YEAR = "2015"                    '*< The year of the release
-CONST PROJ_AUTH = "SARG, AGS, TJF"          '*< The authors
-CONST PROJ_MAIL = "Thomas.Freiherr@gmx.net" '*< An email address to get in contact
-CONST PROJ_WEBS = "github.com/fbdbg"        '*< The website where to find further informations
-CONST PROJ_LICE = "GPLv3"                   '*< The licence of the project
+'CONST PROJ_NAME = "fbdbg"                   '*< The project name
+'CONST PROJ_DESC = "FreeBASIC Debugger"      '*< The project description
+'CONST PROJ_VERS = "3.0"                     '*< The version number
+'CONST PROJ_YEAR = "2015"                    '*< The year of the release
+'CONST PROJ_AUTH = "SARG, AGS, TJF"          '*< The authors
+'CONST PROJ_MAIL = "Thomas.Freiherr@gmx.net" '*< An email address to get in contact
+'CONST PROJ_WEBS = "http://github.com/fbdebugger/fbdebugger" '*< The website where to find the source
+'CONST PROJ_LICE = "GPLv3"                   '*< The licence of the project
 '<                                                                             >
 '< Description / Beschreibung:                                                 >
 '<                                                                             >
@@ -34,11 +37,14 @@ CONST PROJ_LICE = "GPLv3"                   '*< The licence of the project
 '<                                                                             >
 ' -----------------------------------------------------------------------------
 '<  GladeToBac:                    general init / Allgemeine Initialisierungen >
+
+
+    #INCLUDE "version.bas" '                   global constants (version, ...) >
     #INCLUDE "Gir/Gtk-3.0.bi" '                  GTK+library / GTK+ Bibliothek >
     #INCLUDE "Gir/GtkSource-3.0.bi" '            GTK+library / GTK+ Bibliothek >
     gtk_init(@__FB_ARGC__, @__FB_ARGV__) '             start GKT / GTK starten >
     #INCLUDE "libintl.bi" '                               load lib / Lib laden >
-    bindtextdomain(PROJ_NAME, EXEPATH & "/locale_") '               path / Pfad >
+    bindtextdomain(PROJ_NAME, EXEPATH & "/locale_") '              path / Pfad >
     bind_textdomain_codeset(PROJ_NAME, "UTF-8") '   set encoding / Zeichensatz >
     textdomain(PROJ_NAME) '                               Filename / Dateiname >
 '<  GladeToBac:                                          end block / Blockende >
@@ -56,7 +62,6 @@ declare SUB access_viol( _
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:                                 load GTK stuff / GTK Anbindung >
-    '#INCLUDE "tobac/fbdbg_tobac.bas" '                       Signale & GUI-XML >
     #INCLUDE "gui/gui.bas" '                                 Signale & GUI-XML >
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
