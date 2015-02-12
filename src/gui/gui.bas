@@ -83,7 +83,6 @@ WITH GUI
   .watch4 = gtk_builder_get_object(.XML, "watch4")
 END WITH
 
-
 #INCLUDE ONCE "filechoosers.bas"
 #INCLUDE ONCE "log_notes.bas"
 #INCLUDE ONCE "source.bas"

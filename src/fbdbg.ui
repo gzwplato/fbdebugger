@@ -3420,6 +3420,9 @@ activated</property>
                   <packing>
                     <property name="tab_fill">False</property>
                   </packing>
+<!--
+                  <placeholder/>
+-->
                 </child>
               </object>
               <packing>

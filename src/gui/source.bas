@@ -11,6 +11,11 @@ and its tabulators.
 \since 3.0
 '/
 
+'declare SUB on_noteSrc_switch CDECL ALIAS "on_noteSrc_switch" ( _
+    'BYVAL Note AS GtkNotebook PTR _
+  ', BYVAL Widg AS GtkWidget PTR _
+  ', BYVAL Indx AS guint _
+  ', BYVAL SrcD AS gpointer)
 
 
 TYPE SrcContext
@@ -55,7 +60,7 @@ TYPE SrcNotebook
   as GtkSourceLanguage ptr Lang
   as GtkStyleProvider ptr Prov
 
-  declare sub add(BYVAL Fnam AS gchar ptr, byval AS gchar ptr)
+  declare sub add(BYVAL AS gchar ptr, byval AS gchar ptr)
   declare sub scroll(byval AS gint)
   declare sub switch(byval AS gint)
   declare sub remove(byval AS gint)
@@ -87,6 +92,7 @@ CONSTRUCTOR SrcNotebook()
   p->Buff = GTK_TEXT_BUFFER(GUI.srcbuff)
   'p->Scrol = GTK_WIDGET(GUI.scrolSrc)
   p->Index = CurTab
+?" CONSTRUCTOR SrcNotebook: ";@THIS, p
 
   IF 0 = Lang THEN _
     ?PROJ_NAME & *__(": language fbc not available -> no syntax highlighting")
@@ -100,24 +106,24 @@ DESTRUCTOR SrcNotebook()
   g_object_unref(Prov)
 END DESTRUCTOR
 
-SUB SrcNotebook.scroll(BYVAL I AS gint)
-  var p = cast(SrcContext ptr, sadd(Tabs)) + CurTab
-  dim as GtkTextIter iter
-  gtk_text_buffer_get_iter_at_line(p->Buff, @iter, I)
-  gtk_text_buffer_move_mark_by_name(p->Buff, "selection_bound", @iter)
+'SUB SrcNotebook.scroll(BYVAL I AS gint)
+  'var p = cast(SrcContext ptr, sadd(Tabs)) + CurTab
+  'dim as GtkTextIter iter
+  'gtk_text_buffer_get_iter_at_line(p->Buff, @iter, I)
+  'gtk_text_buffer_move_mark_by_name(p->Buff, "selection_bound", @iter)
 
-  var eiter = gtk_text_iter_copy(@iter)
-  gtk_text_iter_backward_line(@iter)
-  gtk_text_buffer_move_mark_by_name(p->Buff, "insert", @iter)
-  '?"HIER: ";gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(GUI.srcview), @iter, 0.40, FALSE, 0.5, 0.5)
-  var mark = gtk_text_buffer_get_mark(p->Buff, "insert")
-  gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(GUI.srcview), mark, 0.0, TRue, 0.0, 0.00009)
-  var cur = gtk_text_buffer_get_text(p->Buff, @iter, eiter, TRUE)
-  gtk_text_iter_free(eiter)
+  'var eiter = gtk_text_iter_copy(@iter)
+  'gtk_text_iter_backward_line(@iter)
+  'gtk_text_buffer_move_mark_by_name(p->Buff, "insert", @iter)
+  ''?"HIER: ";gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(GUI.srcview), @iter, 0.40, FALSE, 0.5, 0.5)
+  'var mark = gtk_text_buffer_get_mark(p->Buff, "insert")
+  'gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(GUI.srcview), mark, 0.0, TRue, 0.0, 0.00009)
+  'var cur = gtk_text_buffer_get_text(p->Buff, @iter, eiter, TRUE)
+  'gtk_text_iter_free(eiter)
 
-  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(GUI.srcbuffCur), cur, -1)
-  g_free(cur)
-END SUB
+  'gtk_text_buffer_set_text(GTK_TEXT_BUFFER(GUI.srcbuffCur), cur, -1)
+  'g_free(cur)
+'END SUB
 
 
 FUNCTION SrcNotebook.makeLabel(BYVAL T AS gchar PTR) AS GtkWidget PTR
@@ -136,30 +142,62 @@ FUNCTION SrcNotebook.makeLabel(BYVAL T AS gchar PTR) AS GtkWidget PTR
   RETURN box
 END FUNCTION
 
-SUB SrcNotebook.switch(BYVAL I AS gint)
-  var p = cast(SrcContext ptr, sadd(Tabs)) + I, l = len(Tabs)
-  if l < (I + 1) * sizeof(any ptr) then     /' invalid index '/ exit sub
-END SUB
 
 
-SUB SrcNotebook.add(BYVAL Fnam AS gchar ptr, BYVAL T AS gchar ptr)
+SUB SrcNotebook.add(BYVAL Label AS gchar ptr, BYVAL Cont AS gchar ptr)
+?" SrcNotebook.add: ";
   var p = new SrcContext
-  p->add(Lang, makeLabel(Fnam))
+? p,
   Tabs &= mki(cast(INTEGER, p))
+?sadd(Tabs)
   CurTab = (len(Tabs) \ sizeof(any ptr)) - 1
-  gtk_text_buffer_set_text(p->Buff, T, -1)
+  p->add(Lang, makeLabel(Label))
+  gtk_text_buffer_set_text(p->Buff, Cont, -1)
 END SUB
 
-SUB SrcNotebook.remove(BYVAL I AS gint)
-  var p = cast(SrcContext ptr ptr, sadd(Tabs)), l = len(Tabs) \ sizeof(any ptr)
-  if l < (I + 1) then                       /' invalid index '/ exit sub
-  gtk_notebook_remove_page(GTK_NOTEBOOK(GUI.nbookSrc), p[I]->Index)
-  delete p[I]
-  if l = 1 then Tabs = "" :                      /' last tab '/ exit sub
-  var a = I * sizeof(any ptr) _
-    , e = a + sizeof(any ptr)
-  Tabs = left(Tabs, a) & mid(Tabs, e + 1)
-END SUB
+'SUB SrcNotebook.remove(BYVAL I AS gint)
+  'var p = cast(SrcContext ptr ptr, sadd(Tabs)), l = len(Tabs) \ sizeof(any ptr)
+'?" SrcNotebook.remove: "; p, I, l
+  'if l < (I + 1) then                       /' invalid index '/ exit sub
+  'gtk_notebook_remove_page(GTK_NOTEBOOK(GUI.nbookSrc), p[I]->Index)
+  'delete p[I]
+  'if l = 1 then Tabs = "" :                      /' last tab '/ exit sub
+  'var a = I * sizeof(any ptr) _
+    ', e = a + sizeof(any ptr)
+  'Tabs = left(Tabs, a) & mid(Tabs, e + 1)
+'END SUB
+
+
+'SUB SrcNotebook.switch(BYVAL I AS gint)
+  'var p = cast(SrcContext ptr, sadd(Tabs)) + I, l = len(Tabs)
+  'if l < (I + 1) * sizeof(any ptr) then     /' invalid index '/ exit sub
+'END SUB
+
+
+
+SUB on_noteSrc_switch CDECL ALIAS "on_noteSrc_switch" ( _
+    BYVAL Note AS GtkNotebook PTR _
+  , BYVAL Widg AS GtkWidget PTR _
+  , BYVAL Indx AS guint _
+  , BYVAL SrcD AS gpointer) export
+
+  WITH *cast(SrcNotebook ptr, SrcD)
+    'var i = cast(integer ptr, sadd(.Tabs))
+    'var p = cast(SrcContext ptr, i[Indx])
+
+'?" on_noteSrc_switch: ";SrcD, p, Indx, i[Indx], sadd(.Tabs)
+    var p = cast(SrcContext ptr ptr, sadd(.Tabs))
+'?" on_noteSrc_switch: ";p[Indx], p[Indx]->Index , len(.Tabs)
+    'if l < (Indx + 1) * sizeof(any ptr) then /'invalid index '/ exit sub
+
+    gtk_text_view_set_buffer(GTK_TEXT_VIEW(GUI.srcview), p[Indx]->Buff)
+    gtk_widget_reparent(GTK_WIDGET(GUI.srcview), Widg)
+  END WITH
+
+end sub
+
 
 dim shared as SrcNotebook SRC
 
+g_signal_connect(GUI.nbookSrc, "switch-page" _
+               , G_CALLBACK(@on_noteSrc_switch), @SRC)

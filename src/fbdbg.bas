@@ -40,8 +40,9 @@ See file ../ReadMe.md for licence information.
 
 
     #INCLUDE "version.bas" '                   global constants (version, ...) >
-    #INCLUDE "Gir/Gtk-3.0.bi" '                  GTK+library / GTK+ Bibliothek >
+    '#INCLUDE "Gir/Gtk-3.0.bi" '                  GTK+library / GTK+ Bibliothek >
     #INCLUDE "Gir/GtkSource-3.0.bi" '            GTK+library / GTK+ Bibliothek >
+    #INCLUDE "Gir/_GObjectMacros-2.0.bi" '            GTK+library / GTK+ Bibliothek >
     gtk_init(@__FB_ARGC__, @__FB_ARGV__) '             start GKT / GTK starten >
     #INCLUDE "libintl.bi" '                               load lib / Lib laden >
     bindtextdomain(PROJ_NAME, EXEPATH & "/locale_") '              path / Pfad >
