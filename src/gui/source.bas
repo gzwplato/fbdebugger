@@ -25,7 +25,6 @@ scrolled window and the related text buffer gets connected.
 '/
 TYPE SrcNotebook
   AS gint Pages                 '*< The number of pages in the notebook
-  AS GSList PTR List = NULL     '*< The list of GtkSourceBuffer to hold context
   AS GtkWidget PTR Parent       '*< The parent widget to park the source view in case of no page
   AS GtkSourceView PTR SrcView  '*< The source view for all pages
   AS GtkSourceLanguage PTR Lang '*< The language definitions for syntax highlighting
@@ -87,7 +86,6 @@ the context of the files. Each one must get unrefed when finished.
 
 '/
 DESTRUCTOR SrcNotebook()
-  g_slist_free_full(List, @g_object_unref)
   g_object_unref(Prov)
 END DESTRUCTOR
 
@@ -148,10 +146,13 @@ SUB SrcNotebook.addBas(BYVAL Label AS gchar PTR, BYVAL Cont AS gchar PTR)
 
   VAR box = gtk_hbox_new(FALSE, 3) _
    , labl = gtk_label_new(Label) _
-   , butt = gtk_button_new_from_icon_name("gtk-close", GTK_ICON_SIZE_MENU)
+   , butt = gtk_button_new() _
+  , image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU)
+  gtk_container_add(GTK_CONTAINER(butt), image)
+
   gtk_button_set_relief(GTK_BUTTON(butt), GTK_RELIEF_NONE)
   gtk_button_set_focus_on_click(GTK_BUTTON(butt), FALSE)
-  'gtk_widget_set_size_request(butt, 0, 0)
+  gtk_widget_set_size_request(butt, 0, 0)
 
   VAR cntx = gtk_widget_get_style_context(butt)
   gtk_style_context_add_provider(cntx, Prov, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION)
@@ -160,11 +161,10 @@ SUB SrcNotebook.addBas(BYVAL Label AS gchar PTR, BYVAL Cont AS gchar PTR)
   gtk_widget_show_all(box)
 
   VAR buff = gtk_source_buffer_new_with_language(Lang)
-  List = g_slist_prepend(List, buff)
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buff), Cont, -1)
 
   VAR widg = gtk_scrolled_window_new(NULL, NULL)
-  g_object_set_data(G_OBJECT(widg), "Buffer", buff)
+  g_object_set_data_full(G_OBJECT(widg), "Buffer", buff, @g_object_unref)
   g_signal_connect(G_OBJECT(butt), "clicked" _
                  , G_CALLBACK(@on_noteSrc_close_clicked), widg)
   gtk_widget_show(widg)
@@ -195,9 +195,6 @@ SUB SrcNotebook.remove(BYVAL Widg AS GtkWidget PTR)
 ?" SrcNotebook.remove: "; Widg, page
   IF page < 0 THEN                         /' invalid widget '/ EXIT SUB
 
-  VAR buff = g_object_get_data(G_OBJECT(Widg), "Buffer")
-  g_object_unref(buff)
-  List = g_slist_remove(List, buff)
   Pages -= 1
   IF Pages < 1 THEN gtk_widget_reparent(GTK_WIDGET(GUI.srcview), Parent)
   gtk_notebook_remove_page(GTK_NOTEBOOK(GUI.nbookSrc), page)

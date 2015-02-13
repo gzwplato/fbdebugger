@@ -2965,7 +2965,6 @@ activated</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
-                <property name="lines">1</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2978,7 +2977,6 @@ activated</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0.25</property>
-                <property name="lines">1</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2990,7 +2988,6 @@ activated</property>
               <object class="GtkLabel" id="sbarlab3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="lines">1</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -3003,7 +3000,6 @@ activated</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0.75</property>
-                <property name="lines">1</property>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -3016,7 +3012,6 @@ activated</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">1</property>
-                <property name="lines">1</property>
               </object>
               <packing>
                 <property name="expand">True</property>
