@@ -24,7 +24,7 @@ END SCOPE
 TYPE GUIData
   AS GtkBuilder PTR XML
   AS GObject PTR _
-  window1, lstoreMemory, srcbuff, srcbuffCur, tstoreProcVar, tstoreProcs,  _
+  window1, lstoreMemory, srcbuffCur, tstoreProcVar, tstoreProcs,  _
   tstoreThreads, tstoreWatch, sbarlab1, sbarlab2, sbarlab3, sbarlab4, sbarlab5,  _
   srcviewCur, nbookSrc, srcview, nbook2, tviewProcVar, tviewProcs, tviewThreads,  _
   tviewWatch, lviewMemory, comboBookmarks, watch1, watch3, watch2, watch4, scrolSrc
@@ -55,7 +55,6 @@ END SCOPE
 WITH GUI
   .window1 = gtk_builder_get_object(.XML, "window1")
   .lstoreMemory = gtk_builder_get_object(.XML, "lstoreMemory")
-  '.srcbuff = gtk_builder_get_object(.XML, "srcbuff")
   .srcbuffCur = gtk_builder_get_object(.XML, "srcbuffCur")
   .tstoreProcVar = gtk_builder_get_object(.XML, "tstoreProcVar")
   .tstoreProcs = gtk_builder_get_object(.XML, "tstoreProcs")
@@ -82,6 +81,23 @@ WITH GUI
   .watch2 = gtk_builder_get_object(.XML, "watch2")
   .watch4 = gtk_builder_get_object(.XML, "watch4")
 END WITH
+
+scope
+  var css = gtk_css_provider_new()
+  gtk_css_provider_load_from_data(css, _
+    ".button{" _
+    "-GtkButton-default-border: 0px;" _
+    "-GtkButton-default-outside-border: 50px;" _
+    "-GtkButton-inner-border: 0px;" _
+    "-GtkWidget-focus-line-width: 0px;" _
+    "-GtkWidget-focus-padding: 0px;" _
+    "padding: 0px;" _
+    "}" _
+  , -1, NULL)
+  VAR cont = gtk_widget_get_style_context(GTK_WIDGET(GUI.window1))
+  'gtk_style_context_add_provider(cont, GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION)
+  gtk_style_context_add_provider(cont, GTK_STYLE_PROVIDER(css), 200)
+END scope
 
 #INCLUDE ONCE "filechoosers.bas"
 #INCLUDE ONCE "log_notes.bas"

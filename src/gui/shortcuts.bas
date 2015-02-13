@@ -138,14 +138,14 @@ SUB act_Shortcut CDECL ALIAS "act_Shortcut" ( _
   BYVAL Action AS GtkAction PTR, _
   BYVAL Dialog AS gpointer) EXPORT
 
-?"--> callback act_Shortcut"
+?" --> callback act_Shortcut"
 
   SELECT CASE AS CONST gtk_dialog_run(Dialog)
     CASE 0
-?"callback act_Shortcut -> get changed settings"
+?" --> callback act_Shortcut -> get changed settings"
       ShortcutsForm(0) ' load from form
     CASE ELSE
-?"callback act_Shortcut -> dialog canceled, restore form"
+?" --> callback act_Shortcut -> dialog canceled, restore form"
       ShortcutsForm(1) ' restore form, because user canceled
   END SELECT
   gtk_widget_hide(Dialog)

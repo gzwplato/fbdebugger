@@ -1,76 +1,54 @@
 /'* \file source.bas
 \brief Code for source notebook
 
-This file contains the source code to handle the source code notebook
-and its tabulators.
+This file contains the FB code to handle the source code notebook and
+its tabulators.
 
-\note We don't use a variable length array for the SrcContext PTRs.
-      Instead we use a simple STRING solution, in order to be able with
-      old FB compilers (< 1.0). We could use a GList as well.
+\todo Remove the PRINT statements without indentation (for testing /
+      debugging purposes only)
 
 \since 3.0
 '/
 
-'declare SUB on_noteSrc_switch CDECL ALIAS "on_noteSrc_switch" ( _
-    'BYVAL Note AS GtkNotebook PTR _
-  ', BYVAL Widg AS GtkWidget PTR _
-  ', BYVAL Indx AS guint _
-  ', BYVAL SrcD AS gpointer)
 
+/'* \brief Class to handle the context of the source notebook
 
-TYPE SrcContext
-  as GtkSourceBuffer ptr Objct
-  as GtkTextBuffer ptr Buff
-  'as GtkWidget ptr Scrol
-  as gint Index
+This class prepares a GtkSourceView for highlighting the FreeBASIC
+syntax and handles the pages of the source notebook. A single
+GtkSourceView is used for all pages, and the files are loaded in to
+several GtkSourceBuffers. Each page contains a GtkScrolledWindow that
+is used as the parent for the GtkSourceView.
 
-  declare SUB add(BYVAL AS GtkSourceLanguage ptr, byval AS GtkWidget ptr)
-  declare deSTRUCTOR()
-END TYPE
+When switching a page, the GtkSourceView gets reparent to the related
+scrolled window and the related text buffer gets connected.
 
-SUB SrcContext.add( _
-    BYVAL Lang AS GtkSourceLanguage ptr _
-  , byval Widg AS GtkWidget ptr)
-  Objct = gtk_source_buffer_new_with_language(Lang)
-  Buff = GTK_TEXT_BUFFER(Objct)
-
-  var scrol = gtk_scrolled_window_new(NULL, NULL)
-  gtk_widget_show(Scrol)
-  WITH GUI
-    gtk_text_view_set_buffer(GTK_TEXT_VIEW(.srcview), Buff)
-    gtk_widget_reparent(GTK_WIDGET(.srcview), scrol)
-    Index = gtk_notebook_append_page(GTK_NOTEBOOK(.nbookSrc), scrol, Widg)
-    gtk_notebook_set_current_page(GTK_NOTEBOOK(.nbookSrc), Index)
-  END WITH
-END SUB
-
-DESTRUCTOR SrcContext()
-?Index
-  if 0 = Index then exit destructor
-  g_object_unref(Objct)
-END DESTRUCTOR
-
-
-
-
-
+'/
 TYPE SrcNotebook
-  as string Tabs
-  as gint CurTab
-  as GtkSourceLanguage ptr Lang
-  as GtkStyleProvider ptr Prov
+  AS gint Pages                 '*< The number of pages in the notebook
+  AS GSList PTR List = NULL     '*< The list of GtkSourceBuffer to hold context
+  AS GtkWidget PTR Parent       '*< The parent widget to park the source view in case of no page
+  AS GtkSourceView PTR SrcView  '*< The source view for all pages
+  AS GtkSourceLanguage PTR Lang '*< The language definitions for syntax highlighting
+  AS GtkStyleProvider PTR Prov  '*< The CSS style provider for small buttons
 
-  declare sub add(BYVAL AS gchar ptr, byval AS gchar ptr)
-  declare sub scroll(byval AS gint)
-  declare sub switch(byval AS gint)
-  declare sub remove(byval AS gint)
-  declare function makeLabel(byval AS gchar ptr) as GtkWidget PTR
-  declare conSTRUCTOR()
-  declare DESTRUCTOR()
+  DECLARE SUB addBas(BYVAL AS gchar PTR, BYVAL AS gchar PTR)
+  DECLARE SUB scroll(BYVAL AS gint)
+  DECLARE SUB switch(BYVAL AS gint)
+  DECLARE SUB remove(BYVAL AS GtkWidget PTR)
+  DECLARE CONSTRUCTOR()
+  DECLARE DESTRUCTOR()
 END TYPE
 
+
+/'* \brief Constructor to prepare the syntax highlighting
+
+The constructor loads the language definitions for syntax highlighting
+in to the default language manager.
+
+'/
 CONSTRUCTOR SrcNotebook()
-  var css = gtk_css_provider_new()
+'' set a CSS style provider for small buttons
+  VAR css = gtk_css_provider_new()
   gtk_css_provider_load_from_data(css, _
     ".button{" _
     "-GtkButton-default-border: 0px;" _
@@ -83,121 +61,201 @@ CONSTRUCTOR SrcNotebook()
   , -1, NULL)
   Prov = GTK_STYLE_PROVIDER(css)
 
+'' change the font
+  VAR pf = pango_font_description_from_string(@"monospace 8")
+  gtk_widget_override_font(GTK_WIDGET(GUI.srcview), pf)
+  gtk_widget_override_font(GTK_WIDGET(GUI.srcviewCur), pf)
+  pango_font_description_free(pf)
+
+'' set the syntax highlighting
   VAR lm = gtk_source_language_manager_get_default()
   Lang = gtk_source_language_manager_get_language(lm, "fbc")
-
-  var p = new SrcContext
-  Tabs = mki(cast(INTEGER, p))
-  CurTab = 0
-  p->Buff = GTK_TEXT_BUFFER(GUI.srcbuff)
-  'p->Scrol = GTK_WIDGET(GUI.scrolSrc)
-  p->Index = CurTab
-?" CONSTRUCTOR SrcNotebook: ";@THIS, p
-
-  IF 0 = Lang THEN _
+  IF 0 = Lang THEN
     ?PROJ_NAME & *__(": language fbc not available -> no syntax highlighting")
+  ELSE
+    gtk_source_buffer_set_language(GTKSOURCE_SOURCE_BUFFER(GUI.srcbuffCur), Lang)
+  END IF
+
+?" CONSTRUCTOR SrcNotebook: ";@THIS, GUI.srcview
 END CONSTRUCTOR
 
+
+/'* \brief Destructor for the class
+
+Destructor to free the the list of GtkSourceBuffers. The buffers hold
+the context of the files. Each one must get unrefed when finished.
+
+'/
 DESTRUCTOR SrcNotebook()
-  var p = cast(integer ptr, sadd(Tabs)), n = len(Tabs) \ sizeof(any ptr)
-  FOR i AS INTEGER = 0 TO n - 1
-    delete cast(SrcContext ptr, p[i])
-  NEXT
+  g_slist_free_full(List, @g_object_unref)
   g_object_unref(Prov)
 END DESTRUCTOR
 
-'SUB SrcNotebook.scroll(BYVAL I AS gint)
-  'var p = cast(SrcContext ptr, sadd(Tabs)) + CurTab
-  'dim as GtkTextIter iter
-  'gtk_text_buffer_get_iter_at_line(p->Buff, @iter, I)
-  'gtk_text_buffer_move_mark_by_name(p->Buff, "selection_bound", @iter)
 
-  'var eiter = gtk_text_iter_copy(@iter)
-  'gtk_text_iter_backward_line(@iter)
-  'gtk_text_buffer_move_mark_by_name(p->Buff, "insert", @iter)
-  ''?"HIER: ";gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(GUI.srcview), @iter, 0.40, FALSE, 0.5, 0.5)
-  'var mark = gtk_text_buffer_get_mark(p->Buff, "insert")
-  'gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(GUI.srcview), mark, 0.0, TRue, 0.0, 0.00009)
-  'var cur = gtk_text_buffer_get_text(p->Buff, @iter, eiter, TRUE)
-  'gtk_text_iter_free(eiter)
+/'* \brief Scroll the context to line, update current
+\param Lnr The line number to scroll to (starting at 1)
 
-  'gtk_text_buffer_set_text(GTK_TEXT_BUFFER(GUI.srcbuffCur), cur, -1)
-  'g_free(cur)
-'END SUB
+Member function to scroll the current source view to a certain line,
+select the context of that line and place a copy to the current line
+source view.
+
+\todo Remove alternative syntax (marked by '~). The iter solution is
+      shorter, but it cannot be used before the widget is realized the
+      first time (= not at startup).
+
+'/
+SUB SrcNotebook.scroll(BYVAL Lnr AS gint)
+  IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
+  VAR n = gtk_notebook_get_current_page(GTK_NOTEBOOK(GUI.nbookSrc)) _
+    , w = gtk_notebook_get_nth_page(GTK_NOTEBOOK(GUI.nbookSrc), n) _
+ , buff = GTK_TEXT_BUFFER(g_object_get_data(G_OBJECT(w), "Buffer"))
+
+  DIM AS GtkTextIter start, stop_
+
+  gtk_text_buffer_get_iter_at_line(buff, @start, Lnr - 1)
+  gtk_text_buffer_place_cursor(buff, @start)
+  gtk_text_view_scroll_to_iter(GTK_TEXT_VIEW(GUI.srcview), @start, .0, TRUE, .0, .5)
+  '~ gtk_text_buffer_move_mark_by_name(buff, "insert", @start)
+  '~ var mark = gtk_text_buffer_get_mark(buff, "insert")
+  '~ gtk_text_view_scroll_to_mark(GTK_TEXT_VIEW(GUI.srcview), mark, 0.0, TRue, 0.0, 0.00009)
+
+  gtk_text_buffer_get_iter_at_line(buff, @stop_, Lnr)
+  '~ gtk_text_buffer_move_mark_by_name(buff, "selection_bound", @stop_)
+  gtk_text_iter_backward_char(@stop_)
+
+  VAR cont = gtk_text_buffer_get_text(buff, @start, @stop_, TRUE)
+  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(GUI.srcbuffCur), cont, -1)
+  g_free(cont)
+END SUB
 
 
-FUNCTION SrcNotebook.makeLabel(BYVAL T AS gchar PTR) AS GtkWidget PTR
+'' forward declaration, body is after dimensioning shared variable SRC
+DECLARE SUB on_noteSrc_close_clicked CDECL ALIAS "on_noteSrc_close_clicked" ( _
+    BYVAL Widg AS GtkWidget PTR _
+  , BYVAL Page AS GtkWidget PTR)
+
+/'* \brief Add a page for FB source
+\param Label The label in the notebook tab
+\param Cont The context of the source view
+
+Add a page to the notebook for FreeBASIC source code. The tabulator
+contains a label with the given text and a close button in order to let
+the user remove that page.
+
+'/
+SUB SrcNotebook.addBas(BYVAL Label AS gchar PTR, BYVAL Cont AS gchar PTR)
+?" SrcNotebook.addBas: "; GUI.XML, gtk_widget_get_parent(GTK_WIDGET(GUI.srcview))
+
   VAR box = gtk_hbox_new(FALSE, 3) _
-  , label = gtk_label_new(MID(*T, INSTRREV(*T, ANY "/\") + 1)) _
+   , labl = gtk_label_new(Label) _
    , butt = gtk_button_new_from_icon_name("gtk-close", GTK_ICON_SIZE_MENU)
   gtk_button_set_relief(GTK_BUTTON(butt), GTK_RELIEF_NONE)
   gtk_button_set_focus_on_click(GTK_BUTTON(butt), FALSE)
   'gtk_widget_set_size_request(butt, 0, 0)
 
-  VAR cont = gtk_widget_get_style_context(butt)
-  gtk_style_context_add_provider(cont, Prov, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION)
-  gtk_box_pack_start(GTK_BOX(box), label, TRUE, TRUE, 0)
+  VAR cntx = gtk_widget_get_style_context(butt)
+  gtk_style_context_add_provider(cntx, Prov, GTK_STYLE_PROVIDER_PRIORITY_APPLICATION)
+  gtk_box_pack_start(GTK_BOX(box), labl, TRUE, TRUE, 0)
   gtk_box_pack_start(GTK_BOX(box), butt, FALSE, FALSE, 0)
   gtk_widget_show_all(box)
-  RETURN box
-END FUNCTION
 
+  VAR buff = gtk_source_buffer_new_with_language(Lang)
+  List = g_slist_prepend(List, buff)
+  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buff), Cont, -1)
 
+  VAR widg = gtk_scrolled_window_new(NULL, NULL)
+  g_object_set_data(G_OBJECT(widg), "Buffer", buff)
+  g_signal_connect(G_OBJECT(butt), "clicked" _
+                 , G_CALLBACK(@on_noteSrc_close_clicked), widg)
+  gtk_widget_show(widg)
 
-SUB SrcNotebook.add(BYVAL Label AS gchar ptr, BYVAL Cont AS gchar ptr)
-?" SrcNotebook.add: ";
-  var p = new SrcContext
-? p,
-  Tabs &= mki(cast(INTEGER, p))
-?sadd(Tabs)
-  CurTab = (len(Tabs) \ sizeof(any ptr)) - 1
-  p->add(Lang, makeLabel(Label))
-  gtk_text_buffer_set_text(p->Buff, Cont, -1)
+  WITH GUI
+    IF 0 = Parent THEN Parent = gtk_widget_get_parent(GTK_WIDGET(.srcview))
+    gtk_text_view_set_buffer(GTK_TEXT_VIEW(.srcview), GTK_TEXT_BUFFER(buff))
+
+    gtk_widget_reparent(GTK_WIDGET(.srcview), widg)
+
+    VAR i = gtk_notebook_append_page(GTK_NOTEBOOK(.nbookSrc), widg, box)
+    gtk_notebook_set_current_page(GTK_NOTEBOOK(.nbookSrc), i)
+  END WITH
+  Pages += 1
 END SUB
 
-'SUB SrcNotebook.remove(BYVAL I AS gint)
-  'var p = cast(SrcContext ptr ptr, sadd(Tabs)), l = len(Tabs) \ sizeof(any ptr)
-'?" SrcNotebook.remove: "; p, I, l
-  'if l < (I + 1) then                       /' invalid index '/ exit sub
-  'gtk_notebook_remove_page(GTK_NOTEBOOK(GUI.nbookSrc), p[I]->Index)
-  'delete p[I]
-  'if l = 1 then Tabs = "" :                      /' last tab '/ exit sub
-  'var a = I * sizeof(any ptr) _
-    ', e = a + sizeof(any ptr)
-  'Tabs = left(Tabs, a) & mid(Tabs, e + 1)
-'END SUB
+
+/'* \brief Remove a notebook page
+\param Widg The child widget in the page to remove
+
+Method to remove an existend page from the notebook. The child widget
+is used to identify the page, since the page index may change in case
+of reordering, adding or removing pages.
+
+'/
+SUB SrcNotebook.remove(BYVAL Widg AS GtkWidget PTR)
+  VAR page = gtk_notebook_page_num(GTK_NOTEBOOK(GUI.nbookSrc), Widg)
+?" SrcNotebook.remove: "; Widg, page
+  IF page < 0 THEN                         /' invalid widget '/ EXIT SUB
+
+  VAR buff = g_object_get_data(G_OBJECT(Widg), "Buffer")
+  g_object_unref(buff)
+  List = g_slist_remove(List, buff)
+  Pages -= 1
+  IF Pages < 1 THEN gtk_widget_reparent(GTK_WIDGET(GUI.srcview), Parent)
+  gtk_notebook_remove_page(GTK_NOTEBOOK(GUI.nbookSrc), page)
+END SUB
 
 
-'SUB SrcNotebook.switch(BYVAL I AS gint)
-  'var p = cast(SrcContext ptr, sadd(Tabs)) + I, l = len(Tabs)
-  'if l < (I + 1) * sizeof(any ptr) then     /' invalid index '/ exit sub
-'END SUB
 
+/'* \brief Configure context before page-switch
+\param Note The related notebook
+\param Widg The widget in the new page
+\param Indx The index of the new page
+\param user_data (unused)
 
+This signal handler configures the context of a notebook page before
+the new page gets shown.
 
+\todo Text scrolling when switching pages
+
+'/
 SUB on_noteSrc_switch CDECL ALIAS "on_noteSrc_switch" ( _
     BYVAL Note AS GtkNotebook PTR _
   , BYVAL Widg AS GtkWidget PTR _
   , BYVAL Indx AS guint _
-  , BYVAL SrcD AS gpointer) export
+  , BYVAL user_data AS gpointer) EXPORT
 
-  WITH *cast(SrcNotebook ptr, SrcD)
-    'var i = cast(integer ptr, sadd(.Tabs))
-    'var p = cast(SrcContext ptr, i[Indx])
+?" on_noteSrc_switch: ";gtk_notebook_get_current_page(Note) & " --> " & Indx
 
-'?" on_noteSrc_switch: ";SrcD, p, Indx, i[Indx], sadd(.Tabs)
-    var p = cast(SrcContext ptr ptr, sadd(.Tabs))
-'?" on_noteSrc_switch: ";p[Indx], p[Indx]->Index , len(.Tabs)
-    'if l < (Indx + 1) * sizeof(any ptr) then /'invalid index '/ exit sub
-
-    gtk_text_view_set_buffer(GTK_TEXT_VIEW(GUI.srcview), p[Indx]->Buff)
-    gtk_widget_reparent(GTK_WIDGET(GUI.srcview), Widg)
+  WITH GUI
+    g_object_set(.srcview, "buffer", g_object_get_data(G_Object(Widg), "Buffer"), NULL)
+    gtk_widget_reparent(GTK_WIDGET(.srcview), Widg)
   END WITH
+END SUB
 
-end sub
+
+/'* \brief The global class to handle the source notebook
+
+We use a pointer here, since we need GtkBuilder objects in the
+constructor, so that the constructor must run after the XML file is
+loaded and parsed.
+
+'/
+DIM SHARED AS SrcNotebook PTR SRC
+SRC = NEW SrcNotebook
 
 
-dim shared as SrcNotebook SRC
 
-g_signal_connect(GUI.nbookSrc, "switch-page" _
-               , G_CALLBACK(@on_noteSrc_switch), @SRC)
+/'* \brief Close a notebook tab
+\param Widg The GtkButton that triggered the event
+\param Child The child widget in the notebook page
+
+This signal handler closes a notebook tabulator by calling the remove
+method of the class SrcNotebook. It gets connected to each close button
+in the notebook label widgets.
+
+'/
+SUB on_noteSrc_close_clicked CDECL ALIAS "on_noteSrc_close_clicked" ( _
+    BYVAL Widg AS GtkWidget PTR _
+  , BYVAL Child AS GtkWidget PTR) EXPORT
+?" on_noteSrc_close_clicked: ";Child
+  SRC->remove(Child)
+END SUB

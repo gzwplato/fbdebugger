@@ -15,7 +15,6 @@ See file ../ReadMe.md for licence information.
 '< Hauptprogramm erzeugt von                                                   >
 '< Generated at / Generierung am                             2015-01-20, 10:56 >
 ' -----------------------------------------------------------------------------
-'< Program info:                                                               >
 'CONST PROJ_NAME = "fbdbg"                   '*< The project name
 'CONST PROJ_DESC = "FreeBASIC Debugger"      '*< The project description
 'CONST PROJ_VERS = "3.0"                     '*< The version number
@@ -36,15 +35,15 @@ See file ../ReadMe.md for licence information.
 '<   details at http://www.gnu.org/licenses/gpl-3.0.html                       >
 '<                                                                             >
 ' -----------------------------------------------------------------------------
-'<  GladeToBac:                    general init / Allgemeine Initialisierungen >
+'< Find program info in file:                                                               >
+#INCLUDE "version.bas" '                   global constants (version, licence) >
 
-
-    #INCLUDE "version.bas" '                   global constants (version, ...) >
     '#INCLUDE "Gir/Gtk-3.0.bi" '                  GTK+library / GTK+ Bibliothek >
     #INCLUDE "Gir/GtkSource-3.0.bi" '            GTK+library / GTK+ Bibliothek >
-    #INCLUDE "Gir/_GObjectMacros-2.0.bi" '            GTK+library / GTK+ Bibliothek >
+    '#INCLUDE "Gir/_GLibMacros-2.0.bi" '                            GLib macros >
+    #INCLUDE "Gir/_GObjectMacros-2.0.bi" '                      GObject macros >
     gtk_init(@__FB_ARGC__, @__FB_ARGV__) '             start GKT / GTK starten >
-    #INCLUDE "libintl.bi" '                               load lib / Lib laden >
+    #INCLUDE "libintl.bi" '                     load I18N lib / I18N Lib laden >
     bindtextdomain(PROJ_NAME, EXEPATH & "/locale_") '              path / Pfad >
     bind_textdomain_codeset(PROJ_NAME, "UTF-8") '   set encoding / Zeichensatz >
     textdomain(PROJ_NAME) '                               Filename / Dateiname >
@@ -62,8 +61,8 @@ declare SUB access_viol( _
 
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-'<  GladeToBac:                                 load GTK stuff / GTK Anbindung >
-    #INCLUDE "gui/gui.bas" '                                 Signale & GUI-XML >
+'<  GladeToBac:                                 load GUI stuff / GUI Anbindung >
+    #INCLUDE "gui/gui.bas" '                                 Signals & GUI-XML >
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
@@ -76,3 +75,5 @@ declare SUB access_viol( _
     g_object_unref(GUI.XML) '                   dereference / Referenz abbauen >
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+DELETE SRC

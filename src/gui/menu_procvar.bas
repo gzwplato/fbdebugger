@@ -10,7 +10,7 @@ SUB act_varwatched CDECL ALIAS "act_varwatched" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_varwatched, ToDo: insert code"
+?" --> callback act_varwatched, ToDo: insert code"
 
 END SUB
 
@@ -20,7 +20,7 @@ SUB act_varwtchtrace CDECL ALIAS "act_varwtchtrace" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_varwtchtrace, ToDo: insert code"
+?" --> callback act_varwtchtrace, ToDo: insert code"
 
 END SUB
 
@@ -30,7 +30,7 @@ SUB act_varbrk CDECL ALIAS "act_varbrk" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_varbrk, ToDo: insert code"
+?" --> callback act_varbrk, ToDo: insert code"
 
 END SUB
 
@@ -40,7 +40,7 @@ SUB act_varindex CDECL ALIAS "act_varindex" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_varindex, ToDo: insert code"
+?" --> callback act_varindex, ToDo: insert code"
 
 END SUB
 
@@ -53,7 +53,7 @@ SUB act_bzexchange CDECL ALIAS "act_bzexchange" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_bzexchange, ToDo: insert code"
+?" --> callback act_bzexchange, ToDo: insert code"
 
 END SUB
 
@@ -63,7 +63,7 @@ SUB act_procinsource CDECL ALIAS "act_procinsource" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_procinsource, ToDo: insert code"
+?" --> callback act_procinsource, ToDo: insert code"
 
 END SUB
 
@@ -73,7 +73,7 @@ SUB act_proccall CDECL ALIAS "act_proccall" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_proccall, ToDo: insert code"
+?" --> callback act_proccall, ToDo: insert code"
 
 END SUB
 
@@ -83,7 +83,7 @@ SUB act_varcollapse CDECL ALIAS "act_varcollapse" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_varcollapse, ToDo: insert code"
+?" --> callback act_varcollapse, ToDo: insert code"
 
 END SUB
 
@@ -93,7 +93,7 @@ SUB act_varclipall CDECL ALIAS "act_varclipall" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_varclipall, ToDo: insert code"
+?" --> callback act_varclipall, ToDo: insert code"
 
 END SUB
 
@@ -103,7 +103,7 @@ SUB act_varclipsel CDECL ALIAS "act_varclipsel" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_varclipsel, ToDo: insert code"
+?" --> callback act_varclipsel, ToDo: insert code"
 
 END SUB
 
@@ -113,7 +113,7 @@ SUB act_varlistall CDECL ALIAS "act_varlistall" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_varlistall, ToDo: insert code"
+?" --> callback act_varlistall, ToDo: insert code"
 
 END SUB
 
@@ -123,7 +123,7 @@ SUB act_varlistsel CDECL ALIAS "act_varlistsel" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback act_varlistsel, ToDo: insert code"
+?" --> callback act_varlistsel, ToDo: insert code"
 
 END SUB
 

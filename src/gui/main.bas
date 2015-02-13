@@ -75,7 +75,7 @@ SUB on_comboBookmarks_changed CDECL ALIAS "on_comboBookmarks_changed" ( _
   BYVAL user_data AS gpointer) EXPORT ' Standard-Parameterliste
 
 ' place your source code here / eigenen Quelltext hier einfuegen
-?"--> callback on_comboBookmarks_changed" _
+?" --> callback on_comboBookmarks_changed" _
  & "  " & gtk_combo_box_get_active(GTK_COMBO_BOX(widget)) _ '   gint
  & "  " & *gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget)) ' CONST gchar PTR
 
@@ -96,7 +96,7 @@ SUB on_StopVar_clicked CDECL ALIAS "on_StopVar_clicked" ( _
   BYVAL button AS GtkButton PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
-?"--> callback on_StopVar_clicked"
+?" --> callback on_StopVar_clicked"
   gtk_button_set_label(button, "This text get set form code in file tobac/on_StopVar_clicked.bas")
 
 END SUB
