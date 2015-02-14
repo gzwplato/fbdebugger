@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.16.1 -->
 <interface>
-  <requires lib="gtk+" version="3.6"/>
   <requires lib="gtksourceview" version="3.0"/>
+  <requires lib="gtk+" version="3.6"/>
   <object class="GtkIconFactory" id="iconfactory1">
     <sources>
       <source stock-id="dbg-fastrun" filename="img/fastrun.bmp"/>
@@ -22,12 +22,12 @@
       <source stock-id="dbg-runto" filename="img/runto.bmp"/>
       <source stock-id="dbg-kill" filename="img/kill.bmp"/>
       <source stock-id="dbg-attachexe" filename="img/attachexe.bmp"/>
-      <source stock-id="dbg-step" filename="img/step.png"/>
       <source stock-id="dbg-run" filename="img/run.bmp"/>
-      <source stock-id="dbg-free" filename="img/free.bmp"/>
-      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-tools" filename="img/tools.bmp"/>
+      <source stock-id="dbg-free" filename="img/free.bmp"/>
+      <source stock-id="dbg-step" filename="img/step.png"/>
       <source stock-id="dbg-notes" filename="img/notes.bmp"/>
+      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
     </sources>
   </object>
   <object class="GtkAboutDialog" id="aboutdialog1">
@@ -2958,7 +2958,6 @@ activated</property>
           <object class="GtkBox" id="box5">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="hexpand">False</property>
             <property name="homogeneous">True</property>
             <child>
               <object class="GtkLabel" id="sbarlab1">
@@ -3357,19 +3356,27 @@ activated</property>
               </packing>
             </child>
             <child>
-              <object class="GtkSourceView" id="srcviewCur">
+              <object class="GtkButton" id="button1">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
-                <property name="margin_top">2</property>
-                <property name="hexpand">True</property>
-                <property name="vexpand">False</property>
-                <property name="editable">False</property>
-                <property name="cursor_visible">False</property>
-                <property name="buffer">srcbuffCur</property>
-                <property name="accepts_tab">False</property>
-                <property name="tab_width">2</property>
-                <property name="indent_width">2</property>
-                <property name="indent_on_tab">False</property>
+                <property name="receives_default">True</property>
+                <signal name="clicked" handler="on_CurSrc_clicked" swapped="no"/>
+                <child>
+                  <object class="GtkSourceView" id="srcviewCur">
+                    <property name="visible">True</property>
+                    <property name="can_focus">True</property>
+                    <property name="margin_top">2</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">False</property>
+                    <property name="editable">False</property>
+                    <property name="cursor_visible">False</property>
+                    <property name="buffer">srcbuffCur</property>
+                    <property name="accepts_tab">False</property>
+                    <property name="tab_width">2</property>
+                    <property name="indent_width">2</property>
+                    <property name="indent_on_tab">False</property>
+                  </object>
+                </child>
               </object>
               <packing>
                 <property name="expand">False</property>

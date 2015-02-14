@@ -32,7 +32,6 @@ TYPE SrcNotebook
 
   DECLARE SUB addBas(BYVAL AS gchar PTR, BYVAL AS gchar PTR)
   DECLARE SUB scroll(BYVAL AS gint)
-  DECLARE SUB switch(BYVAL AS gint)
   DECLARE SUB remove(BYVAL AS GtkWidget PTR)
   DECLARE CONSTRUCTOR()
   DECLARE DESTRUCTOR()
@@ -256,3 +255,21 @@ SUB on_noteSrc_close_clicked CDECL ALIAS "on_noteSrc_close_clicked" ( _
 ?" on_noteSrc_close_clicked: ";Child
   SRC->remove(Child)
 END SUB
+
+
+/'* \brief Handler for clicks on current source button
+\param Butt The button that emits the signal
+\param user_data (unused)
+
+This signal handler gets called when the user clicks on the current
+source code line.
+
+'/
+SUB on_CurSrc_clicked CDECL ALIAS "on_CurSrc_clicked" ( _
+  BYVAL Butt AS GtkButton PTR, _
+  BYVAL user_data AS gpointer) EXPORT
+
+?" --> callback on_CurSrc_clicked"
+
+END SUB
+
