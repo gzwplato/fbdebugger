@@ -43,6 +43,9 @@ END TYPE
 The constructor loads the language definitions for syntax highlighting
 in to the default language manager.
 
+\todo Where to load the language file from? Folder dat or GtkSourceView
+      configuration?
+
 '/
 CONSTRUCTOR SrcNotebook()
 '' set a CSS style provider for small buttons

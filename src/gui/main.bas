@@ -74,10 +74,15 @@ SUB on_comboBookmarks_changed CDECL ALIAS "on_comboBookmarks_changed" ( _
   BYVAL widget AS GtkWidget PTR, _
   BYVAL user_data AS gpointer) EXPORT ' Standard-Parameterliste
 
+  var r = gtk_combo_box_get_active(GTK_COMBO_BOX(widget))
+
 ' place your source code here / eigenen Quelltext hier einfuegen
-?" --> callback on_comboBookmarks_changed" _
- & "  " & gtk_combo_box_get_active(GTK_COMBO_BOX(widget)) _ '   gint
+if r then _
+  ?" --> callback on_comboBookmarks_changed" _
+ & "  " & r _                                                 '   gint
  & "  " & *gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget)) ' CONST gchar PTR
+
+  g_object_set(GUI.comboBookmarks, "active-id", "0", NULL) ' this invoces the signal (itself) again!
 
 END SUB
 

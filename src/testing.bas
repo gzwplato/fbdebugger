@@ -28,10 +28,11 @@ END WITH
 ' here's how to set the texts in combo box
 SCOPE
   VAR box = GTK_COMBO_BOX_TEXT(GUI.comboBookmarks)
-  gtk_combo_box_text_insert(box, -1, "0", "BMK --> testthread.bas[10] Print ""yes and then... valeur origine="";p")
-  gtk_combo_box_text_insert(box, -1, "1", "BMK --> testthread.bas[21] ""c=""test (""+Str(b)+""+Str(i)")
+  gtk_combo_box_text_insert(box, -1, "0", "Select bookmark")
+  gtk_combo_box_text_insert(box, -1, "1", "BMK --> testthread.bas[10] Print ""yes and then... valeur origine="";p")
+  gtk_combo_box_text_insert(box, -1, "2", "BMK --> testthread.bas[21] ""c=""test (""+Str(b)+""+Str(i)")
   gtk_combo_box_text_insert(box, -1, "SARG", "BMK --> testthread.bas[24] j+=1")
-  g_object_set(GUI.comboBookmarks, "active-id", "SARG", NULL)
+  g_object_set(GUI.comboBookmarks, "active-id", "0", NULL)
 END SCOPE
 
 
