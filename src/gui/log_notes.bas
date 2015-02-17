@@ -16,7 +16,9 @@ TYPE LOG_Udt
   AS STRING Xml
   'as GtkDialog PTR LogDialog, LogFileDialog, NotesDialog
   declare CONSTRUCTOR()
-  declare sub Notes()
+  declare sub Notes(BYVAL Txt AS gchar PTR = 0)
+  declare sub ScreenLog()
+  declare sub FileLog()
 END TYPE
 
 CONSTRUCTOR LOG_Udt()
@@ -32,14 +34,15 @@ CONSTRUCTOR LOG_Udt()
   END IF
 END CONSTRUCTOR
 
-SUB LOG_Udt.Notes()
-  static as GtkWidget PTR dia
-  static as GtkTextView PTR gtv
-  static as GtkTextBuffer PTR buf
-  if 0 = buf then
-    var build = gtk_builder_new()
+SUB LOG_Udt.Notes(BYVAL Txt AS gchar PTR = 0)
+  STATIC AS GtkWidget PTR dia
+  STATIC AS GtkTextView PTR gtv
+  STATIC AS GtkTextBuffer PTR buf
+
+  IF 0 = buf THEN
+    VAR build = gtk_builder_new()
     DIM AS GError PTR meld
-    IF 0 = gtk_builder_add_from_string(build, Xml, len(Xml), @meld) THEN
+    IF 0 = gtk_builder_add_from_string(build, Xml, LEN(Xml), @meld) THEN
       WITH *meld
         ?"Fehler/Error (GTK-Builder in LOG_Udt.Notes):"
         ?*.message
@@ -53,8 +56,9 @@ SUB LOG_Udt.Notes()
     g_object_unref(build)
     gtk_window_set_title(GTK_WINDOW(dia), "Notes")
     buf = gtk_text_view_get_buffer(gtv)
-    gtk_text_buffer_set_text(buf, "Test", -1)
-  end if
+  END IF
+
+  IF Txt ANDALSO 0 <> Txt[0] THEN gtk_text_buffer_set_text(buf, Txt, -1)
 
   IF gtk_widget_get_visible(dia) THEN
     gtk_widget_hide(dia)
@@ -63,4 +67,5 @@ SUB LOG_Udt.Notes()
   END IF
 END SUB
 
-dim shared as LOG_Udt TXT
+DIM SHARED AS LOG_Udt PTR TXT
+TXT = NEW LOG_Udt

@@ -26,7 +26,7 @@ TYPE GUIData
   AS GObject PTR _
   window1, lstoreMemory, srcbuffCur, tstoreProcVar, tstoreProcs,  _
   tstoreThreads, tstoreWatch, sbarlab1, sbarlab2, sbarlab3, sbarlab4, sbarlab5,  _
-  srcviewCur, nbookSrc, srcview, nbook2, tviewProcVar, tviewProcs, tviewThreads,  _
+  nbook2, tviewProcVar, tviewProcs, tviewThreads,  _
   tviewWatch, lviewMemory, comboBookmarks, watch1, watch3, watch2, watch4, scrolSrc
 END TYPE
 DIM SHARED AS GUIData GUI
@@ -65,10 +65,7 @@ WITH GUI
   .sbarlab3 = gtk_builder_get_object(.XML, "sbarlab3")
   .sbarlab4 = gtk_builder_get_object(.XML, "sbarlab4")
   .sbarlab5 = gtk_builder_get_object(.XML, "sbarlab5")
-  .srcviewCur = gtk_builder_get_object(.XML, "srcviewCur")
   .scrolSrc = gtk_builder_get_object(.XML, "scrolSrc")
-  .nbookSrc = gtk_builder_get_object(.XML, "nbookSrc")
-  .srcview = gtk_builder_get_object(.XML, "srcview")
   .nbook2 = gtk_builder_get_object(.XML, "nbook2")
   .tviewProcVar = gtk_builder_get_object(.XML, "tviewProcVar")
   .tviewProcs = gtk_builder_get_object(.XML, "tviewProcs")

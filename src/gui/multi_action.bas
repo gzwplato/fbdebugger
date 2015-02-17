@@ -100,7 +100,7 @@ SUB act_kill CDECL ALIAS "act_kill" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ?" --> callback act_kill"
-
+SRC->removeAll()
 END SUB
 
 
