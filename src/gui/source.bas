@@ -43,7 +43,8 @@ TYPE SrcNotebook
     Pages _   '*< The number of pages in the notebook
   , LenCur    '*< The number of characters in the source current line
   AS GObject PTR _
-    ViewCur _ '*< The source view for current source line
+    MenuSrc _ '*< The popup menu for the source views
+  , ViewCur _ '*< The source view for current source line
   , BuffCur _ '*< The source buffer for current source line
   , NoteBok   '*< The notebook for source views
   AS GtkSourceLanguage PTR _
@@ -76,6 +77,7 @@ in to the default language manager.
 '/
 CONSTRUCTOR SrcNotebook()
 '' get the widgets from the ui file
+  MenuSrc = gtk_builder_get_object(GUI.XML, "menu40")
   ViewCur = gtk_builder_get_object(GUI.XML, "viewSrcCur")
   BuffCur = gtk_builder_get_object(GUI.XML, "srcbuffCur")
   NoteBok = gtk_builder_get_object(GUI.XML, "nbookSrc")
@@ -143,8 +145,11 @@ FUNCTION SrcNotebook.addBas(BYVAL Label AS gchar PTR, BYVAL Cont AS gchar PTR) A
   gtk_container_add(GTK_CONTAINER(widg), srcv)
 
   gtk_widget_override_font(srcv, Font)
+  gtk_text_view_set_editable(GTK_TEXT_VIEW(srcv), FALSE)
   '' more configs to come ...
   gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), TRUE)
+  g_signal_connect(srcv, "button-press-event" _
+                 , G_CALLBACK(@menu_button3_event), MenuSrc)
 
   g_object_set_data(G_OBJECT(widg), "SrcView", srcv)
   g_object_set_data_full(G_OBJECT(widg), "Buffer", buff, @g_object_unref)
@@ -235,7 +240,6 @@ SUB SrcNotebook.removeAll()
 END SUB
 
 
-
 /'* \brief The global class to handle the source notebook
 
 We use a pointer here, since we need to search for GtkBuilder objects
@@ -244,4 +248,3 @@ is loaded and parsed.
 
 '/
 DIM SHARED AS SrcNotebook PTR SRC
-SRC = NEW SrcNotebook

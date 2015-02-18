@@ -7,6 +7,7 @@ SET(NAM fbdbg)      # base name
 SET(BAS ${NAM}.bas) # FB source name
 SET(UI_FILES        # list of ui files
   ${NAM}.ui
+  expand.ui
   log.ui
   CACHE FILEPATH "XML files" FORCE)
 

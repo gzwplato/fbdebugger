@@ -77,3 +77,5 @@ declare SUB access_viol( _
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 DELETE SRC
+DELETE TXT
+DELETE XPD

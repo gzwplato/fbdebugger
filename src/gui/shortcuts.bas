@@ -8,12 +8,12 @@ dialog and some auxiliary code. Shortcuts are stored in file
 The actions in file fbdbg.ui are grouped after their appereance
 
 - action0xx = actions that proxies multiple widgets
-- action1xx = actions in menue100 = ProcVar
-- action2xx = actions in menue200 = Procs
-- action3xx = actions in menue300 = Watched
-- action4xx = actions in menue400 = Source + toolbar
-- action5xx = actions in menue500 = Threads
-- action9xx = actions in menue900 = tools
+- action1xx = actions in menu10 = ProcVar
+- action2xx = actions in menu20 = Procs
+- action3xx = actions in menu30 = Watched
+- action4xx = actions in menu40 = Source + toolbar
+- action5xx = actions in menu50 = Threads
+- action9xx = actions in menu90 = tools
 
 \todo Decide if we store shortcuts in the ini file or in a separate one
       (as is currently in dat/accelerators.rc).

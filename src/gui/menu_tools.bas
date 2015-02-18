@@ -123,6 +123,7 @@ SUB act_processlist CDECL ALIAS "act_processlist" ( _
 ' place your source code here / eigenen Quelltext hier einfuegen
 ?" --> callback act_processlist, ToDo: insert code"
 
+XPD->addXpd(@fillExpandTree, NULL)
 END SUB
 
 
@@ -239,7 +240,7 @@ SUB act_bdohtrans CDECL ALIAS "act_bdohtrans" ( _
 
   /' Create a label for types '/
   VAR rlabel = gtk_label_new(NULL)
-  gtk_label_set_markup(GTK_LABEL(rlabel), !"<i><u>H</u>ex\n<u>D</u>ec\n<u>O</u>ct\n<u>B</u>in</i>")
+  gtk_label_set_markup(GTK_LABEL(rlabel), !"<i><u>H</u>ex \n<u>D</u>ec\n<u>O</u>ct\n<u>B</u>in</i>")
   gtk_label_set_mnemonic_widget(GTK_LABEL(rlabel), pEntry)
   /' Create a hbox container '/
   VAR hbox = gtk_hbox_new(FALSE, 5)
@@ -262,6 +263,9 @@ SUB act_bdohtrans CDECL ALIAS "act_bdohtrans" ( _
   /' End dialog on Return/Enter key '/
   g_signal_connect_swapped(G_OBJECT(pEntry), "activate" _
                          , G_CALLBACK(@gtk_widget_destroy), dia)
+  /' End dialog on button clicked '/
+  g_signal_connect(G_OBJECT(dia), "response" _
+                 , G_CALLBACK(@gtk_widget_destroy), dia)
 
   gtk_widget_show_all(dia)
 END SUB

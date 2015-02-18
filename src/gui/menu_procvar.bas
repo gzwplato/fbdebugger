@@ -78,16 +78,6 @@ SUB act_proccall CDECL ALIAS "act_proccall" ( _
 END SUB
 
 
-SUB act_varcollapse CDECL ALIAS "act_varcollapse" ( _
-  BYVAL action AS GtkAction PTR, _
-  BYVAL user_data AS gpointer) EXPORT
-
-' place your source code here / eigenen Quelltext hier einfuegen
-?" --> callback act_varcollapse, ToDo: insert code"
-
-END SUB
-
-
 SUB act_varclipall CDECL ALIAS "act_varclipall" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT

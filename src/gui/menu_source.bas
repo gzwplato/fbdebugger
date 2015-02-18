@@ -165,11 +165,39 @@ SUB act_linefocus CDECL ALIAS "act_linefocus" ( _
 END SUB
 
 
+
+/'* \brief Add the selected text to the notes window
+\param action The action that triggered the signal
+\param NoteBook The notebook for source views
+
+This callback gets called when the user chooses the add to notes item
+in the popup menu of the source view notebook. It checks if text is
+selected in the current page. If so, the text gets copied to the notes
+context at its current cursor position, prepended by a time stamp.
+
+'/
 SUB act_notesadd CDECL ALIAS "act_notesadd" ( _
   BYVAL action AS GtkAction PTR, _
-  BYVAL user_data AS gpointer) EXPORT
+  BYVAL NoteBook AS gpointer) EXPORT
 
-' place your source code here / eigenen Quelltext hier einfuegen
-?" --> callback act_notesadd, ToDo: insert code"
+  VAR page = gtk_notebook_get_current_page(GTK_NOTEBOOK(NoteBook))
+  IF 0 > page THEN EXIT SUB
 
+  DIM AS GtkTextIter i1, i2
+  VAR widg = gtk_notebook_get_nth_page(GTK_NOTEBOOK(NoteBook), page) _
+    , buff = g_object_get_data(G_OBJECT(widg), "Buffer")
+
+  IF gtk_text_buffer_get_selection_bounds(buff, @i1, @i2) THEN
+    VAR cont = gtk_text_buffer_get_text(buff, @i1, @i2, TRUE) _
+      , tizo = g_time_zone_new_local() _
+      , tida = g_date_time_new_now(tizo) _
+      , tstp = g_date_time_format(tida, "[%y%m%d-%H:%M:%S] ") _
+      , strg = *tstp & *cont & !"\n"
+    g_free(tstp)
+    g_date_time_unref(tida)
+    g_time_zone_unref(tizo)
+    g_free(cont)
+
+    TXT->add2Notes(strg)
+  END IF
 END SUB

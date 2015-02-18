@@ -96,9 +96,14 @@ scope
   gtk_style_context_add_provider(cont, GTK_STYLE_PROVIDER(css), 200)
 END scope
 
+#INCLUDE ONCE "expand.bas"
+XPD = NEW ExpandUdt
 #INCLUDE ONCE "filechoosers.bas"
 #INCLUDE ONCE "log_notes.bas"
+TXT = NEW LOG_Udt
+#INCLUDE ONCE "main.bas"
 #INCLUDE ONCE "source.bas"
+SRC = NEW SrcNotebook
 
 #INCLUDE ONCE "multi_action.bas"
 #INCLUDE ONCE "mbar_buttons.bas"
@@ -109,6 +114,5 @@ END scope
 #INCLUDE ONCE "menu_threads.bas"
 #INCLUDE ONCE "menu_tools.bas"
 
-#INCLUDE ONCE "main.bas"
 #INCLUDE ONCE "settings.bas"
 #INCLUDE ONCE "shortcuts.bas"
