@@ -288,14 +288,14 @@ TJF</property>
     </child>
     <child>
       <object class="GtkAction" id="action115">
-        <property name="label" translatable="yes">Collapse proc/var</property>
-        <signal name="activate" handler="act_varcollapse" swapped="no"/>
+        <property name="label" translatable="yes">Collapse Proc/Var tree view</property>
+        <signal name="activate" handler="gtk_tree_view_collapse_all" object="tviewProcVar" swapped="yes"/>
       </object>
     </child>
     <child>
       <object class="GtkAction" id="action116">
-        <property name="label" translatable="yes">Expand proc/var ???</property>
-        <signal name="activate" handler="act_varexpand" swapped="no"/>
+        <property name="label" translatable="yes">Expand Proc/Var tree view</property>
+        <signal name="activate" handler="gtk_tree_view_expand_all" object="tviewProcVar" swapped="yes"/>
       </object>
     </child>
     <child>
@@ -493,7 +493,7 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action431">
         <property name="label" translatable="yes">Add notes</property>
-        <signal name="activate" handler="act_notesadd" swapped="no"/>
+        <signal name="activate" handler="act_notesadd" object="nbookSrc" swapped="no"/>
       </object>
     </child>
     <child>
@@ -941,7 +941,7 @@ TJF</property>
             <child>
               <object class="GtkMenuItem" id="menuitem1171">
                 <property name="use_action_appearance">True</property>
-                <property name="related_action">action1170</property>
+                <property name="related_action">action1171</property>
                 <property name="can_focus">False</property>
               </object>
             </child>
