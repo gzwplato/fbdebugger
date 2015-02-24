@@ -24,7 +24,7 @@ TYPE GUIData
   AS GtkBuilder PTR XML
   AS GObject PTR _
   window1, lstoreMemory, srcbuffCur, tstoreProcVar, tstoreProcs,  _
-  tstoreThreads, tstoreWatch, _ 'sbarlab1, sbarlab2, sbarlab3, sbarlab4, sbarlab5,  _
+  tstoreThreads, tstoreWatch, _
   nbook2, tviewProcVar, tviewProcs, tviewThreads,  _
   tviewWatch, lviewMemory, comboBookmarks, watch1, watch3, watch2, watch4, scrolSrc
 END TYPE
@@ -59,11 +59,6 @@ WITH GUI
   .tstoreProcs = gtk_builder_get_object(.XML, "tstoreProcs")
   .tstoreThreads = gtk_builder_get_object(.XML, "tstoreThreads")
   .tstoreWatch = gtk_builder_get_object(.XML, "tstoreWatch")
-  '.sbarlab1 = gtk_builder_get_object(.XML, "sbarlab1")
-  '.sbarlab2 = gtk_builder_get_object(.XML, "sbarlab2")
-  '.sbarlab3 = gtk_builder_get_object(.XML, "sbarlab3")
-  '.sbarlab4 = gtk_builder_get_object(.XML, "sbarlab4")
-  '.sbarlab5 = gtk_builder_get_object(.XML, "sbarlab5")
   .scrolSrc = gtk_builder_get_object(.XML, "scrolSrc")
   .nbook2 = gtk_builder_get_object(.XML, "nbook2")
   .tviewProcVar = gtk_builder_get_object(.XML, "tviewProcVar")
