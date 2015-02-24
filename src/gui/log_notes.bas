@@ -26,8 +26,12 @@ text views for
 
 '/
 TYPE LOG_Udt
-  AS STRING Xml
-  AS GtkTextBuffer PTR BufNotes
+  AS STRING _
+    Xml          '*< The design for the dialog windows (context of file log.ui)
+  AS GtkTextBuffer PTR _
+    BufNotes _   '*< The text buffer of the notes dialog
+  , BufLogFile _ '*< The text buffer of the screen file dialog
+  , BufLogScreen '*< The text buffer of the screen log dialog
 
   DECLARE CONSTRUCTOR()
   DECLARE SUB Notes(BYVAL Txt AS gchar PTR = 0)
@@ -112,5 +116,4 @@ SUB LOG_Udt.Notes(BYVAL Txt AS gchar PTR = 0)
   END IF
 END SUB
 
-'* \brief The global class to handle text windows (LOG & Notes)
-DIM SHARED AS LOG_Udt PTR TXT
+DIM SHARED AS LOG_Udt PTR TXT '*< The global text windows variable for this class (LOG & Notes)

@@ -6,15 +6,6 @@
 'core1_sub(__FILE__)
 '?"==> result: " ;core2_func(__FILE__)
 
-' here's how to set the texts in the status bar
-WITH GUI
-  gtk_label_set_text(GTK_LABEL(.sbarlab1), "Waiting")
-  gtk_label_set_text(GTK_LABEL(.sbarlab2), "Thread")
-  gtk_label_set_text(GTK_LABEL(.sbarlab3), "Module")
-  gtk_label_set_text(GTK_LABEL(.sbarlab4), "Proc")
-  gtk_label_set_text(GTK_LABEL(.sbarlab5), "Timer")
-END WITH
-
 
 ' here's how to set the texts in the watch bar
 WITH GUI
@@ -106,15 +97,6 @@ SCOPE
   gtk_tree_model_get_iter_from_string(model, @iter(0), "1:0")
   gtk_tree_store_set(store, @iter(0), 1, TRUE, -1)
 END SCOPE
-
-scope
-  'var path = gtk_tree_path_new_from_string("0:2")
-
-  'FOR i AS INTEGER = 0 TO ubound(entries)
-
-  'NEXT
-  'gtk_tree_path_free(path)
-end scope
 
 
 ' here's an example on how to populate the list store(Memory dump)

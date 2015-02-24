@@ -43,8 +43,8 @@ SUB populateShortcuts CDECL(BYVAL Act AS gpointer, BYVAL Store AS gpointer)
   VAR accel_path = gtk_action_get_accel_path(action)
 
   IF 0 = accel_path THEN                                        EXIT SUB
-  if 0 = gtk_accel_map_lookup_entry(accel_path, @acck) _
-    then gtk_accel_map_add_entry(accel_path, 0, 0)
+  IF 0 = gtk_accel_map_lookup_entry(accel_path, @acck) _
+    THEN gtk_accel_map_add_entry(accel_path, 0, 0)
 
   gtk_list_store_append(Store, @iter)
   gtk_list_store_set(Store, @iter _
@@ -154,7 +154,7 @@ END SUB
 
 
 /'* \brief Signal handler for clearing a GtkCellRendererAccel (id="cellrendereraccel601")
-\param accel The widget that triggers the signal (unused)
+\param Accel The widget that triggers the signal (unused)
 \param PathString The path in the GtkTreeModel
 \param Store The GtkListStore where to change the data (user_data)
 

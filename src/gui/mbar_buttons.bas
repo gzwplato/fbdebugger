@@ -185,4 +185,9 @@ SUB act_memory CDECL ALIAS "act_memory" ( _
 
 ?" --> callback act_memory"
 
+'' test code to get removed
+static as guint32 runtype = 0
+?" runtype = "; runtype
+ACT->setState(runtype)
+runtype += 1 : if runtype > ACT->RTEND then runtype = 0
 END SUB

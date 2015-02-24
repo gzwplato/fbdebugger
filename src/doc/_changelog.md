@@ -6,9 +6,19 @@ Changelog & Credits {#ChaChangelog}
 Further Development {#SecFurtherVev}
 ===================
 
-- Add
-- Add
-- More
+-# Must-Have
+
+  - all current features cross-platform
+
+-# Nice-To-Have
+
+  - Marks in source view for breakpoints
+  - Drag and Drop for files
+  - Drag and Drop for text (ie log to notes)
+
+-# Optional
+
+  - customized CSS style file with prefered SARG settings
 
 Feel free to send further ideas to the authors.
 

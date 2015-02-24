@@ -81,7 +81,7 @@ TYPE ExpandUdt
   as GSList PTR List = NULL
 
   declare CONSTRUCTOR()
-  declare sub addXpd(as SUB CDECL(BYVAL as GtkTreeStore ptr, byval as gpointer), byval as gpointer)
+  declare sub addXpd(byval as SUB CDECL(BYVAL as GtkTreeStore ptr, byval as gpointer), byval as gpointer)
   declare sub destroyAll()
 END TYPE
 
@@ -121,7 +121,7 @@ FIXME
 
 '/
 SUB ExpandUdt.addXpd( _
-    FillStore as SUB CDECL(BYVAL as GtkTreeStore ptr, byval as gpointer) _
+    byval FillStore as SUB CDECL(BYVAL as GtkTreeStore ptr, byval as gpointer) _
   , byval Dat as gpointer)
 
   VAR build = gtk_builder_new()
@@ -150,8 +150,7 @@ SUB ExpandUdt.addXpd( _
   List = g_slist_prepend(List, gtv)
 END SUB
 
-'* \brief The global class to handle expand windows
-DIM SHARED AS ExpandUdt PTR XPD
+DIM SHARED AS ExpandUdt PTR XPD '*< The global expand variable for this class
 
 
 

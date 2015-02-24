@@ -101,6 +101,7 @@ SUB act_kill CDECL ALIAS "act_kill" ( _
 
 ?" --> callback act_kill"
 SRC->removeAll()
+
 END SUB
 
 

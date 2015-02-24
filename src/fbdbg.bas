@@ -50,7 +50,9 @@ See file ../ReadMe.md for licence information.
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
+#INCLUDE ONCE "core/core.bi"
 
+'' to get removed
 declare SUB access_viol( _
     BYVAL Adr AS gint _
   , byval Fnam AS zSTRING PTR _

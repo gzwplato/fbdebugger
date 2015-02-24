@@ -22,7 +22,7 @@ IF(NOT(CMAKE_CURRENT_BINARY_DIR STREQUAL
       DEPENDS ${n}
       )
   ENDFOREACH(n)
-  ADD_CUSTOM_TARGET(ui_copy ALL DEPENDS ${UI_FILES})
+  ADD_CUSTOM_TARGET(ui_copy ALL DEPENDS ${UI_FILES}) # check for changes
 
   FILE(COPY img locale dat # doing only once, no check for changes
     DESTINATION ${CMAKE_BINARY_DIR}
@@ -76,12 +76,15 @@ IF(NOT XGETTEXT_WORKS)
 ENDIF()
 
 
+# only when xgettext OK:
+#
 # collect all dependencies
 GET_PROPERTY(deps  SOURCE ${BAS}  PROPERTY "OBJECT_DEPENDS")
 FOREACH(fnam ${CORE_BAS})
   LIST(APPEND deps "${CMAKE_CURRENT_SOURCE_DIR}/core/${fnam}")
 ENDFOREACH()
 
+# create the .pot file command and target
 SET(POT_FILE ${CMAKE_CURRENT_SOURCE_DIR}/${NAM}.pot)
 ADD_CUSTOM_COMMAND(OUTPUT ${POT_FILE}
   COMMAND xgettext

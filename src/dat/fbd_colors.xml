@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<style-scheme id="fbd_colors" _name="FbDebuggerColors" parent-scheme="classic" version="1.0">
+	<author>TJF</author>
+	<_description>Colors for FbDebugger</_description>
+
+<!-- Scribe Theme Generator 1.3 -->
+
+<!-- COLORS -->
+	<color name="comment_color" value="#5f5a60"/>
+	<color name="number_color" value="#cf6a4c"/>
+	<color name="string_color" value="#8f9d6a"/>
+	<color name="boolean_color" value="#9b859d"/>
+	<color name="keyword_color" value="#9b703f"/>
+	<color name="error_color" value="#ff0000"/>
+	<color name="text_fg" value="#f8f8f8"/>
+	<color name="text_bg" value="#141414"/>
+	<color name="line_highlight" value="#3f3f3f"/>
+
+</style-scheme>

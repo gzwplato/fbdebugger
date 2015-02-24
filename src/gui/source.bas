@@ -47,6 +47,8 @@ TYPE SrcNotebook
   , ViewCur _ '*< The source view for current source line
   , BuffCur _ '*< The source buffer for current source line
   , NoteBok   '*< The notebook for source views
+  AS GtkSourceStyleScheme PTR _
+    Schema    '*< The style schema for syntax highlighting
   AS GtkSourceLanguage PTR _
     Lang      '*< The language definitions for syntax highlighting
   AS PangoFontDescription PTR _
@@ -58,6 +60,8 @@ TYPE SrcNotebook
   DECLARE SUB scroll(BYVAL AS gint, BYVAL AS GtkWidget PTR)
   DECLARE SUB remove(BYVAL AS GtkWidget PTR)
   DECLARE SUB removeAll()
+  DECLARE SUB updateAll()
+  DECLARE SUB setStyle(byval as GtkSourceBuffer ptr)
   DECLARE CONSTRUCTOR()
   DECLARE DESTRUCTOR()
 END TYPE
@@ -93,13 +97,20 @@ CONSTRUCTOR SrcNotebook()
   WEND : LmPaths &= MKI(0)
   gtk_source_language_manager_set_search_path(lm, cast(gchar ptr ptr, sadd(LmPaths)))
 
+'' load syntax highlighting style scheme
+  VAR sm = gtk_source_style_scheme_manager_get_default()
+  gtk_source_style_scheme_manager_prepend_search_path(sm, "dat")
+  Schema = gtk_source_style_scheme_manager_get_scheme(sm, "fbd_colors")
+
 '' load syntax highlighting language
   Lang = gtk_source_language_manager_get_language(lm, "fbc")
-  IF 0 = Lang THEN
+  IF 0 = Lang andalso INI->Bool(INI->FSH) THEN
     ?PROJ_NAME & *__(": language fbc not available -> no syntax highlighting")
   ELSE
     gtk_source_buffer_set_language(GTKSOURCE_SOURCE_BUFFER(BuffCur), Lang)
   END IF
+  gtk_source_buffer_set_highlight_matching_brackets(GTKSOURCE_SOURCE_BUFFER(BuffCur), FALSE)
+  gtk_source_buffer_set_style_scheme(GTKSOURCE_SOURCE_BUFFER(BuffCur), Schema)
 
 '' create a font description to use for all source views
   Font = pango_font_description_from_string(@"monospace 8")
@@ -141,13 +152,18 @@ FUNCTION SrcNotebook.addBas(BYVAL Label AS gchar PTR, BYVAL Cont AS gchar PTR) A
     , srcv = gtk_source_view_new_with_buffer(buff) _
     , widg = gtk_scrolled_window_new(NULL, NULL)
 
+  gtk_source_buffer_set_style_scheme(buff, Schema)
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buff), Cont, -1)
   gtk_container_add(GTK_CONTAINER(widg), srcv)
+
+  'if 0 = Schema then setStyle(buff)
 
   gtk_widget_override_font(srcv, Font)
   gtk_text_view_set_editable(GTK_TEXT_VIEW(srcv), FALSE)
   '' more configs to come ...
-  gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), TRUE)
+  WITH *INI
+    gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), .Bool(.FLN))
+  END WITH
   g_signal_connect(srcv, "button-press-event" _
                  , G_CALLBACK(@menu_button3_event), MenuSrc)
 
@@ -187,7 +203,7 @@ SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
   gtk_text_iter_backward_char(@i2)
 
   gtk_text_buffer_place_cursor(buff, i1)
-  gtk_text_view_scroll_to_iter(srcv, i1, .0, TRUE, .0, .5)
+  gtk_text_view_scroll_to_iter(srcv, i1, .0, TRUE, .0, INI->Scroll)
 
   gtk_text_buffer_select_range(buff, i1, @i2)
   VAR cont = gtk_text_buffer_get_text(buff, i1, @i2, TRUE) _
@@ -215,10 +231,11 @@ SUB SrcNotebook.remove(BYVAL Widg AS GtkWidget PTR)
   VAR page = gtk_notebook_page_num(GTK_NOTEBOOK(NoteBok), Widg)
 ?" SrcNotebook.remove: "; Widg, page
   IF page < 0 THEN                         /' invalid widget '/ EXIT SUB
+  IF page = gtk_notebook_get_current_page(GTK_NOTEBOOK(NoteBok)) THEN _
+    gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), "", 0)
 
   Pages -= 1
   gtk_notebook_remove_page(GTK_NOTEBOOK(NoteBok), page)
-  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), "", 0)
 END SUB
 
 
@@ -237,6 +254,22 @@ SUB SrcNotebook.removeAll()
 
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), "", 0)
   Pages = 0
+END SUB
+
+
+/'* \brief Remove all pages from notebook
+
+Method to remove all pages from the notebook.
+
+'/
+SUB SrcNotebook.updateAll()
+  IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
+
+  VAR n = gtk_notebook_get_n_pages(GTK_NOTEBOOK(NoteBok))
+  FOR i AS gint = n - 1 TO 0 STEP -1
+    ' ...
+  NEXT
+
 END SUB
 
 

@@ -9,5 +9,12 @@ from the core part that should be visible in the GUI part.
 \since 3.0
 '/
 
+'* The slash character for paths
+#ifdef __FB_UNIX__
+#define SLASH "/"
+#else
+#define SLASH "\"
+#endif
+
 DECLARE SUB core1_sub(BYVAL T AS STRING)
 DECLARE FUNCTION core2_func(BYVAL T AS STRING) AS INTEGER

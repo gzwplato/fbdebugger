@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Generated with glade 3.16.1 -->
 <interface>
-  <requires lib="gtksourceview" version="3.0"/>
   <requires lib="gtk+" version="3.6"/>
+  <requires lib="gtksourceview" version="3.0"/>
   <object class="GtkIconFactory" id="iconfactory1">
     <sources>
       <source stock-id="dbg-fastrun" filename="img/fastrun.bmp"/>
@@ -12,9 +12,9 @@
       <source stock-id="dbg-restart" filename="img/restart.bmp"/>
       <source stock-id="dbg-exemod" filename="img/exemod.bmp"/>
       <source stock-id="dbg-minicmd" filename="img/minicmd.bmp"/>
+      <source stock-id="dbg-free" filename="img/free.bmp"/>
       <source stock-id="dbg-auto" filename="img/auto.bmp"/>
       <source stock-id="dbg-step_out" filename="img/step_out.bmp"/>
-      <source stock-id="dbg-source" filename="img/source.bmp"/>
       <source stock-id="dbg-files" filename="img/files.bmp"/>
       <source stock-id="dbg-stop" filename="img/stop.bmp"/>
       <source stock-id="dbg-step_start" filename="img/step_start.bmp"/>
@@ -24,10 +24,10 @@
       <source stock-id="dbg-attachexe" filename="img/attachexe.bmp"/>
       <source stock-id="dbg-run" filename="img/run.bmp"/>
       <source stock-id="dbg-tools" filename="img/tools.bmp"/>
-      <source stock-id="dbg-free" filename="img/free.bmp"/>
+      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-step" filename="img/step.png"/>
       <source stock-id="dbg-notes" filename="img/notes.bmp"/>
-      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
+      <source stock-id="dbg-source" filename="img/source.bmp"/>
     </sources>
   </object>
   <object class="GtkAboutDialog" id="aboutdialog1">
@@ -1784,7 +1784,7 @@ TJF</property>
             </child>
             <child>
               <object class="GtkButton" id="button502">
-                <property name="label">gtk-ok</property>
+                <property name="label">gtk-save</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -2740,7 +2740,7 @@ activated</property>
             </child>
             <child>
               <object class="GtkButton" id="button602">
-                <property name="label">gtk-ok</property>
+                <property name="label">gtk-save</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>

@@ -11,7 +11,6 @@ glue all GUI source conponents together.
 \since 3.0
 '/
 
-
 SCOPE
   VAR er = gtk_check_version(3, 6, 0)
   IF er THEN
@@ -25,7 +24,7 @@ TYPE GUIData
   AS GtkBuilder PTR XML
   AS GObject PTR _
   window1, lstoreMemory, srcbuffCur, tstoreProcVar, tstoreProcs,  _
-  tstoreThreads, tstoreWatch, sbarlab1, sbarlab2, sbarlab3, sbarlab4, sbarlab5,  _
+  tstoreThreads, tstoreWatch, _ 'sbarlab1, sbarlab2, sbarlab3, sbarlab4, sbarlab5,  _
   nbook2, tviewProcVar, tviewProcs, tviewThreads,  _
   tviewWatch, lviewMemory, comboBookmarks, watch1, watch3, watch2, watch4, scrolSrc
 END TYPE
@@ -60,11 +59,11 @@ WITH GUI
   .tstoreProcs = gtk_builder_get_object(.XML, "tstoreProcs")
   .tstoreThreads = gtk_builder_get_object(.XML, "tstoreThreads")
   .tstoreWatch = gtk_builder_get_object(.XML, "tstoreWatch")
-  .sbarlab1 = gtk_builder_get_object(.XML, "sbarlab1")
-  .sbarlab2 = gtk_builder_get_object(.XML, "sbarlab2")
-  .sbarlab3 = gtk_builder_get_object(.XML, "sbarlab3")
-  .sbarlab4 = gtk_builder_get_object(.XML, "sbarlab4")
-  .sbarlab5 = gtk_builder_get_object(.XML, "sbarlab5")
+  '.sbarlab1 = gtk_builder_get_object(.XML, "sbarlab1")
+  '.sbarlab2 = gtk_builder_get_object(.XML, "sbarlab2")
+  '.sbarlab3 = gtk_builder_get_object(.XML, "sbarlab3")
+  '.sbarlab4 = gtk_builder_get_object(.XML, "sbarlab4")
+  '.sbarlab5 = gtk_builder_get_object(.XML, "sbarlab5")
   .scrolSrc = gtk_builder_get_object(.XML, "scrolSrc")
   .nbook2 = gtk_builder_get_object(.XML, "nbook2")
   .tviewProcVar = gtk_builder_get_object(.XML, "tviewProcVar")
@@ -79,31 +78,38 @@ WITH GUI
   .watch4 = gtk_builder_get_object(.XML, "watch4")
 END WITH
 
-scope
-  var css = gtk_css_provider_new()
-  gtk_css_provider_load_from_data(css, _
-    ".button{" _
-    "-GtkButton-default-border: 0px;" _
-    "-GtkButton-default-outside-border: 50px;" _
-    "-GtkButton-inner-border: 0px;" _
-    "-GtkWidget-focus-line-width: 0px;" _
-    "-GtkWidget-focus-padding: 0px;" _
-    "padding: 0px;" _
-    "}" _
-  , -1, NULL)
-  VAR cont = gtk_widget_get_style_context(GTK_WIDGET(GUI.window1))
-  'gtk_style_context_add_provider(cont, GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION)
-  gtk_style_context_add_provider(cont, GTK_STYLE_PROVIDER(css), 200)
-END scope
+'scope
+  'var css = gtk_css_provider_new()
+  'gtk_css_provider_load_from_data(css, _
+    '".button{" _
+    '"-GtkButton-default-border: 0px;" _
+    '"-GtkButton-default-outside-border: 50px;" _
+    '"-GtkButton-inner-border: 0px;" _
+    '"-GtkWidget-focus-line-width: 0px;" _
+    '"-GtkWidget-focus-padding: 0px;" _
+    '"padding: 0px;" _
+    '"}" _
+  ', -1, NULL)
+  'VAR cont = gtk_widget_get_style_context(GTK_WIDGET(GUI.window1))
+  ''gtk_style_context_add_provider(cont, GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION)
+  'gtk_style_context_add_provider(cont, GTK_STYLE_PROVIDER(css), 200)
+'END scope
 
+'' this should get moved to the core folder, since it doesn't contain GUI code
+#INCLUDE ONCE "ini.bas"
+INI = NEW IniUdt
+
+'' here's the GUI code
+#INCLUDE ONCE "filechoosers.bas"
 #INCLUDE ONCE "expand.bas"
 XPD = NEW ExpandUdt
-#INCLUDE ONCE "filechoosers.bas"
 #INCLUDE ONCE "log_notes.bas"
 TXT = NEW LOG_Udt
 #INCLUDE ONCE "main.bas"
 #INCLUDE ONCE "source.bas"
 SRC = NEW SrcNotebook
+#INCLUDE ONCE "actions.bas"
+ACT = NEW ActionsUDT
 
 #INCLUDE ONCE "multi_action.bas"
 #INCLUDE ONCE "mbar_buttons.bas"
