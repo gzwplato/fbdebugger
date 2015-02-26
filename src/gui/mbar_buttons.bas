@@ -71,52 +71,6 @@ SUB act_files CDECL ALIAS "act_files" ( _
 
 ?" --> callback act_files"
 
-''' list some files to load
-'dim as gchar ptr fnam(...) => { _
-  '@"gui/shortcuts.bas" _
-', @"gui/settings.bas" _
-', @"gui/source.bas" _
-'}
-''' references for pages
-'dim as any ptr ref(ubound(fnam))
-'?" load the files"
-'FOR i AS INTEGER = 0 TO ubound(fnam)
-  'var fnr = FREEFILE
-  'IF 0 = OPEN(*fnam(i) FOR INPUT AS fnr) THEN
-    'VAR l = LOF(fnr)
-    'IF l <= G_MAXINT THEN
-      'VAR t = STRING(l, 0)
-      'GET #fnr, , t
-      'CLOSE #fnr
-
-      'ref(i) = SRC->addBas(MID(*fnam(i), INSTRREV(*fnam(i), ANY "/\") + 1), t)
-    'END IF
-  'END IF
-'NEXT
-
-'?" do some random scrolling soon ... (don't do GUI actions)"
-'while gtk_events_pending() : gtk_main_iteration() : wend : sleep 5000 ' make changes visible
-
-'randomize(timer)
-'FOR i AS INTEGER = 0 TO 10
-  'var l = cuint(rnd() * 150), ind = l mod ubound(ref)
-
-'?" SRC->scroll(" & l & ", " & ref(ind) & ")", ind
-  'SRC->scroll(l, ref(ind))
-
-  'while gtk_events_pending() : gtk_main_iteration() : wend : sleep 5000 ' make changes visible
-'NEXT
-
-'?" remove all notebook pages (GUI actions alowed again)"
-'SRC->removeAll()
-''' alternative remove single pages
-''FOR i AS INTEGER = 0 TO ubound(fnam)
-  ''SRC->remove(ref(i))
-''NEXT
-'exit sub
-
-
-
   VAR dia = DBG_FILE_OPEN("Select debuggee file name")
   gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_all_filter())
   gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_exe_filter())
@@ -176,6 +130,49 @@ SUB act_varproc CDECL ALIAS "act_varproc" ( _
 
 ?" --> callback act_varproc"
 
+'' list some files to load
+dim as gchar ptr fnam(...) => { _
+  @"fbdbg.bas" _
+, @"gui/shortcuts.bas" _
+, @"gui/settings.bas" _
+, @"gui/source.bas" _
+}
+'' references for pages
+dim as any ptr ref(ubound(fnam))
+?" load the files"
+FOR i AS INTEGER = 0 TO ubound(fnam)
+  var fnr = FREEFILE
+  IF 0 = OPEN(*fnam(i) FOR INPUT AS fnr) THEN
+    VAR l = LOF(fnr)
+    IF l <= G_MAXINT THEN
+      VAR t = STRING(l, 0)
+      GET #fnr, , t
+      CLOSE #fnr
+
+      ref(i) = SRC->addBas(MID(*fnam(i), INSTRREV(*fnam(i), ANY "/\") + 1), t)
+    END IF
+  END IF
+NEXT
+
+'?" do some random scrolling soon ... (don't do GUI actions)"
+'while gtk_events_pending() : gtk_main_iteration() : wend : sleep 5000 ' make changes visible
+
+'randomize(timer)
+'FOR i AS INTEGER = 0 TO 10
+  'var l = cuint(rnd() * 150), ind = l mod ubound(ref)
+
+'?" SRC->scroll(" & l & ", " & ref(ind) & ")", ind
+  'SRC->scroll(l, ref(ind))
+
+  'while gtk_events_pending() : gtk_main_iteration() : wend : sleep 5000 ' make changes visible
+'NEXT
+
+'?" remove all notebook pages (GUI actions alowed again)"
+'SRC->removeAll()
+'' alternative remove single pages
+'FOR i AS INTEGER = 0 TO ubound(fnam)
+  'SRC->remove(ref(i))
+'NEXT
 END SUB
 
 

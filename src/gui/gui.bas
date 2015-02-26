@@ -4,7 +4,7 @@
 This file contains the code to load the main GUI description file and
 glue all GUI source conponents together.
 
-\note We do not compile modules separately here. All modules would need
+\note We do not compile modules separately here. All modules need
       the GTK+ headers to compile and our amount of code id small in
       comparison to all headers.
 
@@ -20,13 +20,28 @@ SCOPE
   END IF
 END SCOPE
 
+'* \brief class for global handling of the XML file fbdbg.ui
 TYPE GUIData
-  AS GtkBuilder PTR XML
+  AS GtkBuilder PTR XML '*< The GthBuilder structure in use
   AS GObject PTR _
-  window1, lstoreMemory, srcbuffCur, tstoreProcVar, tstoreProcs,  _
-  tstoreThreads, tstoreWatch, _
-  nbook2, tviewProcVar, tviewProcs, tviewThreads,  _
-  tviewWatch, lviewMemory, comboBookmarks, watch1, watch3, watch2, watch4, scrolSrc
+           window1 _ '*< The GObject PTR for the main window
+  ,  tstoreProcVar _ '*< The GObject PTR for the GtkTreeStore in ProcVar tab
+  ,    tstoreProcs _ '*< The GObject PTR for the GtkTreeStore in Procs tab
+  ,  tstoreThreads _ '*< The GObject PTR for the GtkTreeStore in Threads tab
+  ,    tstoreWatch _ '*< The GObject PTR for the GtkTreeStore in Watch tab
+  ,   lstoreMemory _ '*< The GObject PTR for the GtkListStore in memory tab
+  ,   tviewProcVar _ '*< The GObject PTR for the GtkTreeView in ProcVar tab
+  ,     tviewProcs _ '*< The GObject PTR for the GtkTreeView in Procs tab
+  ,   tviewThreads _ '*< The GObject PTR for the GtkTreeView in Threads tab
+  ,     tviewWatch _ '*< The GObject PTR for the GtkTreeView in Watch tab
+  ,    lviewMemory _ '*< The GObject PTR for the GtkTreeView in memory tab
+  ,     butStopVar _ '*< The GObject PTR for the button StopVar in main window
+  ,         nbook2 _ '*< The GObject PTR for the right notebook
+  , comboBookmarks _ '*< The GObject PTR for the bookmarks combo box text
+  ,         watch1 _ '*< The GObject PTR for the label watch 1
+  ,         watch2 _ '*< The GObject PTR for the label watch 2
+  ,         watch3 _ '*< The GObject PTR for the label watch 3
+  ,         watch4   '*< The GObject PTR for the label watch 4
 END TYPE
 DIM SHARED AS GUIData GUI
 
@@ -54,12 +69,10 @@ END SCOPE
 WITH GUI
   .window1 = gtk_builder_get_object(.XML, "window1")
   .lstoreMemory = gtk_builder_get_object(.XML, "lstoreMemory")
-  .srcbuffCur = gtk_builder_get_object(.XML, "srcbuffCur")
   .tstoreProcVar = gtk_builder_get_object(.XML, "tstoreProcVar")
   .tstoreProcs = gtk_builder_get_object(.XML, "tstoreProcs")
   .tstoreThreads = gtk_builder_get_object(.XML, "tstoreThreads")
   .tstoreWatch = gtk_builder_get_object(.XML, "tstoreWatch")
-  .scrolSrc = gtk_builder_get_object(.XML, "scrolSrc")
   .nbook2 = gtk_builder_get_object(.XML, "nbook2")
   .tviewProcVar = gtk_builder_get_object(.XML, "tviewProcVar")
   .tviewProcs = gtk_builder_get_object(.XML, "tviewProcs")
@@ -67,6 +80,7 @@ WITH GUI
   .tviewWatch = gtk_builder_get_object(.XML, "tviewWatch")
   .lviewMemory = gtk_builder_get_object(.XML, "lviewMemory")
   .comboBookmarks = gtk_builder_get_object(.XML, "comboBookmarks")
+  .butStopVar = gtk_builder_get_object(.XML, "button2")
   .watch1 = gtk_builder_get_object(.XML, "watch1")
   .watch3 = gtk_builder_get_object(.XML, "watch3")
   .watch2 = gtk_builder_get_object(.XML, "watch2")

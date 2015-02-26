@@ -70,6 +70,8 @@ declare SUB access_viol( _
 
 #INCLUDE ONCE "testing.bas"
 
+act_varproc(0, 0)
+
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:          run GTK main, then end / GTK Hauptschleife, dann Ende >
     gtk_builder_connect_signals(GUI.XML, 0) '                 Signale anbinden >

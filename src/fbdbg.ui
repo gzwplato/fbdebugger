@@ -12,9 +12,9 @@
       <source stock-id="dbg-restart" filename="img/restart.bmp"/>
       <source stock-id="dbg-exemod" filename="img/exemod.bmp"/>
       <source stock-id="dbg-minicmd" filename="img/minicmd.bmp"/>
-      <source stock-id="dbg-free" filename="img/free.bmp"/>
       <source stock-id="dbg-auto" filename="img/auto.bmp"/>
       <source stock-id="dbg-step_out" filename="img/step_out.bmp"/>
+      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
       <source stock-id="dbg-files" filename="img/files.bmp"/>
       <source stock-id="dbg-stop" filename="img/stop.bmp"/>
       <source stock-id="dbg-step_start" filename="img/step_start.bmp"/>
@@ -23,10 +23,10 @@
       <source stock-id="dbg-kill" filename="img/kill.bmp"/>
       <source stock-id="dbg-attachexe" filename="img/attachexe.bmp"/>
       <source stock-id="dbg-run" filename="img/run.bmp"/>
-      <source stock-id="dbg-tools" filename="img/tools.bmp"/>
-      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-step" filename="img/step.png"/>
-      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
+      <source stock-id="dbg-free" filename="img/free.bmp"/>
+      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
+      <source stock-id="dbg-tools" filename="img/tools.bmp"/>
       <source stock-id="dbg-source" filename="img/source.bmp"/>
     </sources>
   </object>
@@ -1752,6 +1752,7 @@ TJF</property>
     <property name="upper">99</property>
     <property name="step_increment">1</property>
     <property name="page_increment">10</property>
+    <signal name="value-changed" handler="on_settings_changed" swapped="no"/>
   </object>
   <object class="GtkDialog" id="dialog500">
     <property name="can_focus">False</property>
@@ -1917,6 +1918,7 @@ TJF</property>
                         <property name="title" translatable="yes">Font for source view</property>
                         <property name="use_font">True</property>
                         <property name="use_size">True</property>
+                        <signal name="font-set" handler="on_settings_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -1935,6 +1937,7 @@ TJF</property>
                         <property name="use_underline">True</property>
                         <property name="xalign">0</property>
                         <property name="draw_indicator">True</property>
+                        <signal name="toggled" handler="on_settings_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -2203,6 +2206,7 @@ TJF</property>
                         <property name="use_underline">True</property>
                         <property name="xalign">0</property>
                         <property name="draw_indicator">True</property>
+                        <signal name="toggled" handler="on_settings_changed" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
@@ -2224,6 +2228,20 @@ TJF</property>
                         <property name="left_attach">1</property>
                         <property name="top_attach">6</property>
                         <property name="width">1</property>
+                        <property name="height">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkComboBoxText" id="comboboxtext501">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="active_id">fbdebugger</property>
+                        <signal name="changed" handler="on_settings_changed" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">12</property>
+                        <property name="width">3</property>
                         <property name="height">1</property>
                       </packing>
                     </child>
@@ -2943,6 +2961,9 @@ activated</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0</property>
+                <attributes>
+                  <attribute name="background" value="#ffffffffffff"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2955,6 +2976,9 @@ activated</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0.25</property>
+                <attributes>
+                  <attribute name="background" value="#ffffffffffff"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2966,6 +2990,9 @@ activated</property>
               <object class="GtkLabel" id="sbarlab3">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <attributes>
+                  <attribute name="background" value="#ffffffffffff"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2978,6 +3005,9 @@ activated</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">0.75</property>
+                <attributes>
+                  <attribute name="background" value="#ffffffffffff"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -2990,6 +3020,9 @@ activated</property>
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <property name="xalign">1</property>
+                <attributes>
+                  <attribute name="background" value="#ffffffffffff"/>
+                </attributes>
               </object>
               <packing>
                 <property name="expand">True</property>

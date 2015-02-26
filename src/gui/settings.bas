@@ -8,6 +8,14 @@ This file contains the source code to handle the settings dialog. ???
 
 
 
+ENUM
+  STYLE_SYNTAX
+  STYLE_LINENO
+  STYLE_FONT
+  STYLE_SCROLL
+  STYLE_SCHEME
+END ENUM
+
 /'* \brief Transform a GdkRGBA value to guint32
 \param Col A GdkRGBA color
 \returns The guint32 equivalent
@@ -54,13 +62,13 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
   , numDelay, numCurpos, fontSource
 
   IF 0 = fontSource THEN '      initial get objects from GUI description
-    VAR xml = GUI.XML
-         colForegr = gtk_builder_get_object(xml, "colorbutton501")
-         colLineNo = gtk_builder_get_object(xml, "colorbutton502")
-         colBackgr = gtk_builder_get_object(xml, "colorbutton509")
-      colBackgrCur = gtk_builder_get_object(xml, "colorbutton510")
+    VAR xml = GUI.XML ' the style scheme combobox text gets handled in SrcNotebook
           colBreak = gtk_builder_get_object(xml, "colorbutton511")
        colBreakTmp = gtk_builder_get_object(xml, "colorbutton512")
+      colBackgrCur = gtk_builder_get_object(xml, "colorbutton510")
+         colForegr = gtk_builder_get_object(xml, "colorbutton501")
+         colBackgr = gtk_builder_get_object(xml, "colorbutton509")
+         colLineNo = gtk_builder_get_object(xml, "colorbutton502")
         colKeyword = gtk_builder_get_object(xml, "colorbutton513")
         colStrings = gtk_builder_get_object(xml, "colorbutton514")
          colPrepro = gtk_builder_get_object(xml, "colorbutton515")
@@ -83,6 +91,27 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
 
           numDelay = gtk_builder_get_object(xml, "adjustment501")
          numCurpos = gtk_builder_get_object(xml, "adjustment502")
+
+    g_object_set_data(boolSyntax, "TestId", cast(gpointer, STYLE_SYNTAX))
+
+    g_object_set_data(boolLineno, "TestId", cast(gpointer, STYLE_LINENO))
+
+    g_object_set_data(fontSource, "TestId", cast(gpointer, STYLE_FONT))
+
+    g_object_set_data( numCurpos, "TestId", cast(gpointer, STYLE_SCROLL))
+
+    var list = g_ptr_array_new()
+    g_ptr_array_add(list, colForegr)
+    g_ptr_array_add(list, colBackgr)
+    g_ptr_array_add(list, colBackgrCur)
+    g_ptr_array_add(list, colLineNo)
+    g_ptr_array_add(list, colKeyword)
+    g_ptr_array_add(list, colStrings)
+    g_ptr_array_add(list, colPrepro)
+    g_ptr_array_add(list, colComment)
+
+    g_object_set_data(G_OBJECT(SRC->CombBox), "TestId", cast(gpointer, STYLE_SCHEME))
+    g_object_set_data_full(G_OBJECT(SRC->CombBox), "WidgetArray", list, @g_ptr_array_unref)
   END IF
 
 WITH *INI
@@ -113,14 +142,30 @@ WITH *INI
     g_object_get(     entryFbc, "text", @char, NULL) : .FbcExe = *char : g_free(char)
     g_object_get(     entryIde, "text", @char, NULL) : .IdeExe = *char : g_free(char)
     g_object_get(    entryCmdl, "text", @char, NULL) : .CmdlFbc = *char : g_free(char)
-    g_object_get(     entryDbg, "text", @char, NULL) : .CmdlDbg = *char : g_free(char)
+    g_object_get(     entryDbg, "text", @char, NULL) : .CmdExe(0) = *char : g_free(char)
     g_object_get( entryLogfile, "text", @char, NULL) : .FnamLog = *char : g_free(char)
     g_object_get(   fontSource, "font", @char, NULL) : .FontSrc = *char : g_free(char)
+    g_object_get( SRC->CombBox, "active-id", @char, NULL) : .StlSchm = *char : g_free(char)
 
     DIM AS gdouble num
     g_object_get(     numDelay, "value", @num, NULL) : .DelVal = cast(guint32, num)
     g_object_get(    numCurpos, "value", @num, NULL) : .CurPos = cast(guint32, num)
-    .saveIni()
+
+    SRC->settingsChanged()
+    VAR r = .saveIni() : IF r THEN ?PROJ_NAME & ": " & *r
+  'CASE 2 '                                            dialog --> widgets
+    'DIM AS gboolean fln, fsh
+    'g_object_get(boolLineno, "active", @fln, NULL)
+    'g_object_get(boolSyntax, "active", @fsh, NULL)
+
+    'DIM AS gchar PTR fontsrc ' passing a pointer, remember to free the data
+    'g_object_get(fontSource, "font", @fontsrc, NULL)
+
+    'DIM AS gdouble scro
+    'g_object_get(numCurpos, "value", @scro, NULL)
+
+    'SRC->updatePage(fontsrc, cast(guint32, scro), fsh, fln)
+    'g_free(fontsrc)
   CASE ELSE '                                             INI --> dialog
     DIM AS GdkRGBA col
     gdk_rgba_parse(@col, "#" & HEX(   .colForegr, 6)) : g_object_set(   colForegr, "rgba", @col, NULL)
@@ -142,15 +187,24 @@ WITH *INI
     g_object_set(   boolLineno, "active", .Bool(.FLN), NULL)
     g_object_set(   boolSyntax, "active", .Bool(.FSH), NULL)
 
-    g_object_set(     entryFbc, "text", IIF(LEN( .FbcExe), SADD(.FbcExe), @""), NULL)
-    g_object_set(     entryIde, "text", IIF(LEN( .IdeExe), SADD(.IdeExe), @""), NULL)
+    g_object_set(     entryFbc, "text", IIF(LEN( .FbcExe), SADD(.FbcExe),  @""), NULL)
+    g_object_set(     entryIde, "text", IIF(LEN( .IdeExe), SADD(.IdeExe),  @""), NULL)
     g_object_set(    entryCmdl, "text", IIF(LEN(.CmdlFbc), SADD(.CmdlFbc), @""), NULL)
-    g_object_set(     entryDbg, "text", IIF(LEN(.CmdlDbg), SADD(.CmdlDbg), @""), NULL)
+    g_object_set(     entryDbg, "text", IIF(LEN(.CmdExe(0)), SADD(.CmdExe(0)), @""), NULL)
     g_object_set( entryLogfile, "text", IIF(LEN(.FnamLog), SADD(.FnamLog), @""), NULL)
 
+    g_object_set( SRC->CombBox, "active-id", IIF(LEN(.StlSchm), SADD(.StlSchm), @""), NULL)
     g_object_set(   fontSource, "font", IIF(LEN(.FontSrc), SADD(.FontSrc), @""), NULL)
     g_object_set(     numDelay, "value", CAST(gdouble, .DelVal), NULL)
     g_object_set(    numCurpos, "value", CAST(gdouble, .CurPos), NULL)
+
+    var bool = iif(.StlSchm = "fbdebugger", TRUE, FALSE)
+    DIM AS GPtrArray PTR list = g_object_get_data(G_OBJECT(SRC->CombBox), "WidgetArray")
+    FOR i AS INTEGER = 0 TO list->len - 1
+      gtk_widget_set_sensitive(list->pdata[i], bool)
+    NEXT
+
+    SRC->settingsChanged()
   END SELECT
 END WITH
 END SUB
@@ -254,6 +308,79 @@ SUB on_entry_icon_load CDECL ALIAS "on_entry_icon_load" ( _
 
   gtk_widget_destroy(dia)
 
+END SUB
+
+'#define GFunc(_P_) cast(SUB CDECL(BYVAL AS gpointer, BYVAL AS gpointer), _P_)
+
+
+/'* \brief Signal handler to show changed settings
+\param Objct The widget that triggered the signal
+\param user_data (unused)
+
+This signal handler updates the style of the source view widgets in
+case of a parameter change in settings dialog.
+
+'/
+SUB on_settings_changed CDECL ALIAS "on_settings_changed" ( _
+  BYVAL Objct AS GObject PTR, _
+  BYVAL user_data AS gpointer) EXPORT
+
+?" --> callback on_settings_changed"
+
+  WITH *SRC
+    var page = gtk_notebook_get_current_page(GTK_NOTEBOOK(.NoteBok)) _
+      , widg = gtk_notebook_get_nth_page(GTK_NOTEBOOK(.NoteBok), page)
+
+    SELECT CASE as const g_object_get_data(Objct, "TestId")
+    CASE STYLE_SYNTAX
+      DIM AS gboolean fsh
+      g_object_get(Objct, "active", @fsh, NULL)
+
+      var buff = g_object_get_data(G_Object(widg), "Buffer")
+      gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(.BuffCur), fsh)
+      gtk_source_buffer_set_highlight_syntax(buff, fsh)
+    CASE STYLE_LINENO
+      DIM AS gboolean fln
+      g_object_get(Objct, "active", @fln, NULL)
+
+      var srcv = g_object_get_data(G_Object(widg), "SrcView")
+      gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), fLn)
+    CASE STYLE_FONT
+      DIM AS gchar PTR fontsrc
+      g_object_get(Objct, "font", @fontsrc, NULL)
+
+      pango_font_description_free(.Font)
+      .Font = pango_font_description_from_string(fontsrc)
+
+      var srcv = g_object_get_data(G_Object(widg), "SrcView")
+      gtk_widget_override_font(GTK_WIDGET(.ViewCur), .Font)
+      gtk_widget_override_font(GTK_WIDGET(srcv), .Font)
+      g_free(fontsrc)
+    CASE STYLE_SCROLL
+      DIM AS gdouble scroll
+      g_object_get(Objct, "value", @scroll, NULL)
+
+      var buff = g_object_get_data(G_Object(widg), "Buffer") _
+        , srcv = g_object_get_data(G_Object(widg), "SrcView") _
+        , mark = gtk_text_buffer_get_insert(buff)
+      gtk_text_view_scroll_to_mark(srcv, mark, .0, TRUE, .0, 1. / 99 * scroll)
+    CASE STYLE_SCHEME
+      DIM AS gchar PTR stlschm
+      g_object_get(Objct, "active-id", @stlschm, NULL)
+      .Schema = gtk_source_style_scheme_manager_get_scheme(.Manager, stlschm)
+      var bool = iif(*stlschm = "fbdebugger", TRUE, FALSE)
+      g_free(stlschm)
+
+      DIM AS GPtrArray PTR list = g_object_get_data(Objct, "WidgetArray")
+      FOR i AS INTEGER = 0 TO list->len - 1
+        gtk_widget_set_sensitive(list->pdata[i], bool)
+      NEXT
+
+      var buff = g_object_get_data(G_Object(widg), "Buffer")
+      gtk_source_buffer_set_style_scheme(GTKSOURCE_SOURCE_BUFFER(.BuffCur), .Schema)
+      gtk_source_buffer_set_style_scheme(buff, .Schema)
+    END SELECT
+  END WITH
 END SUB
 
 

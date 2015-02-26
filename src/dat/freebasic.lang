@@ -8,11 +8,14 @@
     <property name="block-comment-end">\'\/</property>
   </metadata>
   <styles>
+    <style id="comment-doc" _name="Documentational comment"/>
+    <style id="comment-key" _name="Keyword in documentational comment"/>
+    <style id="number" _name="Number" map-to="def:number"/>
     <style id="comment" _name="Comment" map-to="def:comment"/>
     <style id="string" _name="String" map-to="def:string"/>
+    <style id="included-file" _name="Included File" map-to="def:string"/>
     <style id="escaped-character" _name="Escaped Character" map-to="def:special-char"/>
     <style id="preprocessor" _name="Preprocessor" map-to="def:preprocessor"/>
-    <style id="included-file" _name="Included File" map-to="def:string"/>
     <style id="char" _name="Character" map-to="def:character"/>
     <style id="keyword" _name="Keyword" map-to="def:keyword"/>
     <style id="type" _name="Data Type" map-to="def:type"/>
@@ -22,25 +25,63 @@
     <!--Main context-->
     <context id="fbc" class="no-spell-check">
       <include>
+        <context id="doc-comment" style-ref="comment-doc">
+          <start>\'[*]</start>
+          <end>$</end>
+          <include>
+             <context id="key-comment1" style-ref="comment-key">
+               <match>[@\\][a-zA-Z0-9_-]+</match>
+             </context>
+          </include>
+        </context>
         <context id="comment" style-ref="comment">
           <start>\'</start>
           <end>$</end>
+        </context>
+        <context id="doc-comment-multiline" style-ref="comment-doc">
+          <start>\/\'[*]</start>
+          <end>\'\/</end>
+          <include>
+             <context id="key-comment2" style-ref="comment-key">
+               <match>[@\\][a-zA-Z0-9_-]+</match>
+             </context>
+          </include>
         </context>
         <context id="comment-multiline" style-ref="comment">
           <start>\/\'</start>
           <end>\'\/</end>
         </context>
+        <context id="escaped-string" end-at-line-end="true" style-ref="string">
+          <start>!"</start>
+          <end>"</end>
+          <include>
+            <context id="escaped-character" style-ref="escaped-character">
+              <match>\\([\\\"\'nrbtfv]|[0-9]{1,3}|u[0-9]{1,4})</match>
+            </context>
+          </include>
+        </context>
         <context id="string" end-at-line-end="true" style-ref="string">
           <start>"</start>
           <end>"</end>
-          <include>
-             <context id="escape" style-ref="escaped-character">
-               <match>\\.</match>
-             </context>
-          </include>
         </context>
-        <context ref="def:decimal"/>
-        <context ref="def:float"/>
+        <context id="numeric" style-ref="number">
+          <match extended="true">
+             [+-]?
+            (\b\d+|
+             &amp;[hH][0-9a-fA-F]+|
+             &amp;[oO][0-7]+|
+             &amp;[bB][01]+
+             )([uU%&amp;]?[lL]?[lL]?)?\b
+          </match>
+        </context>
+        <context id="decimal" style-ref="number">
+          <match extended="true">
+             [+-]?
+          \b(\d+|\d+[\.]|[\.]\d+|\d+[\.]\d+)
+            ([dDeE][+-]?[0-9]+)?
+             \b!?
+          </match>
+        </context>
         <context id="keywords" style-ref="keyword">
           <keyword>ABS</keyword>
           <keyword>ABSTRACT</keyword>
@@ -138,7 +179,6 @@
           <keyword>DECLARE</keyword>
           <keyword>DEFBYTE</keyword>
           <keyword>DEFDBL</keyword>
-          <keyword>DEFINE</keyword>
           <keyword>DEFINED</keyword>
           <keyword>DEFINT</keyword>
           <keyword>DEFLNG</keyword>
@@ -165,7 +205,6 @@
           <keyword>ENCODING</keyword>
           <keyword>END</keyword>
           <keyword>ENDIF</keyword>
-          <keyword>ENDMACRO</keyword>
           <keyword>ENUM</keyword>
           <keyword>ENVIRON</keyword>
           <keyword>EOF</keyword>
@@ -218,8 +257,6 @@
           <keyword>IMP</keyword>
           <keyword>IMPLEMENTS</keyword>
           <keyword>IMPORT</keyword>
-          <keyword>INCLIB</keyword>
-          <keyword>INCLUDE</keyword>
           <keyword>INKEY</keyword>
           <keyword>INP</keyword>
           <keyword>INPUT</keyword>
@@ -237,7 +274,6 @@
           <keyword>LEN</keyword>
           <keyword>LET</keyword>
           <keyword>LIB</keyword>
-          <keyword>LIBPATH</keyword>
           <keyword>LINE</keyword>
           <keyword>LOBYTE</keyword>
           <keyword>LOC</keyword>
@@ -283,7 +319,6 @@
           <keyword>OCT</keyword>
           <keyword>OFFSETOF</keyword>
           <keyword>ON</keyword>
-          <keyword>ONCE</keyword>
           <keyword>OPEN</keyword>
           <keyword>OPERATOR</keyword>
           <keyword>OPTION</keyword>
@@ -406,7 +441,6 @@
           <keyword>UINTEGER</keyword>
           <keyword>ULONG</keyword>
           <keyword>ULONGINT</keyword>
-          <keyword>UNDEF</keyword>
           <keyword>UNION</keyword>
           <keyword>UNLOCK</keyword>
           <keyword>UNSIGNED</keyword>
@@ -448,21 +482,7 @@
           <keyword>YEAR</keyword>
           <keyword>ZSTRING</keyword>
         </context>
-        <context id="types" style-ref="type">
-          <prefix>^\$</prefix>
-          <keyword>INCLUDE</keyword>
-          <keyword>DYNAMIC</keyword>
-          <keyword>LANG</keyword>
-          <keyword>STATIC</keyword>
-          <keyword>DYNAMIC</keyword>
-          <keyword>ESCAPE</keyword>
-          <keyword>EXPLICIT</keyword>
-          <keyword>NOGOSUB</keyword>
-          <keyword>NOKEYWORD</keyword>
-          <keyword>OPTION</keyword>
-        </context>
-        <context id="preprocessor" style-ref="preprocessor">
-          <prefix>^#</prefix>
+        <context id="types" style-ref="preprocessor">
           <keyword>__DATE__</keyword>
           <keyword>__DATE_ISO__</keyword>
           <keyword>__FB_64BIT__</keyword>
@@ -514,6 +534,10 @@
           <keyword>__LINE__</keyword>
           <keyword>__PATH__</keyword>
           <keyword>__TIME__</keyword>
+          <keyword>ONCE</keyword>
+        </context>
+        <context id="preprocessor" style-ref="preprocessor">
+          <prefix>#</prefix>
           <keyword>ASSERT</keyword>
           <keyword>DEF</keyword>
           <keyword>DEFINE</keyword>
@@ -534,6 +558,18 @@
           <keyword>PRAGMA</keyword>
           <keyword>PRINT</keyword>
           <keyword>UNDEF</keyword>
+        </context>
+        <context id="options" style-ref="type">
+          <prefix>\$</prefix>
+          <keyword>INCLUDE</keyword>
+          <keyword>DYNAMIC</keyword>
+          <keyword>LANG</keyword>
+          <keyword>STATIC</keyword>
+          <keyword>ESCAPE</keyword>
+          <keyword>EXPLICIT</keyword>
+          <keyword>NOGOSUB</keyword>
+          <keyword>NOKEYWORD</keyword>
+          <keyword>OPTION</keyword>
         </context>
       </include>
     </context>

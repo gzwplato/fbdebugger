@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<style-scheme id="fbdebugger" _name="FreeBASIC Debugger style scheme" version="1.0">
+	<author>TJF</author>
+	<_description>Generic theme for customized syntax highlighting (don't edit)</_description>
+	<color name="text_fg" value="#000000"/>
+	<color name="text_bg" value="#FFFFFF"/>
+	<color name="line_highlight" value="#3f3f3f"/>
+	<color name="line_no_bg" value="#3f3f3f"/>
+
+	<color name="keyword_color" value="#0000FF"/>
+	<color name="string_color" value="#C17D11"/>
+	<color name="prepro_color" value="#00FF00"/>
+	<color name="comment_color" value="#9F9F9F"/>
+	<color name="number_color" value="#993300"/>
+	<color name="escape_color" value="#11C17D"/>
+	<color name="error_color" value="#ff0000"/>
+
+<!-- Global Settings -->
+	<style name="text" foreground="text_fg" background="text_bg"/>
+	<style name="cursor" foreground="error_color"/>
+	<style name="current-line" background="line_highlight"/>
+	<style name="line-numbers" foreground="text_fg" background="line_no_bg"/>
+	<style name="selection" foreground="text_fg" background="keyword_color"/>
+
+<!-- Bracket Matching -->
+	<style name="bracket-match" foreground="text_bg" background="keyword_color"/>
+	<style name="bracket-mismatch" background="error_color"/>
+	<style name="search-match" foreground="comment_color" background="text_fg"/>
+
+	<style name="def:number" foreground="number_color"/>
+	<style name="def:comment" foreground="comment_color" italic="true"/>
+	<style name="def:string" foreground="string_color"/>
+	<style name="def:special-char" foreground="escape_color"/>
+	<style name="def:preprocessor" foreground="prepro_color"/>
+	<style name="def:character" foreground="string_color"/>
+	<style name="def:keyword" foreground="keyword_color"/>
+	<style name="def:type" foreground="keyword_color"/>
+
+	<style name="fbc:comment-doc" foreground="comment_color"/>
+	<style name="fbc:comment-key" foreground="escape_color"/>
+
+</style-scheme>

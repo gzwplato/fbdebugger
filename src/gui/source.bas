@@ -47,8 +47,12 @@ TYPE SrcNotebook
   , ViewCur _ '*< The source view for current source line
   , BuffCur _ '*< The source buffer for current source line
   , NoteBok   '*< The notebook for source views
+  AS GtkComboBoxText PTR _
+    CombBox   '*< The combo box text for style schemes
   AS GtkSourceStyleScheme PTR _
     Schema    '*< The style schema for syntax highlighting
+  AS GtkSourceStyleSchemeManager PTR _
+    Manager    '*< The manager for style schemes
   AS GtkSourceLanguage PTR _
     Lang      '*< The language definitions for syntax highlighting
   AS PangoFontDescription PTR _
@@ -60,7 +64,12 @@ TYPE SrcNotebook
   DECLARE SUB scroll(BYVAL AS gint, BYVAL AS GtkWidget PTR)
   DECLARE SUB remove(BYVAL AS GtkWidget PTR)
   DECLARE SUB removeAll()
-  DECLARE SUB updateAll()
+  DECLARE SUB settingsChanged()
+  DECLARE SUB updatePage( _
+    byval FontSrc as gchar ptr _
+  , byval Scroll as guint32 _
+  , byval FSh as gboolean _
+  , byval FLn as gboolean)
   DECLARE SUB setStyle(byval as GtkSourceBuffer ptr)
   DECLARE CONSTRUCTOR()
   DECLARE DESTRUCTOR()
@@ -85,6 +94,7 @@ CONSTRUCTOR SrcNotebook()
   ViewCur = gtk_builder_get_object(GUI.XML, "viewSrcCur")
   BuffCur = gtk_builder_get_object(GUI.XML, "srcbuffCur")
   NoteBok = gtk_builder_get_object(GUI.XML, "nbookSrc")
+  CombBox = GTK_COMBO_BOX_TEXT(gtk_builder_get_object(GUI.XML, "comboboxtext501"))
 
 '' set the syntax highlighting
   VAR lm = gtk_source_language_manager_get_default()
@@ -98,23 +108,35 @@ CONSTRUCTOR SrcNotebook()
   gtk_source_language_manager_set_search_path(lm, cast(gchar ptr ptr, sadd(LmPaths)))
 
 '' load syntax highlighting style scheme
-  VAR sm = gtk_source_style_scheme_manager_get_default()
-  gtk_source_style_scheme_manager_prepend_search_path(sm, "dat")
-  Schema = gtk_source_style_scheme_manager_get_scheme(sm, "fbd_colors")
+  Manager = gtk_source_style_scheme_manager_get_default()
+  gtk_source_style_scheme_manager_prepend_search_path(Manager, "dat")
 
+  var list = gtk_source_style_scheme_manager_get_scheme_ids(Manager) _
+       , i = 0
+  WHILE list[i]
+    gtk_combo_box_text_append(CombBox, list[i], list[i])
+    i += 1
+  WEND
+  g_strfreev(list)
+  if gtk_combo_box_set_active_id(GTK_COMBO_BOX(CombBox), INI->StlSchm) then _
+    Schema = gtk_source_style_scheme_manager_get_scheme(Manager, INI->StlSchm)
+?" Schema: "; Schema
 '' load syntax highlighting language
   Lang = gtk_source_language_manager_get_language(lm, "fbc")
-  IF 0 = Lang andalso INI->Bool(INI->FSH) THEN
-    ?PROJ_NAME & *__(": language fbc not available -> no syntax highlighting")
-  ELSE
-    gtk_source_buffer_set_language(GTKSOURCE_SOURCE_BUFFER(BuffCur), Lang)
-  END IF
-  gtk_source_buffer_set_highlight_matching_brackets(GTKSOURCE_SOURCE_BUFFER(BuffCur), FALSE)
-  gtk_source_buffer_set_style_scheme(GTKSOURCE_SOURCE_BUFFER(BuffCur), Schema)
 
 '' create a font description to use for all source views
-  Font = pango_font_description_from_string(@"monospace 8")
+  Font = pango_font_description_from_string(SADD(INI->FontSrc))
+
+  IF 0 = Schema THEN
+    ?PROJ_NAME & ": " & *__("style scheme not available -> no syntax highlighting")
+  ELSEIF 0 = Lang andalso INI->Bool(INI->FSH) THEN
+    ?PROJ_NAME & ": " & *__("language fbc not available -> no syntax highlighting")
+  ELSE
+    gtk_source_buffer_set_style_scheme(GTKSOURCE_SOURCE_BUFFER(BuffCur), Schema)
+    gtk_source_buffer_set_language(GTKSOURCE_SOURCE_BUFFER(BuffCur), Lang)
+  END IF
   gtk_widget_override_font(GTK_WIDGET(ViewCur), Font)
+  gtk_source_buffer_set_highlight_matching_brackets(GTKSOURCE_SOURCE_BUFFER(BuffCur), FALSE)
 
 '' compute maximal len of current source view line (ToDo)
   LenCur = 80
@@ -156,12 +178,11 @@ FUNCTION SrcNotebook.addBas(BYVAL Label AS gchar PTR, BYVAL Cont AS gchar PTR) A
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(buff), Cont, -1)
   gtk_container_add(GTK_CONTAINER(widg), srcv)
 
-  'if 0 = Schema then setStyle(buff)
-
   gtk_widget_override_font(srcv, Font)
   gtk_text_view_set_editable(GTK_TEXT_VIEW(srcv), FALSE)
   '' more configs to come ...
   WITH *INI
+    gtk_source_buffer_set_highlight_syntax(buff, .Bool(.FSH))
     gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), .Bool(.FLN))
   END WITH
   g_signal_connect(srcv, "button-press-event" _
@@ -257,18 +278,64 @@ SUB SrcNotebook.removeAll()
 END SUB
 
 
-/'* \brief Remove all pages from notebook
+/'* \brief Update all pages from notebook
 
-Method to remove all pages from the notebook.
+Method to update the style for all pages in the notebook, when the user
+changed settings.
 
 '/
-SUB SrcNotebook.updateAll()
+SUB SrcNotebook.settingsChanged()
   IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
 
-  VAR n = gtk_notebook_get_n_pages(GTK_NOTEBOOK(NoteBok))
-  FOR i AS gint = n - 1 TO 0 STEP -1
-    ' ...
-  NEXT
+  WITH *INI
+    pango_font_description_free(Font)
+    Font = pango_font_description_from_string(SADD(.FontSrc))
+    gtk_widget_override_font(GTK_WIDGET(ViewCur), Font)
+    gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(BuffCur), .Bool(.FSH))
+
+    VAR n = gtk_notebook_get_n_pages(GTK_NOTEBOOK(NoteBok))
+    FOR i AS gint = n - 1 TO 0 STEP -1
+      var widg = gtk_notebook_get_nth_page(GTK_NOTEBOOK(NoteBok), i) _
+        , buff = g_object_get_data(G_Object(widg), "Buffer") _
+        , srcv = g_object_get_data(G_Object(widg), "SrcView") _
+        , mark = gtk_text_buffer_get_insert(buff)
+      gtk_widget_override_font(GTK_WIDGET(srcv), Font)
+      gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(buff), .Bool(.FSH))
+      gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), .Bool(.FLN))
+      gtk_text_view_scroll_to_mark(srcv, mark, .0, TRUE, .0, 1. / 99 * .Scroll)
+    NEXT
+  END WITH
+
+END SUB
+
+
+/'* \brief Remove all pages from notebook
+
+Method to update the style for all pages in the notebook.
+
+'/
+SUB SrcNotebook.updatePage( _
+    byval FontSrc as gchar ptr _
+  , byval Scro as guint32 _
+  , byval FSh as gboolean _
+  , byval FLn as gboolean)
+  IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
+
+  pango_font_description_free(Font)
+  Font = pango_font_description_from_string(FontSrc)
+  gtk_widget_override_font(GTK_WIDGET(ViewCur), Font)
+  gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(BuffCur), FSh)
+
+  var page = gtk_notebook_get_current_page(GTK_NOTEBOOK(NoteBok)) _
+    , widg = gtk_notebook_get_nth_page(GTK_NOTEBOOK(NoteBok), page) _
+    , buff = g_object_get_data(G_Object(widg), "Buffer") _
+    , srcv = g_object_get_data(G_Object(widg), "SrcView") _
+    , mark = gtk_text_buffer_get_insert(buff)
+
+  gtk_widget_override_font(GTK_WIDGET(srcv), Font)
+  gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(buff), FSh)
+  gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), FLn)
+  gtk_text_view_scroll_to_mark(srcv, mark, .0, TRUE, .0, 1. / 99 * Scro)
 
 END SUB
 
