@@ -2873,7 +2873,7 @@ activated</property>
                 </child>
                 <child>
                   <object class="GtkTreeViewColumn" id="treeviewcolumn601">
-                    <property name="title" translatable="yes">Shurtcut</property>
+                    <property name="title" translatable="yes">Shortcut</property>
                     <property name="clickable">True</property>
                     <property name="alignment">1</property>
                     <property name="reorderable">True</property>
