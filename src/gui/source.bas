@@ -65,11 +65,6 @@ TYPE SrcNotebook
   DECLARE SUB remove(BYVAL AS GtkWidget PTR)
   DECLARE SUB removeAll()
   DECLARE SUB settingsChanged()
-  DECLARE SUB updatePage( _
-    byval FontSrc as gchar ptr _
-  , byval Scroll as guint32 _
-  , byval FSh as gboolean _
-  , byval FLn as gboolean)
   DECLARE SUB setStyle(byval as GtkSourceBuffer ptr)
   DECLARE CONSTRUCTOR()
   DECLARE DESTRUCTOR()
@@ -292,6 +287,7 @@ SUB SrcNotebook.settingsChanged()
     Font = pango_font_description_from_string(SADD(.FontSrc))
     gtk_widget_override_font(GTK_WIDGET(ViewCur), Font)
     gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(BuffCur), .Bool(.FSH))
+    gtk_source_buffer_set_style_scheme(GTKSOURCE_SOURCE_BUFFER(BuffCur), Schema)
 
     VAR n = gtk_notebook_get_n_pages(GTK_NOTEBOOK(NoteBok))
     FOR i AS gint = n - 1 TO 0 STEP -1
@@ -301,41 +297,11 @@ SUB SrcNotebook.settingsChanged()
         , mark = gtk_text_buffer_get_insert(buff)
       gtk_widget_override_font(GTK_WIDGET(srcv), Font)
       gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(buff), .Bool(.FSH))
+      gtk_source_buffer_set_style_scheme(buff, Schema)
       gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), .Bool(.FLN))
       gtk_text_view_scroll_to_mark(srcv, mark, .0, TRUE, .0, 1. / 99 * .Scroll)
     NEXT
   END WITH
-
-END SUB
-
-
-/'* \brief Remove all pages from notebook
-
-Method to update the style for all pages in the notebook.
-
-'/
-SUB SrcNotebook.updatePage( _
-    byval FontSrc as gchar ptr _
-  , byval Scro as guint32 _
-  , byval FSh as gboolean _
-  , byval FLn as gboolean)
-  IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
-
-  pango_font_description_free(Font)
-  Font = pango_font_description_from_string(FontSrc)
-  gtk_widget_override_font(GTK_WIDGET(ViewCur), Font)
-  gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(BuffCur), FSh)
-
-  var page = gtk_notebook_get_current_page(GTK_NOTEBOOK(NoteBok)) _
-    , widg = gtk_notebook_get_nth_page(GTK_NOTEBOOK(NoteBok), page) _
-    , buff = g_object_get_data(G_Object(widg), "Buffer") _
-    , srcv = g_object_get_data(G_Object(widg), "SrcView") _
-    , mark = gtk_text_buffer_get_insert(buff)
-
-  gtk_widget_override_font(GTK_WIDGET(srcv), Font)
-  gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(buff), FSh)
-  gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), FLn)
-  gtk_text_view_scroll_to_mark(srcv, mark, .0, TRUE, .0, 1. / 99 * Scro)
 
 END SUB
 

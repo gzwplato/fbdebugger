@@ -30,7 +30,9 @@ TYPE IniUDT
 ,   ColKeyword _ '*< The color to highlight keywords
 ,   ColStrings _ '*< The color to highlight strings
 ,    ColPrepro _ '*< The color to highlight pre-processors
-,   ColComment   '*< The color to highlight comments
+,   ColComment _ '*< The color to highlight comments
+,   ColNumbers _ '*< The color to highlight numbers
+,    ColEscape   '*< The color to highlight escape characters
   AS STRING _
         FbcExe _ '*< The path/file of the FreeBASIC compiler
 ,       IdeExe _ '*< The path/file of the IDE
@@ -159,6 +161,8 @@ FUNCTION IniUDT.loadIni() AS gchar PTR
     CASE "[CHS]=" :   ColStrings = CULNG(MID(t, 7))
     CASE "[CHP]=" :    ColPrepro = CULNG(MID(t, 7))
     CASE "[CHC]=" :   ColComment = CULNG(MID(t, 7))
+    CASE "[CHN]=" :   ColNumbers = CULNG(MID(t, 7))
+    CASE "[CHE]=" :    ColEscape = CULNG(MID(t, 7))
 
     CASE "[POS]=" :       CurPos = CULNG(MID(t, 7))
     CASE "[DEL]=" :       DelVal = CULNG(MID(t, 7))
@@ -260,6 +264,8 @@ FUNCTION IniUDT.saveIni() AS gchar PTR
   PRINT #fnr, "[CHS]=&h" & HEX(  ColStrings, 6)
   PRINT #fnr, "[CHP]=&h" & HEX(   ColPrepro, 6)
   PRINT #fnr, "[CHC]=&h" & HEX(  ColComment, 6)
+  PRINT #fnr, "[CHN]=&h" & HEX(  ColNumbers, 6)
+  PRINT #fnr, "[CHE]=&h" & HEX(   ColEscape, 6)
 
   PRINT #fnr, "[FSH]=" & Flag(FSH)
   PRINT #fnr, "[FVM]=" & Flag(FVM)

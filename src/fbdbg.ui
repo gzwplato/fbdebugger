@@ -1850,6 +1850,7 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Background</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1954,6 +1955,7 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Background current line</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1970,6 +1972,7 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Breakpoint</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -1986,6 +1989,7 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Temporary Breakpoint</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2002,6 +2006,7 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Keyword</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2050,6 +2055,7 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Strings</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2066,6 +2072,7 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Preprocessors</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2113,7 +2120,7 @@ TJF</property>
                         <property name="left_attach">2</property>
                         <property name="top_attach">0</property>
                         <property name="width">1</property>
-                        <property name="height">12</property>
+                        <property name="height">14</property>
                       </packing>
                     </child>
                     <child>
@@ -2124,6 +2131,7 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Comments</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2188,6 +2196,7 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Foreground</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2223,6 +2232,7 @@ TJF</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <property name="title" translatable="yes">Line numbers</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
                       </object>
                       <packing>
                         <property name="left_attach">1</property>
@@ -2240,8 +2250,74 @@ TJF</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">12</property>
+                        <property name="top_attach">14</property>
                         <property name="width">3</property>
+                        <property name="height">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label517">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">_Numbers</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">colorbutton517</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">12</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label518">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">_Escapes</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">colorbutton518</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">13</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkColorButton" id="colorbutton517">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                        <property name="title" translatable="yes">Numbers</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">12</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkColorButton" id="colorbutton518">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                        <property name="title" translatable="yes">Escapes</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">13</property>
+                        <property name="width">1</property>
                         <property name="height">1</property>
                       </packing>
                     </child>

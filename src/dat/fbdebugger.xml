@@ -3,18 +3,18 @@
 <style-scheme id="fbdebugger" _name="FreeBASIC Debugger style scheme" version="1.0">
 	<author>TJF</author>
 	<_description>Generic theme for customized syntax highlighting (don't edit)</_description>
-	<color name="text_fg" value="#000000"/>
-	<color name="text_bg" value="#FFFFFF"/>
-	<color name="line_highlight" value="#3f3f3f"/>
-	<color name="line_no_bg" value="#3f3f3f"/>
+	<color name='text_fg' value='#000000'/>
+	<color name='text_bg' value='#FFFFFF'/>
+	<color name='line_highlight' value='#FCE94F'/>
+	<color name='line_no_bg' value='#E9B96E'/>
+	<color name='keyword_color' value='#5444FF'/>
+	<color name='string_color' value='#CC0000'/>
+	<color name='prepro_color' value='#73D216'/>
+	<color name='comment_color' value='#888A85'/>
+	<color name='number_color' value='#F57900'/>
+	<color name='escape_color' value='#8F5902'/>
+	<color name='error_color' value='#ff0000'/>
 
-	<color name="keyword_color" value="#0000FF"/>
-	<color name="string_color" value="#C17D11"/>
-	<color name="prepro_color" value="#00FF00"/>
-	<color name="comment_color" value="#9F9F9F"/>
-	<color name="number_color" value="#993300"/>
-	<color name="escape_color" value="#11C17D"/>
-	<color name="error_color" value="#ff0000"/>
 
 <!-- Global Settings -->
 	<style name="text" foreground="text_fg" background="text_bg"/>
