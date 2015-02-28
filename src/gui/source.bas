@@ -61,7 +61,7 @@ TYPE SrcNotebook
     LmPaths   '*< The list of paths (gchar PTRs)
 
   DECLARE function addBas(BYVAL AS gchar PTR, BYVAL AS gchar PTR) as GtkWidget PTR
-  DECLARE SUB scroll(BYVAL AS gint, BYVAL AS GtkWidget PTR)
+  DECLARE SUB scroll(BYVAL AS gint, BYVAL AS GtkWidget PTR, byval as guint32 = 1)
   DECLARE SUB remove(BYVAL AS GtkWidget PTR)
   DECLARE SUB removeAll()
   DECLARE SUB settingsChanged()
@@ -181,7 +181,7 @@ to a certain line, select the context of that line and place a copy to
 the current line source view.
 
 '/
-SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
+SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR, byval Mo as guint32 = 1)
   IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
 
   VAR page = gtk_notebook_page_num(GTK_NOTEBOOK(NoteBok), Widg)
@@ -199,6 +199,7 @@ SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
 
   gtk_text_buffer_place_cursor(buff, i1)
   gtk_text_view_scroll_to_iter(srcv, i1, .0, TRUE, .0, ScrPos)
+  if 0 = Mo then gtk_text_iter_free(i1) :                       exit sub
 
   gtk_text_buffer_select_range(buff, i1, @i2)
   VAR cont = gtk_text_buffer_get_text(buff, i1, @i2, TRUE) _
