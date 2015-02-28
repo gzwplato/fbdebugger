@@ -547,7 +547,7 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action466">
         <property name="label" translatable="yes">Tools</property>
-        <property name="tooltip" translatable="yes">Some usefull....Tools</property>
+        <property name="tooltip" translatable="yes">Some usefull ... Tools</property>
         <property name="stock_id">dbg-tools</property>
         <signal name="activate" handler="act_tools" object="menu90" swapped="no"/>
       </object>
@@ -647,7 +647,7 @@ TJF</property>
     <child>
       <object class="GtkAction" id="action511">
         <property name="label" translatable="yes">Collapse all threads</property>
-        <signal name="activate" handler="act_threadcollapse" swapped="no"/>
+        <signal name="activate" handler="gtk_tree_view_collapse_all" object="tviewThreads" swapped="yes"/>
       </object>
     </child>
     <child>

@@ -47,8 +47,6 @@ TYPE SrcNotebook
   , ViewCur _ '*< The source view for current source line
   , BuffCur _ '*< The source buffer for current source line
   , NoteBok   '*< The notebook for source views
-  AS GtkComboBoxText PTR _
-    CombBox   '*< The combo box text for style schemes
   AS GtkSourceStyleScheme PTR _
     Schema    '*< The style schema for syntax highlighting
   AS GtkSourceStyleSchemeManager PTR _
@@ -66,6 +64,8 @@ TYPE SrcNotebook
   DECLARE SUB removeAll()
   DECLARE SUB settingsChanged()
   DECLARE SUB setStyle(byval as GtkSourceBuffer ptr)
+  declare property SchemeID(byval as const gchar ptr)
+  declare property FontId(byval as const gchar ptr)
   DECLARE CONSTRUCTOR()
   DECLARE DESTRUCTOR()
 END TYPE
@@ -89,9 +89,8 @@ CONSTRUCTOR SrcNotebook()
   ViewCur = gtk_builder_get_object(GUI.XML, "viewSrcCur")
   BuffCur = gtk_builder_get_object(GUI.XML, "srcbuffCur")
   NoteBok = gtk_builder_get_object(GUI.XML, "nbookSrc")
-  CombBox = GTK_COMBO_BOX_TEXT(gtk_builder_get_object(GUI.XML, "comboboxtext501"))
 
-'' set the syntax highlighting
+'' prepare managers for syntax highlighting
   VAR lm = gtk_source_language_manager_get_default()
   LmPaths = MKI(cast(integer, @"dat"))
   var ind = 0 _
@@ -102,39 +101,15 @@ CONSTRUCTOR SrcNotebook()
   WEND : LmPaths &= MKI(0)
   gtk_source_language_manager_set_search_path(lm, cast(gchar ptr ptr, sadd(LmPaths)))
 
-'' load syntax highlighting style scheme
-  Manager = gtk_source_style_scheme_manager_get_default()
-  gtk_source_style_scheme_manager_prepend_search_path(Manager, "dat")
-
-  var list = gtk_source_style_scheme_manager_get_scheme_ids(Manager) _
-       , i = 0
-  WHILE list[i]
-    gtk_combo_box_text_append(CombBox, list[i], list[i])
-    i += 1
-  WEND
-  g_strfreev(list)
-  if gtk_combo_box_set_active_id(GTK_COMBO_BOX(CombBox), INI->StlSchm) then _
-    Schema = gtk_source_style_scheme_manager_get_scheme(Manager, INI->StlSchm)
-?" Schema: "; Schema
 '' load syntax highlighting language
   Lang = gtk_source_language_manager_get_language(lm, "fbc")
 
-'' create a font description to use for all source views
-  Font = pango_font_description_from_string(SADD(INI->FontSrc))
-
-  IF 0 = Schema THEN
-    ?PROJ_NAME & ": " & *__("style scheme not available -> no syntax highlighting")
-  ELSEIF 0 = Lang andalso INI->Bool(INI->FSH) THEN
+  IF 0 = Lang THEN
     ?PROJ_NAME & ": " & *__("language fbc not available -> no syntax highlighting")
   ELSE
-    gtk_source_buffer_set_style_scheme(GTKSOURCE_SOURCE_BUFFER(BuffCur), Schema)
     gtk_source_buffer_set_language(GTKSOURCE_SOURCE_BUFFER(BuffCur), Lang)
   END IF
-  gtk_widget_override_font(GTK_WIDGET(ViewCur), Font)
   gtk_source_buffer_set_highlight_matching_brackets(GTKSOURCE_SOURCE_BUFFER(BuffCur), FALSE)
-
-'' compute maximal len of current source view line (ToDo)
-  LenCur = 80
 
 ?" CONSTRUCTOR SrcNotebook: "
 END CONSTRUCTOR
@@ -143,11 +118,12 @@ END CONSTRUCTOR
 /'* \brief Destructor to free used memory
 
 The destructor frees the pango font description. (The language
-structure *Lang* is owned by the language manager.)
+structure *Lang* and the scheme *Schema* are owned by the language or
+scheme managers.)
 
 '/
 DESTRUCTOR SrcNotebook()
-  pango_font_description_free(Font)
+  If Font then pango_font_description_free(Font)
 END DESTRUCTOR
 
 
@@ -175,7 +151,7 @@ FUNCTION SrcNotebook.addBas(BYVAL Label AS gchar PTR, BYVAL Cont AS gchar PTR) A
 
   gtk_widget_override_font(srcv, Font)
   gtk_text_view_set_editable(GTK_TEXT_VIEW(srcv), FALSE)
-  '' more configs to come ...
+  gtk_source_view_set_show_line_marks(GTKSOURCE_SOURCE_VIEW(srcv), TRUE)
   WITH *INI
     gtk_source_buffer_set_highlight_syntax(buff, .Bool(.FSH))
     gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), .Bool(.FLN))
@@ -273,6 +249,39 @@ SUB SrcNotebook.removeAll()
 END SUB
 
 
+/'* \brief Property to set the style scheme
+\param SchemId The name of the style (scheme_id)
+
+Loads the specified style scheme and applies it to the buffer for the
+current line. All other buffers need separate adaption (if any).
+
+'/
+PROPERTY SrcNotebook.SchemeId(BYVAL Snam AS CONST gchar PTR)
+  Schema = gtk_source_style_scheme_manager_get_scheme(Manager, Snam)
+  gtk_source_buffer_set_style_scheme(GTKSOURCE_SOURCE_BUFFER(BuffCur), Schema)
+END PROPERTY
+
+
+/'* \brief Property to set the font
+\param Fnam The font name to use
+
+Creates a PangoFontDescription for the specified font and applies it to
+the source view widget for the current line. All other notebook pages
+need separate adaption (if any).
+
+\todo Re-compute the length of the line based on the new font (and widget size)
+
+'/
+PROPERTY SrcNotebook.FontId(BYVAL Fnam AS CONST gchar PTR)
+  IF Font THEN pango_font_description_free(Font)
+  Font = pango_font_description_from_string(Fnam)
+  gtk_widget_override_font(GTK_WIDGET(ViewCur), Font)
+
+'' compute maximal len of current source view line (ToDo)
+  LenCur = 80
+END PROPERTY
+
+
 /'* \brief Update all pages from notebook
 
 Method to update the style for all pages in the notebook, when the user
@@ -283,11 +292,7 @@ SUB SrcNotebook.settingsChanged()
   IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
 
   WITH *INI
-    pango_font_description_free(Font)
-    Font = pango_font_description_from_string(SADD(.FontSrc))
-    gtk_widget_override_font(GTK_WIDGET(ViewCur), Font)
     gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(BuffCur), .Bool(.FSH))
-    gtk_source_buffer_set_style_scheme(GTKSOURCE_SOURCE_BUFFER(BuffCur), Schema)
 
     VAR n = gtk_notebook_get_n_pages(GTK_NOTEBOOK(NoteBok))
     FOR i AS gint = n - 1 TO 0 STEP -1
@@ -296,8 +301,8 @@ SUB SrcNotebook.settingsChanged()
         , srcv = g_object_get_data(G_Object(widg), "SrcView") _
         , mark = gtk_text_buffer_get_insert(buff)
       gtk_widget_override_font(GTK_WIDGET(srcv), Font)
-      gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(buff), .Bool(.FSH))
       gtk_source_buffer_set_style_scheme(buff, Schema)
+      gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(buff), .Bool(.FSH))
       gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), .Bool(.FLN))
       gtk_text_view_scroll_to_mark(srcv, mark, .0, TRUE, .0, 1. / 99 * .Scroll)
     NEXT
