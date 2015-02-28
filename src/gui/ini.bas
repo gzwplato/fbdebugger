@@ -15,8 +15,6 @@
 
 '* \brief Class to handle values in the file fbdebugger.ini
 TYPE IniUDT
-  AS gdouble _
-    Scroll       '*< The scroll position for the current line
   AS guint32 _
          Flags _ '*< All flags
       , CurPos _ '*< The position of the current line
@@ -204,7 +202,7 @@ FUNCTION IniUDT.loadIni() AS gchar PTR
     CASE "[FTS]=" : FontSrc = fontname & " " & LTRIM(MID(t, 7), ANY !"\t\v ")
     CASE ELSE : ?!"unknown ini entry:\n  " & t
     END SELECT
-  WEND : CLOSE #fnr : Scroll = CurPos / 99 :                 RETURN NULL
+  WEND : CLOSE #fnr :                                        RETURN NULL
 END FUNCTION
 
 
@@ -217,9 +215,9 @@ fbdebugger.ini. Strings get trimmed before saving.
 '/
 FUNCTION IniUDT.saveIni() AS gchar PTR
   IF DIR("fbdebuggersav.ini") <> "" THEN _
-    if KILL("fbdebuggersav.ini") then                   RETURN __("Cannot kill file fbdebuggersav.ini")
+    IF KILL("fbdebuggersav.ini") THEN                   RETURN __("Cannot kill file fbdebuggersav.ini")
 	IF DIR("fbdebugger.ini")    <> "" THEN _
-    if NAME("fbdebugger.ini", "fbdebuggersav.ini") then RETURN __("Cannot rename file fbdebugger.ini")
+    IF NAME("fbdebugger.ini", "fbdebuggersav.ini") THEN RETURN __("Cannot rename file fbdebugger.ini")
 
   VAR fnr = FREEFILE
   IF OPEN(EXEPATH & SLASH & "fbdebugger.ini" FOR OUTPUT AS fnr) _
@@ -275,7 +273,7 @@ FUNCTION IniUDT.saveIni() AS gchar PTR
   PRINT #fnr, "[TTP]=" & Flag(FTT)
   PRINT #fnr, "[FLN]=" & Flag(FLN)
 
-  CLOSE #fnr : Scroll = CurPos / 99 :                        RETURN NULL
+  CLOSE #fnr :                                               RETURN NULL
 END FUNCTION
 
 DIM SHARED AS IniUDT PTR INI '*< The global INI variable for this class

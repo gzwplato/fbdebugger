@@ -239,8 +239,9 @@ WITH *INI
     g_object_get(     numDelay, "value", @num, NULL) : .DelVal = cast(guint32, num)
     g_object_get(    numCurpos, "value", @num, NULL) : .CurPos = cast(guint32, num)
 
-    SRC->settingsChanged()
     VAR r = .saveIni() : IF r THEN ?PROJ_NAME & ": " & *r
+    SRC->ScrollPos = 1. / 99 * .CurPos
+    SRC->settingsChanged()
   CASE ELSE '                                             INI --> dialog
     DIM AS GdkRGBA col
     gdk_rgba_parse(@col, "#" & HEX(   .colForegr, 6)) : g_object_set(   colForegr, "rgba", @col, NULL)
@@ -288,6 +289,7 @@ WITH *INI
     IF bool THEN updateScheme(@array(0)) _ '' ToDo handle error messages
             ELSE SRC->SchemeId = SADD(.StlSchm)
     SRC->FontId = .FontSrc
+    SRC->ScrollPos = 1. / 99 * .CurPos
     SRC->settingsChanged()
   END SELECT
 END WITH

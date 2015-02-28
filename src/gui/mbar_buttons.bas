@@ -20,8 +20,6 @@ SUB act_minicmd CDECL ALIAS "act_minicmd" ( _
 
 ?" --> callback act_minicmd"
 
-SRC->scroll(153, NULL)
-
 END SUB
 
 
@@ -155,7 +153,7 @@ FOR i AS INTEGER = 0 TO ubound(fnam)
 NEXT
 
 '?" do some random scrolling soon ... (don't do GUI actions)"
-'while gtk_events_pending() : gtk_main_iteration() : wend : sleep 5000 ' make changes visible
+'while gtk_events_pending() : gtk_main_iteration() : wend : sleep 2000 ' make changes visible
 
 'randomize(timer)
 'FOR i AS INTEGER = 0 TO 10
@@ -164,15 +162,18 @@ NEXT
 '?" SRC->scroll(" & l & ", " & ref(ind) & ")", ind
   'SRC->scroll(l, ref(ind))
 
-  'while gtk_events_pending() : gtk_main_iteration() : wend : sleep 5000 ' make changes visible
+  'while gtk_events_pending() : gtk_main_iteration() : wend : sleep 2000 ' make changes visible
 'NEXT
 
 '?" remove all notebook pages (GUI actions alowed again)"
 'SRC->removeAll()
-'' alternative remove single pages
+''' alternative remove single pages
 'FOR i AS INTEGER = 0 TO ubound(fnam)
   'SRC->remove(ref(i))
 'NEXT
+
+while gtk_events_pending() : gtk_main_iteration() : wend
+SRC->scroll(150, ref(1))
 END SUB
 
 

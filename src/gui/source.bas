@@ -39,6 +39,8 @@ scrolled window and the related text buffer gets connected.
 
 '/
 TYPE SrcNotebook
+  AS gdouble _
+    ScrPos    '*< The position to scroll the current line in the source views
   AS guint _
     Pages _   '*< The number of pages in the notebook
   , LenCur    '*< The number of characters in the source current line
@@ -64,6 +66,7 @@ TYPE SrcNotebook
   DECLARE SUB removeAll()
   DECLARE SUB settingsChanged()
   DECLARE SUB setStyle(byval as GtkSourceBuffer ptr)
+  declare property ScrollPos(byval as gdouble)
   declare property SchemeID(byval as const gchar ptr)
   declare property FontId(byval as const gchar ptr)
   DECLARE CONSTRUCTOR()
@@ -171,7 +174,7 @@ END FUNCTION
 
 /'* \brief Scroll the context to line, switch page if necessary
 \param Lnr The line number to scroll to (starting at 1)
-\param Widg The widget to show (reference returned by SrcNotebook::scroll() )
+\param Widg The widget to show (reference returned by SrcNotebook::addBas() )
 
 Member function to switch to a certain page (if necessary) and scroll
 to a certain line, select the context of that line and place a copy to
@@ -195,19 +198,18 @@ SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
   gtk_text_iter_backward_char(@i2)
 
   gtk_text_buffer_place_cursor(buff, i1)
-  gtk_text_view_scroll_to_iter(srcv, i1, .0, TRUE, .0, INI->Scroll)
+  gtk_text_view_scroll_to_iter(srcv, i1, .0, TRUE, .0, ScrPos)
 
   gtk_text_buffer_select_range(buff, i1, @i2)
   VAR cont = gtk_text_buffer_get_text(buff, i1, @i2, TRUE) _
     , curr = *cont
+  gtk_text_iter_free(i1)
   g_free(cont)
 
   IF LEN(curr) > LenCur _
-    THEN curr = LEFT(curr, LenCur - 4) + " ..." _
+    THEN curr = LEFT(curr, LenCur - 4) & " ..." _
     ELSE IF 0 = LEN(curr) THEN curr = " "
-  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), curr, -1)
-
-  gtk_text_iter_free(i1)
+  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), curr, LEN(curr))
 END SUB
 
 
@@ -249,8 +251,20 @@ SUB SrcNotebook.removeAll()
 END SUB
 
 
+/'* \brief Property to set the scroll position for the current line
+\param Posi The position [0.0,1.0]
+
+Gets the new position to scroll the current line in the source view
+widgets.
+
+'/
+PROPERTY SrcNotebook.ScrollPos(BYVAL Posi AS gdouble)
+  ScrPos = Posi
+END PROPERTY
+
+
 /'* \brief Property to set the style scheme
-\param SchemId The name of the style (scheme_id)
+\param Snam The name of the style (scheme_id)
 
 Loads the specified style scheme and applies it to the buffer for the
 current line. All other buffers need separate adaption (if any).
@@ -304,7 +318,7 @@ SUB SrcNotebook.settingsChanged()
       gtk_source_buffer_set_style_scheme(buff, Schema)
       gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(buff), .Bool(.FSH))
       gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), .Bool(.FLN))
-      gtk_text_view_scroll_to_mark(srcv, mark, .0, TRUE, .0, 1. / 99 * .Scroll)
+      gtk_text_view_scroll_to_mark(srcv, mark, .0, TRUE, .0, ScrPos)
     NEXT
   END WITH
 
