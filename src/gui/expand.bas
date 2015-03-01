@@ -101,6 +101,7 @@ CONSTRUCTOR ExpandUdt()
     get #fnr, , Xml
     CLOSE #fnr
   END IF
+?" CONSTRUCTOR ExpandUdt"
 END CONSTRUCTOR
 
 

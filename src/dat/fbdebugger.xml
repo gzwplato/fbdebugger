@@ -6,14 +6,14 @@
 	<color name='text_fg' value='#000000'/>
 	<color name='text_bg' value='#FFFFFF'/>
 	<color name='line_highlight' value='#FCE94F'/>
-	<color name='line_no_bg' value='#E9B96E'/>
-	<color name='keyword_color' value='#5444FF'/>
-	<color name='string_color' value='#CC0000'/>
+	<color name='line_no_bg' value='#BABDB6'/>
+	<color name='keyword_color' value='#3465A4'/>
+	<color name='string_color' value='#CE5C00'/>
 	<color name='prepro_color' value='#73D216'/>
-	<color name='comment_color' value='#888A85'/>
+	<color name='comment_color' value='#BABDB6'/>
 	<color name='number_color' value='#F57900'/>
 	<color name='escape_color' value='#8F5902'/>
-	<color name='error_color' value='#ff0000'/>
+	<color name='error_color' value='#FCE94F'/>
 
 
 <!-- Global Settings -->
@@ -21,7 +21,7 @@
 	<style name="cursor" foreground="error_color"/>
 	<style name="current-line" background="line_highlight"/>
 	<style name="line-numbers" foreground="text_fg" background="line_no_bg"/>
-	<style name="selection" foreground="text_fg" background="keyword_color"/>
+	<style name="selection" foreground="text_fg" background="error_color"/>
 
 <!-- Bracket Matching -->
 	<style name="bracket-match" foreground="text_bg" background="keyword_color"/>

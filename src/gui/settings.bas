@@ -67,24 +67,24 @@ FUNCTION updateScheme(BYVAL Array AS GObject PTR PTR) AS gchar PTR
   g_object_get(Array[_I_], "rgba", @col, NULL) : _
   PRINT #fout, !"\t<color name='" & _N_ & "' value='#" & HEX(colTrans(col), 6) & "'/>"
 
-      COL_OUT(0,"text_fg")
-      COL_OUT(1,"text_bg")
-      COL_OUT(2,"line_highlight")
-      COL_OUT(3,"line_no_bg")
-      COL_OUT(4,"keyword_color")
-      COL_OUT(5,"string_color")
-      COL_OUT(6,"prepro_color")
-      COL_OUT(7,"comment_color")
-      COL_OUT(8,"number_color")
-      COL_OUT(9,"escape_color")
-      PRINT #fout, !"\t<color name='error_color' value='#ff0000'/>"
+      COL_OUT( 0,"text_fg")
+      COL_OUT( 1,"text_bg")
+      COL_OUT( 2,"line_highlight")
+      COL_OUT( 3,"line_no_bg")
+      COL_OUT( 4,"keyword_color")
+      COL_OUT( 5,"string_color")
+      COL_OUT( 6,"prepro_color")
+      COL_OUT( 7,"comment_color")
+      COL_OUT( 8,"number_color")
+      COL_OUT( 9,"escape_color")
+      COL_OUT(10,"error_color")
     ELSE
       PRINT #fout, l
     END IF
   WEND : CLOSE #f_in : CLOSE #fout
   WITH *SRC
     gtk_source_style_scheme_manager_force_rescan(.Manager)
-    .SchemeId = @"fbdebugger"
+    .SchemeID = @"fbdebugger"
   END WITH
   IF KILL("dat/fbdebugger.tmp") THEN _
                            RETURN __("Cannot remove dat/fbdebugger.tmp")
@@ -115,13 +115,13 @@ When called first, the widgets get searched in the GUI description file.
 SUB SettingsForm(BYVAL Mo AS gint = 1)
   STATIC AS GObject PTR _
     colForegr, colBackgr, colBackgrCur, colBreak, colBreakTmp, colLineNo _
-  , colKeyword, colStrings, colPrepro, colComment, colNumbers, colEscape _
+  , colKeyword, colStrings, colPrepro, colComment, colNumbers, colEscape, colCursor _
   , boolTooltips, boolVerbose, boolScreen _
   , boolProctrace, boolLinetrace _
   , boolLineno, boolSyntax _
   , entryFbc, entryIDE, entryCmdl, entryDbg, entryLogfile _
   , numDelay, numCurpos, fontSource, boxSchema _
-  , array(10)
+  , array(11)
 
   IF 0 = fontSource THEN '      initial get objects from GUI description
     VAR xml = GUI.XML ' the style scheme combobox text gets handled in SrcNotebook
@@ -137,6 +137,7 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
         colComment = gtk_builder_get_object(xml, "colorbutton516")
         colNumbers = gtk_builder_get_object(xml, "colorbutton517")
          colEscape = gtk_builder_get_object(xml, "colorbutton518")
+         colCursor = gtk_builder_get_object(xml, "colorbutton519")
 
         boolSyntax = gtk_builder_get_object(xml, "checkbutton501")
        boolVerbose = gtk_builder_get_object(xml, "checkbutton502")
@@ -180,6 +181,7 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
     g_object_set_data(  colComment, "TestId", cast(gpointer, STYLE_COLOR))
     g_object_set_data(  colNumbers, "TestId", cast(gpointer, STYLE_COLOR))
     g_object_set_data(   colEscape, "TestId", cast(gpointer, STYLE_COLOR))
+    g_object_set_data(   colCursor, "TestId", cast(gpointer, STYLE_COLOR))
     g_object_set_data(  boolSyntax, "TestId", cast(gpointer, STYLE_SYNTAX))
     g_object_set_data(  boolLineno, "TestId", cast(gpointer, STYLE_LINENO))
     g_object_set_data(  fontSource, "TestId", cast(gpointer, STYLE_FONT))
@@ -196,7 +198,8 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
     array( 7) = colComment
     array( 8) = colNumbers
     array( 9) = colEscape
-    array(10) = NULL
+    array(10) = colCursor
+    array(11) = NULL
     g_object_set_data(boxSchema, "WidgetArray", @array(0))
   END IF
 
@@ -204,18 +207,19 @@ WITH *INI
   SELECT CASE AS CONST Mo
   CASE 0 '                                                dialog --> INI
     DIM AS GdkRGBA PTR col ' passing a pointer, remember to free the data
-    g_object_get(   colForegr, "rgba", @col, NULL) :    .colForegr = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(   colBackgr, "rgba", @col, NULL) :    .colBackgr = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(colBackgrCur, "rgba", @col, NULL) : .colBackgrCur = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(    colBreak, "rgba", @col, NULL) :     .colBreak = colTrans(col) : gdk_rgba_free(col)
-    g_object_get( colBreakTmp, "rgba", @col, NULL) :  .colBreakTmp = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(   colLineNo, "rgba", @col, NULL) :    .colLineNo = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(  colKeyword, "rgba", @col, NULL) :   .colKeyword = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(  colStrings, "rgba", @col, NULL) :   .colStrings = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(   colPrepro, "rgba", @col, NULL) :    .colPrepro = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(  colComment, "rgba", @col, NULL) :   .colComment = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(  colNumbers, "rgba", @col, NULL) :   .colNumbers = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(   colEscape, "rgba", @col, NULL) :    .colEscape = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(   colForegr, "rgba", @col, NULL) :    .ColForegr = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(   colBackgr, "rgba", @col, NULL) :    .ColBackgr = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(colBackgrCur, "rgba", @col, NULL) : .ColBackgrCur = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(    colBreak, "rgba", @col, NULL) :     .ColBreak = colTrans(col) : gdk_rgba_free(col)
+    g_object_get( colBreakTmp, "rgba", @col, NULL) :  .ColBreakTmp = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(   colLineNo, "rgba", @col, NULL) :    .ColLineNo = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(  colKeyword, "rgba", @col, NULL) :   .ColKeyword = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(  colStrings, "rgba", @col, NULL) :   .ColStrings = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(   colPrepro, "rgba", @col, NULL) :    .ColPrepro = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(  colComment, "rgba", @col, NULL) :   .ColComment = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(  colNumbers, "rgba", @col, NULL) :   .ColNumbers = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(   colEscape, "rgba", @col, NULL) :    .ColEscape = colTrans(col) : gdk_rgba_free(col)
+    g_object_get(   colCursor, "rgba", @col, NULL) :    .ColCursor = colTrans(col) : gdk_rgba_free(col)
 
     DIM AS gboolean bool
     g_object_get( boolTooltips, "active", @bool, NULL) : .Bool(.FTT) = bool
@@ -244,18 +248,19 @@ WITH *INI
     SRC->settingsChanged()
   CASE ELSE '                                             INI --> dialog
     DIM AS GdkRGBA col
-    gdk_rgba_parse(@col, "#" & HEX(   .colForegr, 6)) : g_object_set(   colForegr, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(   .colBackgr, 6)) : g_object_set(   colBackgr, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(.colBackgrCur, 6)) : g_object_set(colBackgrCur, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(    .colBreak, 6)) : g_object_set(    colBreak, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX( .colBreakTmp, 6)) : g_object_set( colBreakTmp, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(   .colLineNo, 6)) : g_object_set(   colLineNo, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(  .colKeyword, 6)) : g_object_set(  colKeyword, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(  .colStrings, 6)) : g_object_set(  colStrings, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(   .colPrepro, 6)) : g_object_set(   colPrepro, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(  .colComment, 6)) : g_object_set(  colComment, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(  .colNumbers, 6)) : g_object_set(  colNumbers, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(   .colEscape, 6)) : g_object_set(   colEscape, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(   .ColForegr, 6)) : g_object_set(   colForegr, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(   .ColBackgr, 6)) : g_object_set(   colBackgr, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(.ColBackgrCur, 6)) : g_object_set(colBackgrCur, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(    .ColBreak, 6)) : g_object_set(    colBreak, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX( .ColBreakTmp, 6)) : g_object_set( colBreakTmp, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(   .ColLineNo, 6)) : g_object_set(   colLineNo, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(  .ColKeyword, 6)) : g_object_set(  colKeyword, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(  .ColStrings, 6)) : g_object_set(  colStrings, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(   .ColPrepro, 6)) : g_object_set(   colPrepro, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(  .ColComment, 6)) : g_object_set(  colComment, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(  .ColNumbers, 6)) : g_object_set(  colNumbers, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(   .ColEscape, 6)) : g_object_set(   colEscape, "rgba", @col, NULL)
+    gdk_rgba_parse(@col, "#" & HEX(   .ColCursor, 6)) : g_object_set(   colCursor, "rgba", @col, NULL)
 
     g_object_set( boolTooltips, "active", .Bool(.FTT), NULL)
     g_object_set(  boolVerbose, "active", .Bool(.FVM), NULL)
@@ -287,8 +292,8 @@ WITH *INI
       i += 1
     WEND
     IF bool THEN updateScheme(@array(0)) _ '' ToDo handle error messages
-            ELSE SRC->SchemeId = SADD(.StlSchm)
-    SRC->FontId = .FontSrc
+            ELSE SRC->SchemeID = SADD(.StlSchm)
+    SRC->FontID = .FontSrc
     SRC->ScrollPos = 1. / 99 * .CurPos
     SRC->settingsChanged()
   END SELECT
@@ -432,7 +437,7 @@ SUB on_settings_changed CDECL ALIAS "on_settings_changed" ( _
       DIM AS gchar PTR fontsrc
       g_object_get(Objct, "font", @fontsrc, NULL)
 
-      .FontId = *fontsrc
+      .FontID = *fontsrc
       g_free(fontsrc)
 
       VAR srcv = g_object_get_data(G_Object(widg), "SrcView")
@@ -456,7 +461,7 @@ SUB on_settings_changed CDECL ALIAS "on_settings_changed" ( _
 
       g_object_get(Objct, "active-id", @stlschm, NULL)
       VAR bool = IIF(*stlschm = "fbdebugger", TRUE, FALSE)
-      .SchemeId = stlschm
+      .SchemeID = stlschm
       g_free(stlschm)
 
       VAR i = 0

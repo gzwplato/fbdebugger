@@ -57,6 +57,7 @@ CONSTRUCTOR LOG_Udt()
     get #fnr, , Xml
     CLOSE #fnr
   END IF
+?" CONSTRUCTOR LOG_Udt"
 END CONSTRUCTOR
 
 

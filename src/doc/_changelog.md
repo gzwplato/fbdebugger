@@ -8,13 +8,13 @@ Further Development {#SecFurtherVev}
 
 -# Must-Have
 
-  - all current features cross-platform
+  - all features fo version 2.80 cross-platform
+  - Marks in source view for breakpoints
+  - Drag and Drop for text (ie log to notes)
 
 -# Nice-To-Have
 
-  - Marks in source view for breakpoints
   - Drag and Drop for files
-  - Drag and Drop for text (ie log to notes)
 
 -# Optional
 

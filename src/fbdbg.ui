@@ -6,6 +6,7 @@
   <object class="GtkIconFactory" id="iconfactory1">
     <sources>
       <source stock-id="dbg-fastrun" filename="img/fastrun.bmp"/>
+      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-step_end" filename="img/step_end.bmp"/>
       <source stock-id="dbg-step_over" filename="img/step_over.bmp"/>
       <source stock-id="dbg-varproc" filename="img/varproc.bmp"/>
@@ -14,7 +15,6 @@
       <source stock-id="dbg-minicmd" filename="img/minicmd.bmp"/>
       <source stock-id="dbg-auto" filename="img/auto.bmp"/>
       <source stock-id="dbg-step_out" filename="img/step_out.bmp"/>
-      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
       <source stock-id="dbg-files" filename="img/files.bmp"/>
       <source stock-id="dbg-stop" filename="img/stop.bmp"/>
       <source stock-id="dbg-step_start" filename="img/step_start.bmp"/>
@@ -23,11 +23,11 @@
       <source stock-id="dbg-kill" filename="img/kill.bmp"/>
       <source stock-id="dbg-attachexe" filename="img/attachexe.bmp"/>
       <source stock-id="dbg-run" filename="img/run.bmp"/>
-      <source stock-id="dbg-step" filename="img/step.png"/>
-      <source stock-id="dbg-free" filename="img/free.bmp"/>
-      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-tools" filename="img/tools.bmp"/>
+      <source stock-id="dbg-free" filename="img/free.bmp"/>
+      <source stock-id="dbg-step" filename="img/step.png"/>
       <source stock-id="dbg-source" filename="img/source.bmp"/>
+      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
     </sources>
   </object>
   <object class="GtkAboutDialog" id="aboutdialog1">
@@ -2120,7 +2120,7 @@ TJF</property>
                         <property name="left_attach">2</property>
                         <property name="top_attach">0</property>
                         <property name="width">1</property>
-                        <property name="height">14</property>
+                        <property name="height">15</property>
                       </packing>
                     </child>
                     <child>
@@ -2250,7 +2250,7 @@ TJF</property>
                       </object>
                       <packing>
                         <property name="left_attach">0</property>
-                        <property name="top_attach">14</property>
+                        <property name="top_attach">15</property>
                         <property name="width">3</property>
                         <property name="height">1</property>
                       </packing>
@@ -2317,6 +2317,39 @@ TJF</property>
                       <packing>
                         <property name="left_attach">1</property>
                         <property name="top_attach">13</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label519">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="xalign">1</property>
+                        <property name="label" translatable="yes">_Cursor/Selection</property>
+                        <property name="use_underline">True</property>
+                        <property name="mnemonic_widget">colorbutton519</property>
+                      </object>
+                      <packing>
+                        <property name="left_attach">0</property>
+                        <property name="top_attach">14</property>
+                        <property name="width">1</property>
+                        <property name="height">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkColorButton" id="colorbutton519">
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                        <property name="title" translatable="yes">Cursor / Selection</property>
+                        <signal name="color-set" handler="on_settings_changed" object="comboboxtext501" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="left_attach">1</property>
+                        <property name="top_attach">14</property>
                         <property name="width">1</property>
                         <property name="height">1</property>
                       </packing>

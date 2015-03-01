@@ -93,6 +93,7 @@ CONSTRUCTOR ActionsUDT()
     SbarLab5 = GTK_LABEL(gtk_builder_get_object(.XML, "sbarlab5"))
   END WITH
   setState(RTEND)
+?" CONSTRUCTOR ActionsUDT"
 END CONSTRUCTOR
 
 
