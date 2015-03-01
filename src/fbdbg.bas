@@ -61,12 +61,13 @@ declare SUB access_viol( _
   , byval Text AS zSTRING PTR _
   )
 
-
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:                                 load GUI stuff / GUI Anbindung >
     #INCLUDE "gui/gui.bas" '                                 Signals & GUI-XML >
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+#INCLUDE ONCE "core/fbdbg3_main.bas" 'TODO name to be changed??
 
 #INCLUDE ONCE "testing.bas"
 
@@ -82,4 +83,5 @@ act_varproc(0, 0)
 
 DELETE SRC
 DELETE TXT
-DELETE XPD
+Delete XPD
+Delete ACT

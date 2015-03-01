@@ -199,7 +199,7 @@ FUNCTION on_hdob_entry_key CDECL( _
     CASE GDK_KEY_b : txt = "&b" & BIN(num)
     CASE ELSE :                                             RETURN false
     END SELECT
-  END WITH : gtk_entry_set_text(GTK_ENTRY(Entry), txt)     : RETURN true
+  END WITH : gtk_entry_set_text(GTK_ENTRY(Entry), Cast (gchar Ptr,txt))     : RETURN true
 END FUNCTION
 
 

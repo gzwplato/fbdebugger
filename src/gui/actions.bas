@@ -102,7 +102,7 @@ END CONSTRUCTOR
 Member procedure to set the state of the actions (buttons and menu
 entries) and the status bar messages.
 
-\todo Add message string variables for SbarLab[2-5], if necessary
+\todo Add message string variables for SbarLab[1-5], if necessary
 
 '/
 SUB ActionsUDT.setState(BYVAL RunType AS integer)
@@ -123,7 +123,7 @@ SUB ActionsUDT.setState(BYVAL RunType AS integer)
     gtk_action_set_sensitive(act_exemod, TRUE)
     gtk_action_set_sensitive(act_minicmd, TRUE)
 
-    Message = "Waiting " '& stoplibel(stopcode)
+    Message = "Waiting " '& stoplibel(stopcode)  'todo active the reason stop text
     gtk_label_set_text(GTK_LABEL(SbarLab1), Message)
 
     'statusthreadstr="Thread " & Str(thread(threadcur).id)
@@ -153,15 +153,12 @@ SUB ActionsUDT.setState(BYVAL RunType AS integer)
     gtk_action_set_sensitive(act_kill, FALSE)
     gtk_action_set_sensitive(act_exemod, FALSE)
     SELECT CASE AS CONST RunType
-    CASE RTRUN
-      Message = "Running"
-      gtk_label_set_text(GTK_LABEL(SbarLab1), Message)
-    CASE RTFRUN
-      Message = "FAST Running"
-      gtk_label_set_text(GTK_LABEL(SbarLab1), Message)
-    CASE ELSE
-      Message = "Released"
-      gtk_label_set_text(GTK_LABEL(SbarLab1), Message)
+    	CASE RTRUN
+      gtk_label_set_text(GTK_LABEL(SbarLab1), "Running")
+    	CASE RTFRUN
+      gtk_label_set_text(GTK_LABEL(SbarLab1), "FAST Running")
+    	CASE Else
+      gtk_label_set_text(GTK_LABEL(SbarLab1), "Released")
     END SELECT
   CASE RTAUTO 'auto
     gtk_action_set_sensitive(act_step, FALSE)
@@ -176,8 +173,7 @@ SUB ActionsUDT.setState(BYVAL RunType AS integer)
     gtk_action_set_sensitive(act_free, FALSE)
     gtk_action_set_sensitive(act_kill, FALSE)
     gtk_action_set_sensitive(act_exemod, FALSE)
-    Message = "Auto"
-    gtk_label_set_text(GTK_LABEL(SbarLab1), Message)
+    gtk_label_set_text(GTK_LABEL(SbarLab1), "Auto")
   CASE ELSE '                        prun=false --> terminated or no pgm
     gtk_action_set_sensitive(act_step, FALSE)
     gtk_action_set_sensitive(act_step_over, FALSE)
@@ -193,8 +189,7 @@ SUB ActionsUDT.setState(BYVAL RunType AS integer)
     gtk_action_set_sensitive(act_kill, FALSE)
     gtk_action_set_sensitive(act_exemod, FALSE)
     IF RunType = RTEND THEN
-      Message = "Terminated"
-      gtk_label_set_text(GTK_LABEL(SbarLab1), Message)
+      gtk_label_set_text(GTK_LABEL(SbarLab1), "Terminated")
     ENDIF
     gtk_action_set_sensitive(act_minicmd, FALSE)
   END SELECT

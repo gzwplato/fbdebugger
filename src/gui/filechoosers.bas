@@ -38,12 +38,12 @@ FUNCTION dbg_exe_filter() AS GtkFileFilter PTR
   #IFDEF __FB_UNIX__
     gtk_file_filter_add_mime_type(filter, "application/x-csh")
     gtk_file_filter_add_mime_type(filter, "application/x-executable")
-    gtk_file_filter_add_mime_type(filter, "application/x-shellscript")
-    gtk_file_filter_add_pattern(filter, "*.sh")
+    'NO script gtk_file_filter_add_mime_type(filter, "application/x-shellscript")
+    'NO script gtk_file_filter_add_pattern(filter, "*.sh")
   #ELSE
     gtk_file_filter_add_pattern(filter, "*.exe")
-    gtk_file_filter_add_pattern(filter, "*.bat")
-    gtk_file_filter_add_pattern(filter, "*.com")
+    'NO BAT gtk_file_filter_add_pattern(filter, "*.bat")
+    'NO COM gtk_file_filter_add_pattern(filter, "*.com")
   #ENDIF
   RETURN filter
 END FUNCTION
