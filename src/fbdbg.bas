@@ -15,14 +15,6 @@ See file ../ReadMe.md for licence information.
 '< Hauptprogramm erzeugt von                                                   >
 '< Generated at / Generierung am                             2015-01-20, 10:56 >
 ' -----------------------------------------------------------------------------
-'CONST PROJ_NAME = "fbdbg"                   '*< The project name
-'CONST PROJ_DESC = "FreeBASIC Debugger"      '*< The project description
-'CONST PROJ_VERS = "3.0"                     '*< The version number
-'CONST PROJ_YEAR = "2015"                    '*< The year of the release
-'CONST PROJ_AUTH = "SARG, AGS, TJF"          '*< The authors
-'CONST PROJ_MAIL = "Thomas.Freiherr@gmx.net" '*< An email address to get in contact
-'CONST PROJ_WEBS = "http://github.com/fbdebugger/fbdebugger" '*< The website where to find the source
-'CONST PROJ_LICE = "GPLv3"                   '*< The licence of the project
 '<                                                                             >
 '< Description / Beschreibung:                                                 >
 '<                                                                             >
@@ -30,17 +22,15 @@ See file ../ReadMe.md for licence information.
 '<                                                                             >
 '< License / Lizenz:                                                           >
 '<                                                                             >
-'<   (C) by ...                                                                >
+'<   (C) by sarg@aliceadsl.fr                                                  >
 '<   GPLv3 (Generell public licence version 3)                                 >
 '<   details at http://www.gnu.org/licenses/gpl-3.0.html                       >
 '<                                                                             >
 ' -----------------------------------------------------------------------------
 '< Find program info in file:                                                               >
-#INCLUDE "version.bas" '                   global constants (version, licence) >
+    #INCLUDE "version.bas" '               global constants (version, licence) >
 
-    '#INCLUDE "Gir/Gtk-3.0.bi" '                  GTK+library / GTK+ Bibliothek >
     #INCLUDE "Gir/GtkSource-3.0.bi" '            GTK+library / GTK+ Bibliothek >
-    '#INCLUDE "Gir/_GLibMacros-2.0.bi" '                            GLib macros >
     #INCLUDE "Gir/_GObjectMacros-2.0.bi" '                      GObject macros >
     gtk_init(@__FB_ARGC__, @__FB_ARGV__) '             start GKT / GTK starten >
     #INCLUDE "libintl.bi" '                     load I18N lib / I18N Lib laden >
@@ -70,8 +60,6 @@ declare SUB access_viol( _
 #INCLUDE ONCE "core/fbdbg3_main.bas" 'TODO name to be changed??
 
 #INCLUDE ONCE "testing.bas"
-
-act_varproc(0, 0)
 
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:          run GTK main, then end / GTK Hauptschleife, dann Ende >

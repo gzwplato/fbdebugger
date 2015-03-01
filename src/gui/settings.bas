@@ -34,28 +34,38 @@ FUNCTION colTrans(byval Col as GdkRGBA PTR) AS guint32
 END FUNCTION
 
 
-FUNCTION newScheme(byval Array AS GObject PTR PTR) AS gchar ptr
-  if name("dat/fbdebugger.xml", "dat/fbdebugger.tmp") then _
-                           return __("Cannot rename dat/fbdebugger.xml")
+/'* \brief Update style scheme file
+\param Array The array of color buttons to get the colors from
+\returns Zero on success, an error message otherwise
+
+Function to update the style scheme file fbdebugger.xml. It renames the
+original file and creates a new one. The context of the original file
+gets copied to the new file, but color declarations get replaced by the
+colors read from the color bottons. Finally the renamed original file
+gets removed.
+
+'/
+FUNCTION updateScheme(BYVAL Array AS GObject PTR PTR) AS gchar PTR
+  IF NAME("dat/fbdebugger.xml", "dat/fbdebugger.tmp") THEN _
+                           RETURN __("Cannot rename dat/fbdebugger.xml")
   VAR f_in = FREEFILE
   IF OPEN("dat/fbdebugger.tmp" FOR INPUT AS f_in) THEN _
-                             return __("Cannot read dat/fbdebugger.tmp")
+                             RETURN __("Cannot read dat/fbdebugger.tmp")
   VAR fout = FREEFILE
   IF OPEN("dat/fbdebugger.xml" FOR OUTPUT AS fout) THEN _
-              close #f_in : return __("Cannot write dat/fbdebugger.xml")
+              CLOSE #f_in : RETURN __("Cannot write dat/fbdebugger.xml")
 
-  var allready_done = 0
-  WHILE not eof(f_in)
-    var l = ""
-    line input #f_in, l
-    IF instr(l, "<color ") THEN
-      if allready_done then continue while
+  VAR allready_done = 0, l = ""
+  WHILE NOT EOF(f_in)
+    LINE INPUT #f_in, l
+    IF INSTR(l, "<color ") THEN
+      IF allready_done THEN CONTINUE WHILE
       allready_done += 1
       DIM AS GdkRGBA PTR col
 
-#define COL_OUT(_I_,_N_) _
+#DEFINE COL_OUT(_I_,_N_) _
   g_object_get(Array[_I_], "rgba", @col, NULL) : _
-  print #fout, !"\t<color name='" & _N_ & "' value='#" & HEX(colTrans(col), 6) & "'/>"
+  PRINT #fout, !"\t<color name='" & _N_ & "' value='#" & HEX(colTrans(col), 6) & "'/>"
 
       COL_OUT(0,"text_fg")
       COL_OUT(1,"text_bg")
@@ -67,17 +77,17 @@ FUNCTION newScheme(byval Array AS GObject PTR PTR) AS gchar ptr
       COL_OUT(7,"comment_color")
       COL_OUT(8,"number_color")
       COL_OUT(9,"escape_color")
-      print #fout, !"\t<color name='error_color' value='#ff0000'/>"
+      PRINT #fout, !"\t<color name='error_color' value='#ff0000'/>"
     ELSE
-      print #fout, l
+      PRINT #fout, l
     END IF
   WEND : CLOSE #f_in : CLOSE #fout
   WITH *SRC
     gtk_source_style_scheme_manager_force_rescan(.Manager)
-    .Schema = gtk_source_style_scheme_manager_get_scheme(.Manager, @"fbdebugger")
+    .SchemeId = @"fbdebugger"
   END WITH
-  if kill("dat/fbdebugger.tmp") then _
-                           return __("Cannot remove dat/fbdebugger.tmp")
+  IF KILL("dat/fbdebugger.tmp") THEN _
+                           RETURN __("Cannot remove dat/fbdebugger.tmp")
   RETURN NULL
 END FUNCTION
 
@@ -110,7 +120,7 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
   , boolProctrace, boolLinetrace _
   , boolLineno, boolSyntax _
   , entryFbc, entryIDE, entryCmdl, entryDbg, entryLogfile _
-  , numDelay, numCurpos, fontSource _
+  , numDelay, numCurpos, fontSource, boxSchema _
   , array(10)
 
   IF 0 = fontSource THEN '      initial get objects from GUI description
@@ -145,6 +155,20 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
 
           numDelay = gtk_builder_get_object(xml, "adjustment501")
          numCurpos = gtk_builder_get_object(xml, "adjustment502")
+         boxSchema = gtk_builder_get_object(xml, "comboboxtext501")
+
+'' load syntax highlighting style schemes
+    WITH *SRC
+      .Manager = gtk_source_style_scheme_manager_get_default()
+      gtk_source_style_scheme_manager_prepend_search_path(.Manager, @"dat")
+
+      VAR list = gtk_source_style_scheme_manager_get_scheme_ids(.Manager) _
+           , i = 0
+      WHILE list[i]
+        gtk_combo_box_text_append(GTK_COMBO_BOX_TEXT(boxSchema), list[i], list[i])
+        i += 1
+      WEND
+    END WITH
 
     g_object_set_data(   colForegr, "TestId", cast(gpointer, STYLE_COLOR))
     g_object_set_data(   colBackgr, "TestId", cast(gpointer, STYLE_COLOR))
@@ -160,7 +184,7 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
     g_object_set_data(  boolLineno, "TestId", cast(gpointer, STYLE_LINENO))
     g_object_set_data(  fontSource, "TestId", cast(gpointer, STYLE_FONT))
     g_object_set_data(   numCurpos, "TestId", cast(gpointer, STYLE_SCROLL))
-    g_object_set_data(G_OBJECT(SRC->CombBox), "TestId", cast(gpointer, STYLE_SCHEME))
+    g_object_set_data(   boxSchema, "TestId", cast(gpointer, STYLE_SCHEME))
 
     array( 0) = colForegr
     array( 1) = colBackgr
@@ -173,7 +197,7 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
     array( 8) = colNumbers
     array( 9) = colEscape
     array(10) = NULL
-    g_object_set_data(G_OBJECT(SRC->CombBox), "WidgetArray", @array(0))
+    g_object_set_data(boxSchema, "WidgetArray", @array(0))
   END IF
 
 WITH *INI
@@ -208,15 +232,16 @@ WITH *INI
     g_object_get(    entryCmdl, "text", @char, NULL) : .CmdlFbc = *char : g_free(char)
     g_object_get(     entryDbg, "text", @char, NULL) : .CmdExe(0) = *char : g_free(char)
     g_object_get( entryLogfile, "text", @char, NULL) : .FnamLog = *char : g_free(char)
-    g_object_get(   fontSource, "font", @char, NULL) : .FontSrc = *char : g_free(char)
-    g_object_get( SRC->CombBox, "active-id", @char, NULL) : .StlSchm = *char : g_free(char)
+    g_object_get(    fontSource, "font", @char, NULL) : .FontSrc = *char : g_free(char)
+    g_object_get(boxSchema, "active-id", @char, NULL) : .StlSchm = *char : g_free(char)
 
     DIM AS gdouble num
     g_object_get(     numDelay, "value", @num, NULL) : .DelVal = cast(guint32, num)
     g_object_get(    numCurpos, "value", @num, NULL) : .CurPos = cast(guint32, num)
 
-    SRC->settingsChanged()
     VAR r = .saveIni() : IF r THEN ?PROJ_NAME & ": " & *r
+    SRC->ScrollPos = 1. / 99 * .CurPos
+    SRC->settingsChanged()
   CASE ELSE '                                             INI --> dialog
     DIM AS GdkRGBA col
     gdk_rgba_parse(@col, "#" & HEX(   .colForegr, 6)) : g_object_set(   colForegr, "rgba", @col, NULL)
@@ -246,19 +271,25 @@ WITH *INI
     g_object_set(     entryDbg, "text", IIF(LEN(.CmdExe(0)), SADD(.CmdExe(0)), @""), NULL)
     g_object_set( entryLogfile, "text", IIF(LEN(.FnamLog), SADD(.FnamLog), @""), NULL)
 
-    g_object_set( SRC->CombBox, "active-id", IIF(LEN(.StlSchm), SADD(.StlSchm), @""), NULL)
-    g_object_set(   fontSource, "font", IIF(LEN(.FontSrc), SADD(.FontSrc), @""), NULL)
+    g_object_set(    fontSource, "font", IIF(LEN(.FontSrc), SADD(.FontSrc), @""), NULL)
     g_object_set(     numDelay, "value", CAST(gdouble, .DelVal), NULL)
     g_object_set(    numCurpos, "value", CAST(gdouble, .CurPos), NULL)
 
-    var bool = iif(.StlSchm = "fbdebugger", TRUE, FALSE)
-    var i = 0
+    IF gtk_combo_box_set_active_id(GTK_COMBO_BOX(boxSchema), SADD(INI->StlSchm)) THEN
+      INI->StlSchm = "fbdebugger" ''   fallback, if scheme not available
+      gtk_combo_box_set_active_id(GTK_COMBO_BOX(boxSchema), SADD(INI->StlSchm))
+    END IF
+
+    VAR bool = IIF(.StlSchm = "fbdebugger", TRUE, FALSE)
+    VAR i = 0
     WHILE array(i)
       gtk_widget_set_sensitive(GTK_WIDGET(array(i)), bool)
       i += 1
     WEND
-    if bool then newScheme(@array(0))
-
+    IF bool THEN updateScheme(@array(0)) _ '' ToDo handle error messages
+            ELSE SRC->SchemeId = SADD(.StlSchm)
+    SRC->FontId = .FontSrc
+    SRC->ScrollPos = 1. / 99 * .CurPos
     SRC->settingsChanged()
   END SELECT
 END WITH
@@ -327,7 +358,6 @@ SUB on_entry_icon_save CDECL ALIAS "on_entry_icon_save" ( _
   END IF
 
   gtk_widget_destroy(dia)
-
 END SUB
 
 
@@ -362,10 +392,7 @@ SUB on_entry_icon_load CDECL ALIAS "on_entry_icon_load" ( _
   END IF
 
   gtk_widget_destroy(dia)
-
 END SUB
-
-'#define GFunc(_P_) cast(SUB CDECL(BYVAL AS gpointer, BYVAL AS gpointer), _P_)
 
 
 /'* \brief Signal handler to show changed settings
@@ -373,7 +400,8 @@ END SUB
 \param user_data The style scheme combo box, when triggered by a color change
 
 This signal handler updates the style of the source view widgets in
-case of a parameter change in settings dialog.
+case of a parameter change in settings dialog. Only the current
+notebook page gets adapted, to give the user an idea of the new look.
 
 '/
 SUB on_settings_changed CDECL ALIAS "on_settings_changed" ( _
@@ -383,65 +411,61 @@ SUB on_settings_changed CDECL ALIAS "on_settings_changed" ( _
 ?" --> callback on_settings_changed"
 
   WITH *SRC
-    var page = gtk_notebook_get_current_page(GTK_NOTEBOOK(.NoteBok)) _
+    VAR page = gtk_notebook_get_current_page(GTK_NOTEBOOK(.NoteBok)) _
       , widg = gtk_notebook_get_nth_page(GTK_NOTEBOOK(.NoteBok), page)
 
-    SELECT CASE as const g_object_get_data(Objct, "TestId")
+    SELECT CASE AS CONST g_object_get_data(Objct, "TestId")
     CASE STYLE_SYNTAX
       DIM AS gboolean fsh
       g_object_get(Objct, "active", @fsh, NULL)
 
-      var buff = g_object_get_data(G_Object(widg), "Buffer")
+      VAR buff = g_object_get_data(G_Object(widg), "Buffer")
       gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(.BuffCur), fsh)
       gtk_source_buffer_set_highlight_syntax(buff, fsh)
     CASE STYLE_LINENO
       DIM AS gboolean fln
       g_object_get(Objct, "active", @fln, NULL)
 
-      var srcv = g_object_get_data(G_Object(widg), "SrcView")
+      VAR srcv = g_object_get_data(G_Object(widg), "SrcView")
       gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), fLn)
     CASE STYLE_FONT
       DIM AS gchar PTR fontsrc
       g_object_get(Objct, "font", @fontsrc, NULL)
 
-      pango_font_description_free(.Font)
-      .Font = pango_font_description_from_string(fontsrc)
-
-      var srcv = g_object_get_data(G_Object(widg), "SrcView")
-      gtk_widget_override_font(GTK_WIDGET(.ViewCur), .Font)
-      gtk_widget_override_font(GTK_WIDGET(srcv), .Font)
+      .FontId = *fontsrc
       g_free(fontsrc)
+
+      VAR srcv = g_object_get_data(G_Object(widg), "SrcView")
+      gtk_widget_override_font(GTK_WIDGET(srcv), .Font)
     CASE STYLE_SCROLL
       DIM AS gdouble scroll
       g_object_get(Objct, "value", @scroll, NULL)
 
-      var buff = g_object_get_data(G_Object(widg), "Buffer") _
+      VAR buff = g_object_get_data(G_Object(widg), "Buffer") _
         , srcv = g_object_get_data(G_Object(widg), "SrcView") _
         , mark = gtk_text_buffer_get_insert(buff)
       gtk_text_view_scroll_to_mark(srcv, mark, .0, TRUE, .0, 1. / 99 * scroll)
     CASE STYLE_COLOR
-      newScheme(g_object_get_data(user_data, "WidgetArray"))
+      updateScheme(g_object_get_data(user_data, "WidgetArray")) '' ToDo handle error messages
 
-      var buff = g_object_get_data(G_Object(widg), "Buffer")
-      gtk_source_buffer_set_style_scheme(GTKSOURCE_SOURCE_BUFFER(.BuffCur), .Schema)
+      VAR buff = g_object_get_data(G_Object(widg), "Buffer")
       gtk_source_buffer_set_style_scheme(buff, .Schema)
     CASE STYLE_SCHEME
       DIM AS gchar PTR stlschm
       DIM AS GtkWidget PTR PTR array = g_object_get_data(Objct, "WidgetArray")
 
       g_object_get(Objct, "active-id", @stlschm, NULL)
-      var bool = iif(*stlschm = "fbdebugger", TRUE, FALSE)
-      .Schema = gtk_source_style_scheme_manager_get_scheme(.Manager, stlschm)
+      VAR bool = IIF(*stlschm = "fbdebugger", TRUE, FALSE)
+      .SchemeId = stlschm
       g_free(stlschm)
 
-      var i = 0
+      VAR i = 0
       WHILE array[i]
         gtk_widget_set_sensitive(array[i], bool)
         i += 1
       WEND
 
-      var buff = g_object_get_data(G_Object(widg), "Buffer")
-      gtk_source_buffer_set_style_scheme(GTKSOURCE_SOURCE_BUFFER(.BuffCur), .Schema)
+      VAR buff = g_object_get_data(G_Object(widg), "Buffer")
       gtk_source_buffer_set_style_scheme(buff, .Schema)
     END SELECT
   END WITH

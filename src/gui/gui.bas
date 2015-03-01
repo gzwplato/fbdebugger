@@ -62,7 +62,7 @@ VAR dia = GTK_ABOUT_DIALOG(gtk_builder_get_object(GUI.XML, "aboutdialog1"))
 gtk_about_dialog_set_program_name(dia, PROJ_NAME)
 gtk_about_dialog_set_comments(dia, PROJ_DESC)
 gtk_about_dialog_set_version(dia, PROJ_VERS)
-gtk_about_dialog_set_copyright(dia, "© 2006-" & PROJ_YEAR & " by " & PROJ_MAIL & ", " & PROJ_LICE)
+gtk_about_dialog_set_copyright(dia, PROJ_LICE & ": © 2006-" & PROJ_YEAR & " by " & PROJ_MAIL)
 gtk_about_dialog_set_website(dia, PROJ_WEBS)
 END SCOPE
 
