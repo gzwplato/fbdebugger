@@ -10,7 +10,7 @@ ExpandUdt structure and the callbacks used in this class.
 
 
 '' example code to fill a list store
-SUB fillExpandTree cdecl(BYVAL Store as GtkTreeStore ptr, byval Dat as gpointer)
+SUB fillExpandTree cdecl(BYVAL Store as GtkTreeStore ptr, byval UserData as gpointer)
   DIM AS ZSTRING PTR entries(...) = { _ '                 some rows data
     @"--> PUDT1 <* UDT1>=0" _
   , @"A < Integer> No valid value" _
@@ -94,11 +94,11 @@ FIXME
 CONSTRUCTOR ExpandUdt()
   VAR fnam = "expand.ui", fnr = FREEFILE
   IF OPEN(fnam FOR INPUT AS fnr) THEN
-    ?PROJ_NAME & ": Cannot open " & fnam : end 1
+    ?PROJ_NAME & ": Cannot open " & fnam : END 1
     'g_error("Cannot open " & fnam)
   ELSE
-    Xml = string(lof(fnr), 0)
-    get #fnr, , Xml
+    Xml = STRING(LOF(fnr), 0)
+    GET #fnr, , Xml
     CLOSE #fnr
   END IF
 ?" CONSTRUCTOR ExpandUdt"
@@ -109,27 +109,27 @@ SUB ExpandUdt.destroyAll()
   'g_slist_foreach(List, G_FUNC(@gtk_widget_destroy), NULL)
 END SUB
 
-declare SUB on_expand_destroyed CDECL ( _
+DECLARE SUB on_expand_destroyed CDECL ( _
   BYVAL AS GtkWidget PTR, _
   BYVAL AS gpointer)
 
 
 /'* \brief FIXME
 \param FillStore FIXME
-\param Dat FIXME
+\param UserData FIXME
 
 FIXME
 
 '/
 SUB ExpandUdt.addXpd( _
     byval FillStore as SUB CDECL(BYVAL as GtkTreeStore ptr, byval as gpointer) _
-  , byval Dat as gpointer)
+  , byval UserData as gpointer)
 
   VAR build = gtk_builder_new()
   DIM AS GError PTR meld
   IF 0 = gtk_builder_add_from_string(build, Xml, LEN(Xml), @meld) THEN
     WITH *meld
-      ?"Fehler/Error (GTK-Builder in ExpandUdt.Notes):"
+      ?PROJ_NAME & ": Fehler/Error (GTK-Builder in ExpandUdt.addXpd)"
       ?*.message
     END WITH
     g_error_free(meld)
@@ -145,7 +145,7 @@ SUB ExpandUdt.addXpd( _
                  , G_CALLBACK(@on_expand_destroyed), gtv)
 
   gtk_window_set_title(GTK_WINDOW(dia), "Expand")
-  FillStore(GTK_TREE_STORE(store), Dat)
+  FillStore(GTK_TREE_STORE(store), UserData)
   gtk_tree_view_expand_all(GTK_TREE_VIEW(gtv))
 
   List = g_slist_prepend(List, gtv)

@@ -6,7 +6,7 @@
 
 
 '* Macro to create a file save dialog
-#define DBG_FILE_SAVE(_T_) _
+#DEFINE DBG_FILE_SAVE(_T_) _
   gtk_file_chooser_dialog_new(*__(_T_), NULL _
     , GTK_FILE_CHOOSER_ACTION_SAVE _
     , "gtk-cancel", GTK_RESPONSE_CANCEL _
@@ -14,7 +14,7 @@
     , NULL)
 
 '* Macro to create a file open dialog
-#define DBG_FILE_OPEN(_T_) _
+#DEFINE DBG_FILE_OPEN(_T_) _
   gtk_file_chooser_dialog_new(*__(_T_), NULL _
     , GTK_FILE_CHOOSER_ACTION_OPEN _
     , "gtk-cancel", GTK_RESPONSE_CANCEL _

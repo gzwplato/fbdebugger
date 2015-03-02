@@ -56,9 +56,9 @@ TYPE ActionsUDT
     RTEND  '*< Run mode ...
   END ENUM
 
-  DECLARE SUB setState(BYVAL AS integer)
+  DECLARE SUB setState(BYVAL AS INTEGER)
   DECLARE CONSTRUCTOR()
-  DECLARE DESTRUCTOR()
+  'DECLARE DESTRUCTOR()
 END TYPE
 
 
@@ -92,12 +92,14 @@ CONSTRUCTOR ActionsUDT()
     SbarLab4 = GTK_LABEL(gtk_builder_get_object(.XML, "sbarlab4"))
     SbarLab5 = GTK_LABEL(gtk_builder_get_object(.XML, "sbarlab5"))
   END WITH
-  setState(RTEND)
+
+
+setState(RTEND)
 ?" CONSTRUCTOR ActionsUDT"
 END CONSTRUCTOR
 
 
-/'* \brief Set button state based on run mode
+/'* \brief Set action state based on run mode
 \param RunType The type of run mode
 
 Member procedure to set the state of the actions (buttons and menu
@@ -106,7 +108,7 @@ entries) and the status bar messages.
 \todo Add message string variables for SbarLab[2-5], if necessary
 
 '/
-SUB ActionsUDT.setState(BYVAL RunType AS integer)
+SUB ActionsUDT.setState(BYVAL RunType AS INTEGER)
   SELECT CASE AS CONST RunType
   CASE RTSTEP '                                                     wait
     gtk_action_set_sensitive(act_step, TRUE)

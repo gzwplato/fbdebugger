@@ -27,7 +27,7 @@ See file ../ReadMe.md for licence information.
 '<   details at http://www.gnu.org/licenses/gpl-3.0.html                       >
 '<                                                                             >
 ' -----------------------------------------------------------------------------
-'< Find program info in file:                                                               >
+'< Find program info in file:                                                  >
     #INCLUDE "version.bas" '               global constants (version, licence) >
 
     #INCLUDE "Gir/GtkSource-3.0.bi" '            GTK+library / GTK+ Bibliothek >
@@ -68,6 +68,9 @@ declare SUB access_viol( _
 '<  GladeToBac:                                          end block / Blockende >
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
+'' delete global UDTs, created in gui/gui.bas
+DELETE ACT
 DELETE SRC
 DELETE TXT
 DELETE XPD
+DELETE INI

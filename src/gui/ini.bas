@@ -17,8 +17,8 @@
 TYPE IniUDT
   AS guint32 _
          Flags _ '*< All flags
-      , CurPos _ '*< The position of the current line
-      , DelVal _ '*< The value for step delays
+,       CurPos _ '*< The position of the current line
+,       DelVal _ '*< The value for step delays
 ,    ColForegr _ '*< The foreground color
 ,    ColLineNo _ '*< The background color for line numbers
 ,    ColBackgr _ '*< The background color

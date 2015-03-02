@@ -25,142 +25,6 @@ SUB on_CurSrc_clicked CDECL ALIAS "on_CurSrc_clicked" ( _
 END SUB
 
 
-
-/'* \brief Class to handle the context of the source notebook
-
-This class prepares a GtkSourceView for highlighting the FreeBASIC
-syntax and handles the pages of the source notebook. A single
-GtkSourceView is used for all pages, and the files are loaded in to
-several GtkSourceBuffers. Each page contains a GtkScrolledWindow that
-is used as the parent for the GtkSourceView.
-
-When switching a page, the GtkSourceView gets reparent to the related
-scrolled window and the related text buffer gets connected.
-
-'/
-TYPE SrcNotebook
-  AS gdouble _
-    ScrPos    '*< The position to scroll the current line in the source views
-  AS guint _
-    Pages _   '*< The number of pages in the notebook
-  , LenCur    '*< The number of characters in the source current line
-  AS GObject PTR _
-    MenuSrc _ '*< The popup menu for the source views
-  , ViewCur _ '*< The source view for current source line
-  , BuffCur _ '*< The source buffer for current source line
-  , NoteBok   '*< The notebook for source views
-  AS GtkSourceMarkAttributes PTR _
-    Attr0 _   '*< The attributes for inactive breakpoint marks
-  , Attr1 _   '*< The attributes for temporary breakpoint marks
-  , Attr2 _   '*< The attributes for permanent breakpoint marks
-  , Attr3     '*< The attributes for book mark
-  AS GtkSourceStyleScheme PTR _
-    Schema    '*< The style schema for syntax highlighting
-  AS GtkSourceStyleSchemeManager PTR _
-    Manager    '*< The manager for style schemes
-  AS GtkSourceLanguage PTR _
-    Lang      '*< The language definition for syntax highlighting
-  AS PangoFontDescription PTR _
-    Font      '*< The font description for source views
-  AS STRING _
-    LmPaths   '*< The list of paths (gchar PTRs)
-
-  DECLARE CONSTRUCTOR()
-  DECLARE DESTRUCTOR()
-  DECLARE PROPERTY ScrollPos(BYVAL AS gdouble)
-  DECLARE PROPERTY SchemeID(BYVAL AS CONST gchar PTR)
-  DECLARE PROPERTY FontID(BYVAL AS CONST gchar PTR)
-  DECLARE FUNCTION addBas(BYVAL AS gchar PTR, BYVAL AS gchar PTR) AS GtkWidget PTR
-  DECLARE SUB scroll(BYVAL AS gint, BYVAL AS GtkWidget PTR, BYVAL AS guint32 = 1)
-  DECLARE SUB settingsChanged()
-  DECLARE SUB remove(BYVAL AS GtkWidget PTR)
-  DECLARE SUB removeAll()
-END TYPE
-
-
-/'* \brief Constructor to prepare the syntax highlighting
-
-The constructor loads the language definitions for syntax highlighting
-in to the default language manager.
-
-\todo Where to load the language file from? Folder dat or GtkSourceView
-      configuration?
-
-\todo Compute the maximal length of the current source line, based on
-      the font and size of the view widget.
-
-'/
-CONSTRUCTOR SrcNotebook()
-'' get the widgets from the ui file
-  MenuSrc = gtk_builder_get_object(GUI.XML, "menu40")
-  ViewCur = gtk_builder_get_object(GUI.XML, "viewSrcCur")
-  BuffCur = gtk_builder_get_object(GUI.XML, "srcbuffCur")
-  NoteBok = gtk_builder_get_object(GUI.XML, "nbookSrc")
-
-'' prepare managers for syntax highlighting
-  VAR lm = gtk_source_language_manager_get_default()
-  LmPaths = MKI(cast(integer, @"dat"))
-  var ind = 0 _
-  , array = gtk_source_language_manager_get_search_path(lm)
-  WHILE array[ind]
-    LmPaths &= MKI(cast(integer, array[ind]))
-    ind += 1
-  WEND : LmPaths &= MKI(0)
-  gtk_source_language_manager_set_search_path(lm, cast(gchar ptr ptr, sadd(LmPaths)))
-
-'' load syntax highlighting language
-  Lang = gtk_source_language_manager_get_language(lm, "fbc")
-
-  IF 0 = Lang THEN
-    ?PROJ_NAME & ": " & *__("language fbc not available -> no syntax highlighting")
-  ELSE
-    gtk_source_buffer_set_language(GTKSOURCE_SOURCE_BUFFER(BuffCur), Lang)
-  END IF
-  gtk_source_buffer_set_highlight_matching_brackets(GTKSOURCE_SOURCE_BUFFER(BuffCur), FALSE)
-
-  Attr0 = gtk_source_mark_attributes_new()
-  Attr1 = gtk_source_mark_attributes_new()
-  Attr2 = gtk_source_mark_attributes_new()
-  Attr3 = gtk_source_mark_attributes_new()
-
-  gtk_source_mark_attributes_set_stock_id(Attr0, "gtk-media-forward")
-  var pixb = gtk_source_mark_attributes_render_icon(Attr0, GTK_WIDGET(ViewCur), 10)
-  gtk_source_mark_attributes_set_stock_id(Attr1, "gtk-media-pause")
-  var pixbu = gtk_source_mark_attributes_render_icon(Attr1, GTK_WIDGET(ViewCur), 10)
-  gtk_source_mark_attributes_set_stock_id(Attr2, "gtk-media-stop")
-  var pixbuf = gtk_source_mark_attributes_render_icon(Attr2, GTK_WIDGET(ViewCur), 10)
-  gtk_source_mark_attributes_set_stock_id(Attr3, "gtk-jump-to")
-  'gtk_source_mark_attributes_set_icon_name(Attr3, "gtk-jump-to")
-  var pixbuff = gtk_source_mark_attributes_render_icon(Attr3, GTK_WIDGET(ViewCur), 10)
-?pixb,pixbu,pixbuf,pixbuff
-
-'dim as GError PTR errr
-'var icon = g_icon_new_for_string("gtk-media-pause", @errr)
-'if errr then ? " HIER: "; *errr->message
-'?" HIER: icon = ";icon
-'g_object_unref(icon)
-
-?" CONSTRUCTOR SrcNotebook"
-END CONSTRUCTOR
-
-
-/'* \brief Destructor to free used memory
-
-The destructor frees the pango font description. (The language
-structure *Lang* and the scheme *Schema* are owned by the language or
-scheme managers.)
-
-'/
-DESTRUCTOR SrcNotebook()
-  If Font then pango_font_description_free(Font)
-  If Attr0 then g_object_unref(Attr0)
-  If Attr1 then g_object_unref(Attr1)
-  If Attr2 then g_object_unref(Attr2)
-  If Attr3 then g_object_unref(Attr3)
-END DESTRUCTOR
-
-
-
 /'* \brief Change mark in gutter
 \param SView The source view widget
 \param Iter The text iter where to operate
@@ -186,35 +50,32 @@ SUB view_mark_clicked CDECL( _
     BYVAL SView AS GtkSourceView PTR _
   , BYVAL Iter AS GtkTextIter PTR _
   , BYVAL Event AS GdkEvent PTR _
-  , BYVAL user_data AS gpointer)
+  , BYVAL buff AS GtkSourceBuffer PTR)
 
-  var buff = GTKSOURCE_SOURCE_BUFFER(gtk_text_view_get_buffer(GTK_TEXT_VIEW(SView))) _
-    , list = NULL
-
-  WITH *cast(GdkEventButton PTR, Event)
+  WITH *CAST(GdkEventButton PTR, Event)
 ?"  --> callback view_mark_clicked: ";.button,.state
     SELECT CASE AS CONST .Button
     CASE 1
-      var mark = "fbdbg-____"
+      VAR mark = "fbdbg-____"
       SELECT CASE AS CONST .state - 16 ' set mark, delete existend (if any)
-      CASE 0 : mid(mark, 7, 4) = "brkp"
-        list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
-        if list then g_slist_free(list) : exit sub
+      CASE 0 : MID(mark, 7, 4) = "brkp"
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
+        IF list THEN g_slist_free(list) :                       EXIT SUB
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkd")
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkt")
-      CASE 1 : mid(mark, 7, 4) = "brkt"
-        list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
-        if list then g_slist_free(list) : exit sub
+      CASE 1 : MID(mark, 7, 4) = "brkt"
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
+        IF list THEN g_slist_free(list) :                       EXIT SUB
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkd")
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkp")
-      CASE 4 : mid(mark, 7, 4) = "brkd"
-        list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
-        if list then g_slist_free(list) : exit sub
+      CASE 4 : MID(mark, 7, 4) = "brkd"
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
+        IF list THEN g_slist_free(list) :                       EXIT SUB
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkt")
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkp")
-      CASE ELSE : mid(mark, 7, 4) = "book"
-        list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
-        if list then g_slist_free(list) : exit sub
+      CASE ELSE : MID(mark, 7, 4) = "book"
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
+        IF list THEN g_slist_free(list) :                       EXIT SUB
       END SELECT
       gtk_source_buffer_create_source_mark(buff, NULL, mark, Iter)
     CASE 3 :
@@ -229,6 +90,198 @@ SUB view_mark_clicked CDECL( _
     CASE ELSE
     END SELECT
   END WITH
+END SUB
+
+
+/'* \brief Class to handle the context of the source notebook
+
+This class prepares a GtkSourceView for highlighting the FreeBASIC
+syntax and handles the pages of the source notebook. A single
+GtkSourceView is used for all pages, and the files are loaded in to
+several GtkSourceBuffers. Each page contains a GtkScrolledWindow that
+is used as the parent for the GtkSourceView.
+
+When switching a page, the GtkSourceView gets reparent to the related
+scrolled window and the related text buffer gets connected.
+
+'/
+TYPE SrcNotebook
+  AS gdouble _
+    ScrPos    '*< The position to scroll the current line in the source views
+  AS guint _
+    Pages _   '*< The number of pages in the notebook
+  , LenCur    '*< The number of characters in the source current line
+  AS GObject PTR _
+    MenuSrc _ '*< The popup menu for the source views
+  , BuffCur   '*< The source buffer for current source line
+  AS GtkWidget PTR _
+    ViewCur   '*< The source view for current source line
+  AS GtkNotebook PTR _
+    NoteBok   '*< The notebook for source views
+  AS GtkSourceMarkAttributes PTR _
+    Attr0 _   '*< The attributes for inactive breakpoint marks
+  , Attr1 _   '*< The attributes for temporary breakpoint marks
+  , Attr2 _   '*< The attributes for permanent breakpoint marks
+  , Attr3     '*< The attributes for book mark
+  AS GtkSourceStyleScheme PTR _
+    Schema    '*< The style scheme for syntax highlighting
+  AS GtkSourceStyleSchemeManager PTR _
+    Manager    '*< The manager for style schemes
+  AS GtkSourceLanguage PTR _
+    Lang      '*< The language definition for syntax highlighting
+  AS PangoFontDescription PTR _
+    Font      '*< The Pango font description for source views
+  AS STRING _
+    LmPaths   '*< The list of paths (gchar PTRs)
+
+  DECLARE CONSTRUCTOR()
+  DECLARE DESTRUCTOR()
+  DECLARE PROPERTY ScrollPos(BYVAL AS gdouble)
+  DECLARE PROPERTY SchemeID(BYVAL AS CONST gchar PTR)
+  DECLARE PROPERTY FontID(BYVAL AS CONST gchar PTR)
+  DECLARE FUNCTION addBas(BYVAL AS gchar PTR, BYVAL AS gchar PTR) AS GtkWidget PTR
+  DECLARE SUB changeMark(BYVAL AS gint, BYVAL AS GtkWidget PTR, BYREF AS STRING = "")
+  DECLARE SUB scroll(BYVAL AS gint, BYVAL AS GtkWidget PTR, BYVAL AS guint32 = 1)
+  DECLARE SUB settingsChanged()
+  DECLARE SUB remove(BYVAL AS GtkWidget PTR)
+  DECLARE SUB removeAll()
+END TYPE
+
+/'* \brief Constructor to prepare the syntax highlighting
+
+The constructor loads the language definitions for syntax highlighting
+in to the default language manager.
+
+\todo Where to load the language file from? Folder dat or GtkSourceView
+      configuration?
+
+\todo Compute the maximal length of the current source line, based on
+      the font and size of the view widget.
+
+\todo Replace deprecated function gtk_source_mark_attributes_set_stock_id()
+
+'/
+CONSTRUCTOR SrcNotebook()
+'' get the widgets from the ui file
+  MenuSrc = gtk_builder_get_object(GUI.XML, "menu40")
+  BuffCur = gtk_builder_get_object(GUI.XML, "srcbuffCur")
+  ViewCur = GTK_WIDGET(gtk_builder_get_object(GUI.XML, "viewSrcCur"))
+  NoteBok = GTK_NOTEBOOK(gtk_builder_get_object(GUI.XML, "nbookSrc"))
+
+'' prepare managers for syntax highlighting
+  VAR lm = gtk_source_language_manager_get_default()
+  LmPaths = MKI(CAST(INTEGER, @"dat"))
+  VAR ind = 0 _
+  , array = gtk_source_language_manager_get_search_path(lm)
+  WHILE array[ind]
+    LmPaths &= MKI(CAST(INTEGER, array[ind]))
+    ind += 1
+  WEND : LmPaths &= MKI(0)
+  gtk_source_language_manager_set_search_path(lm, CAST(gchar PTR PTR, SADD(LmPaths)))
+
+'' load syntax highlighting language
+  Lang = gtk_source_language_manager_get_language(lm, "fbc")
+
+  IF 0 = Lang THEN
+    ?PROJ_NAME & ": " & *__("language fbc not available -> no syntax highlighting")
+  ELSE
+    gtk_source_buffer_set_language(GTKSOURCE_SOURCE_BUFFER(BuffCur), Lang)
+  END IF
+  gtk_source_buffer_set_highlight_matching_brackets(GTKSOURCE_SOURCE_BUFFER(BuffCur), FALSE)
+
+'' prepare the gutter marks
+  VAR size = 10
+  Attr0 = gtk_source_mark_attributes_new()
+  gtk_source_mark_attributes_set_stock_id(Attr0, "gtk-media-forward")
+  gtk_source_mark_attributes_render_icon(Attr0, ViewCur, size)
+
+  Attr1 = gtk_source_mark_attributes_new()
+  gtk_source_mark_attributes_set_stock_id(Attr1, "gtk-media-pause")
+  gtk_source_mark_attributes_render_icon(Attr1, ViewCur, size)
+
+  Attr2 = gtk_source_mark_attributes_new()
+  gtk_source_mark_attributes_set_stock_id(Attr2, "gtk-media-stop")
+  gtk_source_mark_attributes_render_icon(Attr2, ViewCur, size)
+
+  Attr3 = gtk_source_mark_attributes_new()
+  gtk_source_mark_attributes_set_stock_id(Attr3, "gtk-jump-to")
+  gtk_source_mark_attributes_render_icon(Attr3, ViewCur, size)
+
+'dim as GError PTR errr
+'var icon = g_icon_new_for_string("gtk-media-pause", @errr)
+'if errr then ? " HIER: "; *errr->message
+'?" HIER: icon = ";icon
+'g_object_unref(icon)
+
+?" CONSTRUCTOR SrcNotebook"
+END CONSTRUCTOR
+
+
+/'* \brief Destructor to free used memory
+
+The destructor frees the pango font description. (The language
+structure *Lang* and the scheme *Schema* are owned by the language or
+scheme managers.)
+
+'/
+DESTRUCTOR SrcNotebook()
+  IF Font THEN pango_font_description_free(Font)
+  g_object_unref(Attr3)
+  g_object_unref(Attr2)
+  g_object_unref(Attr1)
+  g_object_unref(Attr0)
+END DESTRUCTOR
+
+
+/'* \brief Change a mark programmatically
+\param Lnr The line number to scroll to (starting at 1)
+\param Widg The widget to show (reference returned by SrcNotebook::addBas() )
+\param Mo The modus how to change
+
+Procedure to change marks in a source view widget at the specified line
+number *Lnr*. It either creates or removes marks in the source view
+widget contained in scrolled window *Widg*, by calling SUB
+view_mark_clicked().
+
+To set a mark, specify its type in parameter *Mo*. Existend break point
+marks get overriden by the new type, existend bookmarks stay unchanged.
+
+To remove marks,
+
+- pass "brk" to remove a break point mark
+- pass "boo" to remove a bookmark
+- pass any other string (ie. "") to remove all marks
+
+When the specified line number is too big (or negative), the procedure
+operates at the last line.
+
+'/
+SUB SrcNotebook.changeMark( _
+    BYVAL Lnr AS gint _
+  , BYVAL Widg AS GtkWidget PTR _
+  , BYREF Mo AS STRING = "")
+  IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
+
+  VAR page = gtk_notebook_page_num(NoteBok, Widg)
+  IF page < 0 THEN                           /' no such page '/ EXIT SUB
+
+  DIM AS GtkTextIter iter
+  DIM AS GdkEventButton event
+  VAR buff = g_object_get_data(G_OBJECT(Widg), "Buffer")
+  gtk_text_buffer_get_iter_at_line(GTK_TEXT_BUFFER(buff), @iter, Lnr - 1)
+
+  SELECT CASE Mo
+  CASE "book" : event.button = 1
+  CASE "boo"  : event.button = 3
+  CASE "brkp" : event.button = 1 : event.state = 16 + 0
+  CASE "brkt" : event.button = 1 : event.state = 16 + 1
+  CASE "brkd" : event.button = 1 : event.state = 16 + 4
+  CASE "brk"  : event.button = 3 : event.state = 16 + 0
+  CASE ELSE   : event.button = 3
+    view_mark_clicked(NULL, @iter, CAST(GdkEvent PTR, @event), GTKSOURCE_SOURCE_BUFFER(buff))
+    event.state = 16
+  END SELECT
+  view_mark_clicked(NULL, @iter, CAST(GdkEvent PTR, @event), GTKSOURCE_SOURCE_BUFFER(buff))
 END SUB
 
 
@@ -258,20 +311,12 @@ FUNCTION SrcNotebook.addBas(BYVAL Label AS gchar PTR, BYVAL Cont AS gchar PTR) A
   gtk_text_view_set_editable(GTK_TEXT_VIEW(srcv), FALSE)
   gtk_source_view_set_show_line_marks(GTKSOURCE_SOURCE_VIEW(srcv), TRUE)
 
-
-
-
   gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-brkd", Attr0, 969)
   gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-brkt", Attr1, 959)
   gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-brkp", Attr2, 909)
   gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-book", Attr3, 999)
   g_signal_connect(srcv, "line-mark-activated" _
-                 , G_CALLBACK(@view_mark_clicked), NULL)
-
-
-
-
-
+                 , G_CALLBACK(@view_mark_clicked), buff)
 
   WITH *INI
     gtk_source_buffer_set_highlight_syntax(buff, .Bool(.FSH))
@@ -284,8 +329,8 @@ FUNCTION SrcNotebook.addBas(BYVAL Label AS gchar PTR, BYVAL Cont AS gchar PTR) A
   g_object_set_data_full(G_OBJECT(widg), "Buffer", buff, @g_object_unref)
   gtk_widget_show_all(widg)
 
-  VAR i = gtk_notebook_append_page(GTK_NOTEBOOK(NoteBok), widg, labl)
-  gtk_notebook_set_current_page(GTK_NOTEBOOK(NoteBok), i)
+  VAR i = gtk_notebook_append_page(NoteBok, widg, labl)
+  gtk_notebook_set_current_page(NoteBok, i)
   Pages += 1 :                                               RETURN widg
 END FUNCTION
 
@@ -299,12 +344,12 @@ to a certain line, select the context of that line and place a copy to
 the current line source view.
 
 '/
-SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR, byval Mo as guint32 = 1)
+SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR, BYVAL Mo AS guint32 = 1)
   IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
 
-  VAR page = gtk_notebook_page_num(GTK_NOTEBOOK(NoteBok), Widg)
+  VAR page = gtk_notebook_page_num(NoteBok, Widg)
   IF page < 0 THEN                           /' no such page '/ EXIT SUB
-  gtk_notebook_set_current_page(GTK_NOTEBOOK(NoteBok), page)
+  gtk_notebook_set_current_page(NoteBok, page)
 
   VAR buff = GTK_TEXT_BUFFER(g_object_get_data(G_OBJECT(Widg), "Buffer")) _
     , srcv = GTK_TEXT_VIEW(g_object_get_data(G_OBJECT(Widg), "SrcView")) _
@@ -316,7 +361,7 @@ SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR, byval Mo 
 
   gtk_text_buffer_place_cursor(buff, i1)
   gtk_text_view_scroll_to_iter(srcv, i1, .0, TRUE, .0, ScrPos)
-  if 0 = Mo then gtk_text_iter_free(i1) :                       exit sub
+  IF 0 = Mo THEN gtk_text_iter_free(i1) :                       EXIT SUB
 
   gtk_text_iter_backward_char(@i2)
   gtk_text_buffer_select_range(buff, i1, @i2)
@@ -341,14 +386,14 @@ reordering, adding or removing pages.
 
 '/
 SUB SrcNotebook.remove(BYVAL Widg AS GtkWidget PTR)
-  VAR page = gtk_notebook_page_num(GTK_NOTEBOOK(NoteBok), Widg)
+  VAR page = gtk_notebook_page_num(NoteBok, Widg)
 ?" SrcNotebook.remove: "; Widg, page
   IF page < 0 THEN                         /' invalid widget '/ EXIT SUB
-  IF page = gtk_notebook_get_current_page(GTK_NOTEBOOK(NoteBok)) THEN _
+  IF page = gtk_notebook_get_current_page(NoteBok) THEN _
     gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), "", 0)
 
   Pages -= 1
-  gtk_notebook_remove_page(GTK_NOTEBOOK(NoteBok), page)
+  gtk_notebook_remove_page(NoteBok, page)
 END SUB
 
 
@@ -360,9 +405,9 @@ Method to remove all pages from the notebook.
 SUB SrcNotebook.removeAll()
   IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
 
-  VAR n = gtk_notebook_get_n_pages(GTK_NOTEBOOK(NoteBok))
+  VAR n = gtk_notebook_get_n_pages(NoteBok)
   FOR i AS gint = n - 1 TO 0 STEP -1
-    gtk_notebook_remove_page(GTK_NOTEBOOK(NoteBok), i)
+    gtk_notebook_remove_page(NoteBok, i)
   NEXT
 
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), "", 0)
@@ -408,7 +453,7 @@ need separate adaption (if any).
 PROPERTY SrcNotebook.FontID(BYVAL Fnam AS CONST gchar PTR)
   IF Font THEN pango_font_description_free(Font)
   Font = pango_font_description_from_string(Fnam)
-  gtk_widget_override_font(GTK_WIDGET(ViewCur), Font)
+  gtk_widget_override_font(ViewCur, Font)
 
 '' compute maximal len of current source view line (ToDo)
   LenCur = 80
@@ -427,13 +472,13 @@ SUB SrcNotebook.settingsChanged()
   WITH *INI
     gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(BuffCur), .Bool(.FSH))
 
-    VAR n = gtk_notebook_get_n_pages(GTK_NOTEBOOK(NoteBok))
+    VAR n = gtk_notebook_get_n_pages(NoteBok)
     FOR i AS gint = n - 1 TO 0 STEP -1
-      var widg = gtk_notebook_get_nth_page(GTK_NOTEBOOK(NoteBok), i) _
+      VAR widg = gtk_notebook_get_nth_page(NoteBok, i) _
         , buff = g_object_get_data(G_Object(widg), "Buffer") _
         , srcv = g_object_get_data(G_Object(widg), "SrcView") _
         , mark = gtk_text_buffer_get_insert(buff)
-      gtk_widget_override_font(GTK_WIDGET(srcv), Font)
+      gtk_widget_override_font(srcv, Font)
       gtk_source_buffer_set_style_scheme(buff, Schema)
       gtk_source_buffer_set_highlight_syntax(GTKSOURCE_SOURCE_BUFFER(buff), .Bool(.FSH))
       gtk_source_view_set_show_line_numbers(GTKSOURCE_SOURCE_VIEW(srcv), .Bool(.FLN))

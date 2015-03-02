@@ -26,7 +26,7 @@ Transform a GdkRGBA color value used in the GtkSourceView widgets in to
 a guint32 value used in the INI class.
 
 '/
-FUNCTION colTrans(byval Col as GdkRGBA PTR) AS guint32
+FUNCTION colTrans(BYVAL Col AS GdkRGBA PTR) AS guint32
   RETURN _
     CUSHORT(255 * Col->red) SHL 16 _
   + CUSHORT(255 * Col->green) SHL 8 _
@@ -171,22 +171,22 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
       WEND
     END WITH
 
-    g_object_set_data(   colForegr, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(   colBackgr, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(colBackgrCur, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(   colLineNo, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(  colKeyword, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(  colStrings, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(   colPrepro, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(  colComment, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(  colNumbers, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(   colEscape, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(   colCursor, "TestId", cast(gpointer, STYLE_COLOR))
-    g_object_set_data(  boolSyntax, "TestId", cast(gpointer, STYLE_SYNTAX))
-    g_object_set_data(  boolLineno, "TestId", cast(gpointer, STYLE_LINENO))
-    g_object_set_data(  fontSource, "TestId", cast(gpointer, STYLE_FONT))
-    g_object_set_data(   numCurpos, "TestId", cast(gpointer, STYLE_SCROLL))
-    g_object_set_data(   boxSchema, "TestId", cast(gpointer, STYLE_SCHEME))
+    g_object_set_data(   colForegr, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(   colBackgr, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(colBackgrCur, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(   colLineNo, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(  colKeyword, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(  colStrings, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(   colPrepro, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(  colComment, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(  colNumbers, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(   colEscape, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(   colCursor, "TestId", CAST(gpointer, STYLE_COLOR))
+    g_object_set_data(  boolSyntax, "TestId", CAST(gpointer, STYLE_SYNTAX))
+    g_object_set_data(  boolLineno, "TestId", CAST(gpointer, STYLE_LINENO))
+    g_object_set_data(  fontSource, "TestId", CAST(gpointer, STYLE_FONT))
+    g_object_set_data(   numCurpos, "TestId", CAST(gpointer, STYLE_SCROLL))
+    g_object_set_data(   boxSchema, "TestId", CAST(gpointer, STYLE_SCHEME))
 
     array( 0) = colForegr
     array( 1) = colBackgr
@@ -240,11 +240,11 @@ WITH *INI
     g_object_get(boxSchema, "active-id", @char, NULL) : .StlSchm = *char : g_free(char)
 
     DIM AS gdouble num
-    g_object_get(     numDelay, "value", @num, NULL) : .DelVal = cast(guint32, num)
-    g_object_get(    numCurpos, "value", @num, NULL) : .CurPos = cast(guint32, num)
+    g_object_get(     numDelay, "value", @num, NULL) : .DelVal = CAST(guint32, num)
+    g_object_get(    numCurpos, "value", @num, NULL) : .CurPos = CAST(guint32, num * 1000)
 
     VAR r = .saveIni() : IF r THEN ?PROJ_NAME & ": " & *r
-    SRC->ScrollPos = 1. / 99 * .CurPos
+    SRC->ScrollPos = 1. / 99000 * .CurPos
     SRC->settingsChanged()
   CASE ELSE '                                             INI --> dialog
     DIM AS GdkRGBA col
@@ -278,7 +278,7 @@ WITH *INI
 
     g_object_set(    fontSource, "font", IIF(LEN(.FontSrc), SADD(.FontSrc), @""), NULL)
     g_object_set(     numDelay, "value", CAST(gdouble, .DelVal), NULL)
-    g_object_set(    numCurpos, "value", CAST(gdouble, .CurPos), NULL)
+    g_object_set(    numCurpos, "value", CAST(gdouble, .CurPos * 1000), NULL)
 
     IF gtk_combo_box_set_active_id(GTK_COMBO_BOX(boxSchema), SADD(INI->StlSchm)) THEN
       INI->StlSchm = "fbdebugger" ''   fallback, if scheme not available
@@ -294,7 +294,7 @@ WITH *INI
     IF bool THEN updateScheme(@array(0)) _ '' ToDo handle error messages
             ELSE SRC->SchemeID = SADD(.StlSchm)
     SRC->FontID = .FontSrc
-    SRC->ScrollPos = 1. / 99 * .CurPos
+    SRC->ScrollPos = 1. / 99000 * .CurPos
     SRC->settingsChanged()
   END SELECT
 END WITH
