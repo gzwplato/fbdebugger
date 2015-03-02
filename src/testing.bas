@@ -24,8 +24,10 @@ SCOPE
   gtk_combo_box_text_insert(box, -1, "2", "BMK --> testthread.bas[21] ""c=""test (""+Str(b)+""+Str(i)")
   gtk_combo_box_text_insert(box, -1, "SARG", "BMK --> testthread.bas[24] j+=1")
   g_object_set(GUI.comboBookmarks, "active-id", "0", NULL)
-END SCOPE
+END Scope
 
+'set a text in current line area
+gtk_text_buffer_set_text(GTK_TEXT_BUFFER(src->buffcur), "test", -1)
 
 ' here's an example on how to populate tree stores
 SCOPE
