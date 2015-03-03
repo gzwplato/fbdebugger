@@ -64,6 +64,7 @@ TYPE SrcNotebook
   DECLARE PROPERTY FontID(BYVAL AS CONST gchar PTR)
   DECLARE FUNCTION addBas(BYVAL AS gchar PTR, BYVAL AS gchar PTR) AS GtkWidget PTR
 
+  DECLARE FUNCTION getAttr(byval AS gchar ptr) AS GtkSourceMarkAttributes PTR
   DECLARE FUNCTION getBuffLine(byval as GtkTextBuffer ptr, byval as GtkTextIter ptr) AS string
   'DECLARE FUNCTION getBookmark(BYVAL as GtkWidget ptr, BYVAL as GtkTextIter ptr) as string
   DECLARE SUB setBookmark(BYVAL AS gint, BYVAL AS GtkWidget PTR)
@@ -75,6 +76,30 @@ TYPE SrcNotebook
   DECLARE SUB remove(BYVAL AS GtkWidget PTR)
   DECLARE SUB removeAll()
 END TYPE
+
+
+/'* \brief FIXME
+\param Nam The name of the icon file
+\returns FIXME
+
+FIXME
+
+'/
+FUNCTION SrcNotebook.getAttr(byval Nam AS gchar ptr) AS GtkSourceMarkAttributes PTR
+  DIM AS GError PTR errr
+  VAR size = 10 _
+    , attr = gtk_source_mark_attributes_new() _
+    , pixbuf = gdk_pixbuf_new_from_file_at_size(Nam, size, size, @errr)
+  IF 0 = pixbuf THEN ?PROJ_NAME & ": missing file " & *Nam : RETURN attr
+
+  gtk_source_mark_attributes_set_pixbuf(attr, pixbuf)
+  g_object_unref(pixbuf)
+
+?" getAttr: attr, pixbuf, render = "; attr,pixbuf, _
+  gtk_source_mark_attributes_render_icon(attr, ViewCur, size)
+  RETURN attr
+END FUNCTION
+
 
 /'* \brief Constructor to prepare the syntax highlighting
 
@@ -118,62 +143,10 @@ CONSTRUCTOR SrcNotebook()
   END IF
   gtk_source_buffer_set_highlight_matching_brackets(GTKSOURCE_SOURCE_BUFFER(BuffCur), FALSE)
 
-'' prepare the gutter marks
-  VAR size = 11
-  dim as GError PTR errr
-  Attr0 = gtk_source_mark_attributes_new()
-  var icon = g_icon_new_for_string("gtk-media-forward", @errr)
-  if errr then ? " GIcon error: "; *errr->message
-?" Attr0: Icon = ";icon
-  gtk_source_mark_attributes_set_gicon(Attr0, icon)
-  g_object_unref(icon)
-?" PixB = "; _
-  gtk_source_mark_attributes_render_icon(Attr0, ViewCur, size)
-
-  Attr1 = gtk_source_mark_attributes_new()
-  icon = g_icon_new_for_string("gtk-media-pause", @errr)
-  if errr then ? " GIcon error: "; *errr->message
-?" Attr1: Icon = ";icon
-  gtk_source_mark_attributes_set_gicon(Attr1, icon)
-  g_object_unref(icon)
-?" PixB = "; _
-  gtk_source_mark_attributes_render_icon(Attr1, ViewCur, size)
-
-  Attr2 = gtk_source_mark_attributes_new()
-  icon = g_icon_new_for_string("gtk-media-stop", @errr)
-  if errr then ? " GIcon error: "; *errr->message
-?" Attr2: Icon = ";icon
-  gtk_source_mark_attributes_set_gicon(Attr2, icon)
-  g_object_unref(icon)
-?" PixB = "; _
-  gtk_source_mark_attributes_render_icon(Attr2, ViewCur, size)
-
-  Attr3 = gtk_source_mark_attributes_new()
-  icon = g_icon_new_for_string("gtk-jump-to", @errr)
-  if errr then ? " GIcon error: "; *errr->message
-?" Attr3: Icon = ";icon
-  gtk_source_mark_attributes_set_gicon(Attr3, icon)
-  'g_object_unref(icon)
-
-var stri = g_icon_to_string(icon)
-?" PixB = "; _
-  gtk_source_mark_attributes_render_icon(Attr3, ViewCur, size) _
-, gtk_source_mark_attributes_get_gicon(Attr3) _
-, *stri _
-, ViewCur, size
-g_free(stri)
-
-  'Attr1 = gtk_source_mark_attributes_new()
-  'gtk_source_mark_attributes_set_stock_id(Attr1, "gtk-media-pause")
-  'gtk_source_mark_attributes_render_icon(Attr1, ViewCur, size)
-
-  'Attr2 = gtk_source_mark_attributes_new()
-  'gtk_source_mark_attributes_set_stock_id(Attr2, "gtk-media-stop")
-  'gtk_source_mark_attributes_render_icon(Attr2, ViewCur, size)
-
-  'Attr3 = gtk_source_mark_attributes_new()
-  'gtk_source_mark_attributes_set_stock_id(Attr3, "gtk-jump-to")
-  'gtk_source_mark_attributes_render_icon(Attr3, ViewCur, size)
+  Attr0 = getAttr("dat/brkd.png")
+  Attr1 = getAttr("dat/brkt.png")
+  Attr2 = getAttr("dat/brkp.png")
+  Attr3 = getAttr("dat/book.png")
 
 ?" CONSTRUCTOR SrcNotebook"
 END CONSTRUCTOR
@@ -233,18 +206,24 @@ SUB SrcNotebook.changeMark( _
     , srcv = g_object_get_data(G_OBJECT(Widg), "SrcView")
   gtk_text_buffer_get_iter_at_line(GTK_TEXT_BUFFER(buff), @iter, Lnr - 1)
 
-  SELECT CASE Mo
-  CASE "book" : event.button = 1
-  CASE "boo"  : event.button = 3
-  CASE "brkp" : event.button = 1 : event.state = 16 + 0
-  CASE "brkt" : event.button = 1 : event.state = 16 + 1
-  CASE "brkd" : event.button = 1 : event.state = 16 + 4
-  CASE "brk"  : event.button = 3 : event.state = 16 + 0
-  CASE ELSE   : event.button = 3
+  WITH event
+#IFDEF __FB_UNIX__
+    .state = 16
+#ENDIF
+
+    SELECT CASE Mo
+    CASE "book" : .button = 1 : .state += 3
+    CASE "boo"  : .button = 3 : .state += 3
+    CASE "brkp" : .button = 1 : .state += 0
+    CASE "brkt" : .button = 1 : .state += 1
+    CASE "brkd" : .button = 1 : .state += 4
+    CASE "brk"  : .button = 3 : .state += 0
+    CASE ELSE   : .button = 3
+      view_mark_clicked(srcv, @iter, CAST(GdkEvent PTR, @event), GTKSOURCE_SOURCE_BUFFER(buff))
+      .state += 3
+    END SELECT
     view_mark_clicked(srcv, @iter, CAST(GdkEvent PTR, @event), GTKSOURCE_SOURCE_BUFFER(buff))
-    event.state = 16
-  END SELECT
-  view_mark_clicked(srcv, @iter, CAST(GdkEvent PTR, @event), GTKSOURCE_SOURCE_BUFFER(buff))
+  END WITH
 END SUB
 
 
@@ -274,10 +253,10 @@ FUNCTION SrcNotebook.addBas(BYVAL Label AS gchar PTR, BYVAL Cont AS gchar PTR) A
   gtk_text_view_set_editable(GTK_TEXT_VIEW(srcv), FALSE)
   gtk_source_view_set_show_line_marks(GTKSOURCE_SOURCE_VIEW(srcv), TRUE)
 
-  gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-brkd", Attr0, 969)
-  gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-brkt", Attr1, 959)
-  gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-brkp", Attr2, 909)
-  gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-book", Attr3, 999)
+  gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-brkd", Attr0, 999)
+  gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-brkt", Attr1, 999)
+  gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-brkp", Attr2, 999)
+  gtk_source_view_set_mark_attributes(GTKSOURCE_SOURCE_VIEW(srcv), "fbdbg-book", Attr3, 909)
   g_signal_connect(srcv, "line-mark-activated" _
                  , G_CALLBACK(@view_mark_clicked), buff)
 
@@ -536,23 +515,27 @@ SUB view_mark_clicked CDECL( _
   , BYVAL Event AS GdkEvent PTR _
   , BYVAL buff AS GtkSourceBuffer PTR)
 
+
   WITH *CAST(GdkEventButton PTR, Event)
+#IFDEF __FB_LINUX__
+.state -= 16
+#ENDIF
 ?"  --> callback view_mark_clicked: ";.button,.state
     SELECT CASE AS CONST .Button
     CASE 1
       VAR mark = "fbdbg-____"
-      SELECT CASE AS CONST .state - 16 ' set mark, delete existend (if any)
+      SELECT CASE AS CONST .state '   set mark, delete existend (if any)
       CASE 0 : MID(mark, 7, 4) = "brkp"
         VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
         IF list THEN g_slist_free(list) :                       EXIT SUB
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkd")
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkt")
-      CASE 1 : MID(mark, 7, 4) = "brkt"
+      CASE GDK_SHIFT_MASK : MID(mark, 7, 4) = "brkt"
         VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
         IF list THEN g_slist_free(list) :                       EXIT SUB
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkd")
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkp")
-      CASE 4 : MID(mark, 7, 4) = "brkd"
+      CASE GDK_CONTROL_MASK : MID(mark, 7, 4) = "brkd"
         VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
         IF list THEN g_slist_free(list) :                       EXIT SUB
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkt")
@@ -566,8 +549,8 @@ SUB view_mark_clicked CDECL( _
       END SELECT
       gtk_source_buffer_create_source_mark(buff, NULL, mark, Iter)
     CASE 3 :
-      SELECT CASE AS CONST .state - 16 '            delete mark (if any)
-      CASE 0, 1, 4
+      SELECT CASE AS CONST .state '                 delete mark (if any)
+      CASE 0, GDK_SHIFT_MASK, GDK_CONTROL_MASK
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkd")
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkt")
         gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkp")

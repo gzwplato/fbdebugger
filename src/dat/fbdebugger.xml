@@ -6,7 +6,7 @@
 	<color name='text_fg' value='#000000'/>
 	<color name='text_bg' value='#FFFFFF'/>
 	<color name='line_highlight' value='#FCE94F'/>
-	<color name='line_no_bg' value='#BABDB6'/>
+	<color name='line_no_bg' value='#D3D7CF'/>
 	<color name='keyword_color' value='#3465A4'/>
 	<color name='string_color' value='#CE5C00'/>
 	<color name='prepro_color' value='#73D216'/>
