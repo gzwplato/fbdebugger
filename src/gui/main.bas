@@ -59,34 +59,6 @@ SUB on_boolcell_toggled CDECL ALIAS "on_boolcell_toggled" ( _
 END SUB
 
 
-
-/'* \brief Signal handler for bookmarks combo box (id="comboBookmarks")
-\param widget The widget that triggered the signal
-\param user_data (unused)
-
-This signale handler gets called when the user changed the selection of
-the GtkComboBoxText for the booksmarks.
-
-\todo Enter code
-
-'/
-SUB on_comboBookmarks_changed CDECL ALIAS "on_comboBookmarks_changed" ( _
-  BYVAL widget AS GtkWidget PTR, _
-  BYVAL user_data AS gpointer) EXPORT ' Standard-Parameterliste
-
-  var r = gtk_combo_box_get_active(GTK_COMBO_BOX(widget))
-
-' place your source code here / eigenen Quelltext hier einfuegen
-if r then _
-  ?" --> callback on_comboBookmarks_changed" _
- & "  " & r _                                                 '   gint
- & "  " & *gtk_combo_box_get_active_id(GTK_COMBO_BOX(widget)) ' CONST gchar PTR
-
-  g_object_set(GUI.comboBookmarks, "active-id", "0", NULL) ' this invoces the signal (itself) again!
-
-END SUB
-
-
 /'* \brief Signal handler for botton stop at varible (id="button2")
 \param button The widget that triggered the signal
 \param user_data (unused)
@@ -98,11 +70,11 @@ stop when a variable changed.
 
 '/
 SUB on_StopVar_clicked CDECL ALIAS "on_StopVar_clicked" ( _
-  BYVAL button AS GtkButton PTR, _
+  BYVAL Button AS GtkButton PTR, _
   BYVAL user_data AS gpointer) EXPORT
 
 ?" --> callback on_StopVar_clicked"
-  gtk_button_set_label(button, "This text get set form code in file tobac/on_StopVar_clicked.bas")
+  gtk_button_set_label(Button, "This text get set form code in file tobac/on_StopVar_clicked.bas")
 
 END SUB
 
