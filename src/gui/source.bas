@@ -76,24 +76,16 @@ TYPE SrcNotebook
   DECLARE SUB removeAll()
 END TYPE
 
-'#ifndef __FB_UNIX__
-'#undef gdk_pixbuf_new_from_file_at_size
-''#DEFINE gdk_pixbuf_new_from_file gdk_pixbuf_new_from_file_utf8
-'#DEFINE gdk_pixbuf_new_from_file_at_size gdk_pixbuf_new_from_file_at_size_utf8
-''#DEFINE gdk_pixbuf_new_from_file_at_scale gdk_pixbuf_new_from_file_at_scale_utf8
-'EXTERN "C" LIB "gdk_pixbuf-2.0"
-'DECLARE FUNCTION gdk_pixbuf_new_from_file_at_size(BYVAL AS const char PTR, BYVAL AS gint /'int'/, BYVAL AS gint /'int'/, BYVAL AS GError PTR PTR) AS GdkPixbuf PTR
-'end extern
-'#endif
 
-/'* \brief FIXME
+/'* \brief Prepare an icon as gutter mark
 \param Nam The name of the icon file
-\returns FIXME
+\returns A new mark attribute structure
 
-FIXME
+Member function to load an icon in to a GdkPixbuf and renders it for
+use as mark in the source view widgets.
 
 '/
-FUNCTION SrcNotebook.getAttr(byval Nam AS gchar ptr) AS GtkSourceMarkAttributes PTR
+FUNCTION SrcNotebook.getAttr(BYVAL Nam AS gchar PTR) AS GtkSourceMarkAttributes PTR
   DIM AS GError PTR errr
   VAR size = 10 _
     , attr = gtk_source_mark_attributes_new() _
@@ -155,9 +147,6 @@ CONSTRUCTOR SrcNotebook()
   Attr1 = getAttr("img/brkt.png")
   Attr2 = getAttr("img/brkp.png")
   Attr3 = getAttr("img/book.png")
-
-#print typeof(gint)
-?" sizeof(gint): ";sizeof(gint)
 
 ?" CONSTRUCTOR SrcNotebook"
 END CONSTRUCTOR
@@ -241,7 +230,7 @@ the current line source view.
 '/
 SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR, BYVAL Mo AS guint32 = 1)
   IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
-  if 0 = Widg then Widg = ScrWidg : Lnr = ScrLine
+  IF 0 = Widg THEN Widg = ScrWidg : Lnr = ScrLine
 
   VAR page = gtk_notebook_page_num(NoteBok, Widg)
   IF page < 0 THEN                           /' no such page '/ EXIT SUB
@@ -255,28 +244,29 @@ SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR, BYVAL Mo 
   gtk_text_view_scroll_to_iter(srcv, @iter, .0, TRUE, .0, ScrPos)
   IF 0 = Mo THEN                                                EXIT SUB
 
-  var txt = getBuffLine(buff, @iter)
+  VAR txt = getBuffLine(buff, @iter)
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), txt, LEN(txt))
   ScrWidg = Widg
   ScrLine = Lnr
 END SUB
 
 
+/'* \brief Set a book mark in the combo box
+\param Lnr The line number
+\param Widg The note book widget to operate at (scrolled window)
 
-/'* \brief FIXME
-\param Lnr FIXME
-\param Widg FIXME
-
-FIXME
+Member function to add a book mark to the combo box in main window. It
+appends the new book mark text to the end of the GtkComboBoxText list
+store.
 
 '/
 SUB SrcNotebook.setBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
-  var buff = g_object_get_data(G_Object(Widg), "Buffer")
+  VAR buff = g_object_get_data(G_Object(Widg), "Buffer")
 
   DIM AS GtkTextIter iter
   gtk_text_buffer_get_iter_at_line(GTK_TEXT_BUFFER(buff), @iter, Lnr - 1)
 
-  var id = str(Lnr) & "&h" & hex(cast(integer, Widg)) _
+  VAR id = STR(Lnr) & "&h" & HEX(CAST(INTEGER, Widg)) _
    , txt = *gtk_notebook_get_tab_label_text(NoteBok, Widg) _
          & "(" & Lnr & "): " _
          & getBuffLine(buff, @iter)
@@ -284,46 +274,47 @@ SUB SrcNotebook.setBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
 END SUB
 
 
+/'* \brief Delete a book mark
+\param Lnr The line number
+\param Widg The note book widget to operate at (scrolled window)
 
-/'* \brief FIXME
-\param Lnr FIXME
-\param Widg FIXME
-
-FIXME
+Member function to delete a bookmark in the combo box in main window.
+It searches the entries for the specified book mark and deletes it from
+the GtkComboBoxText list store, if any.
 
 '/
 SUB SrcNotebook.delBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
   DIM AS GtkTreeIter iter
-  var id = str(Lnr) & "&h" & hex(cast(integer, Widg)) _
+  VAR id = STR(Lnr) & "&h" & HEX(CAST(INTEGER, Widg)) _
  , model = gtk_combo_box_get_model(GTK_COMBO_BOX(GUI.comboBookmarks)) _
 , column = gtk_combo_box_get_id_column(GTK_COMBO_BOX(GUI.comboBookmarks))
 
-  if 0 = gtk_tree_model_get_iter_first(model, @iter) then       exit sub
-  do
-    dim as gchar ptr dat
+  IF 0 = gtk_tree_model_get_iter_first(model, @iter) THEN       EXIT SUB
+  DO
+    DIM AS gchar PTR dat
     gtk_tree_model_get(model, @iter, column, @dat, -1)
-    if 0 = dat orelse *dat <> id then g_free(dat)   :        continue do
+    IF 0 = dat ORELSE *dat <> id THEN g_free(dat)   :        CONTINUE DO
     gtk_list_store_remove(GTK_LIST_STORE(model), @iter)
-    g_free(dat) :                                                exit do
-  loop until 0 = gtk_tree_model_iter_next(model, @iter)
+    g_free(dat) :                                                EXIT DO
+  LOOP UNTIL 0 = gtk_tree_model_iter_next(model, @iter)
 END SUB
 
 
+/'* \brief Get the context of a line from a buffer
+\param Buff The buffer to read from
+\param Iter The start of the line to get
+\returns A STRING containing the line
 
-
-/'* \brief FIXME
-\param Buff FIXME
-\param Iter FIXME
-\returns FIXME
-
-FIXME
+Read the context of a line from a buffer. When the line is longer than
+SrcNotebook::LenCur, the context gets cutted, setting three dots at the
+end.
 
 '/
 FUNCTION SrcNotebook.getBuffLine( _
-    byval Buff as GtkTextBuffer ptr _
-  , byval Iter as GtkTextIter ptr) AS string
+    BYVAL Buff AS GtkTextBuffer PTR _
+  , BYVAL Iter AS GtkTextIter PTR) AS STRING
 
-  var i2 = gtk_text_iter_copy(Iter)
+  VAR i2 = gtk_text_iter_copy(Iter)
   gtk_text_iter_forward_line(i2)
   gtk_text_iter_backward_char(i2)
 
@@ -332,14 +323,13 @@ FUNCTION SrcNotebook.getBuffLine( _
 
   VAR cont = gtk_text_buffer_get_text(Buff, Iter, i2, TRUE) _
        , r = *cont
-?" SrcNotebook.getBuffLine: ";*cont
   gtk_text_iter_free(i2)
   g_free(cont)
 
   IF LEN(r) > LenCur _
     THEN r = LEFT(r, LenCur - 4) & " ..." _
     ELSE IF 0 = LEN(r) THEN r = " "
-?" SrcNotebook.getBuffLine: ";len(r), r
+
   RETURN r
 END FUNCTION
 
@@ -580,7 +570,7 @@ SUB view_mark_clicked CDECL( _
       CASE ELSE : MID(mark, 7, 4) = "book"
         VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
         IF list THEN g_slist_free(list) :                       EXIT SUB
-        var widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
+        VAR widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
            , lnr = gtk_text_iter_get_line(Iter) + 1
         SRC->setBookmark(lnr, widg)
       END SELECT
@@ -593,7 +583,7 @@ SUB view_mark_clicked CDECL( _
         gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkp")
       CASE ELSE
         gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-book")
-        var widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
+        VAR widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
            , lnr = gtk_text_iter_get_line(Iter) + 1
         SRC->delBookmark(lnr, widg)
       END SELECT
