@@ -159,6 +159,7 @@ SUB on_hdob_entry_changed CDECL( _
     BYVAL Entry AS GtkEntry PTR _
   , BYVAL Label AS GtkLabel PTR)
 
+?" HÖR: ";*gtk_entry_get_text(Entry)
   VAR num = VALLNG(*gtk_entry_get_text(Entry)) _
     , txt = g_strdup_printf(!"%s\n%s\n%s\n%s"_
              , HEX(num) _
@@ -197,9 +198,9 @@ FUNCTION on_hdob_entry_key CDECL( _
     CASE GDK_KEY_d : txt = STR(num)
     CASE GDK_KEY_o : txt = "&o" & OCT(num)
     CASE GDK_KEY_b : txt = "&b" & BIN(num)
-    CASE ELSE :                                             RETURN false
-    END SELECT
-  END WITH : gtk_entry_set_text(GTK_ENTRY(Entry), sadd(txt)) : RETURN true
+    CASE ELSE :                                             RETURN FALSE
+    END SELECT : gtk_entry_set_text(GTK_ENTRY(Entry), txt) : RETURN TRUE
+  END WITH
 END FUNCTION
 
 

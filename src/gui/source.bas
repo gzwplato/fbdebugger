@@ -119,28 +119,61 @@ CONSTRUCTOR SrcNotebook()
   gtk_source_buffer_set_highlight_matching_brackets(GTKSOURCE_SOURCE_BUFFER(BuffCur), FALSE)
 
 '' prepare the gutter marks
-  VAR size = 10
+  VAR size = 11
+  dim as GError PTR errr
   Attr0 = gtk_source_mark_attributes_new()
-  gtk_source_mark_attributes_set_stock_id(Attr0, "gtk-media-forward")
+  var icon = g_icon_new_for_string("gtk-media-forward", @errr)
+  if errr then ? " GIcon error: "; *errr->message
+?" Attr0: Icon = ";icon
+  gtk_source_mark_attributes_set_gicon(Attr0, icon)
+  g_object_unref(icon)
+?" PixB = "; _
   gtk_source_mark_attributes_render_icon(Attr0, ViewCur, size)
 
   Attr1 = gtk_source_mark_attributes_new()
-  gtk_source_mark_attributes_set_stock_id(Attr1, "gtk-media-pause")
+  icon = g_icon_new_for_string("gtk-media-pause", @errr)
+  if errr then ? " GIcon error: "; *errr->message
+?" Attr1: Icon = ";icon
+  gtk_source_mark_attributes_set_gicon(Attr1, icon)
+  g_object_unref(icon)
+?" PixB = "; _
   gtk_source_mark_attributes_render_icon(Attr1, ViewCur, size)
 
   Attr2 = gtk_source_mark_attributes_new()
-  gtk_source_mark_attributes_set_stock_id(Attr2, "gtk-media-stop")
+  icon = g_icon_new_for_string("gtk-media-stop", @errr)
+  if errr then ? " GIcon error: "; *errr->message
+?" Attr2: Icon = ";icon
+  gtk_source_mark_attributes_set_gicon(Attr2, icon)
+  g_object_unref(icon)
+?" PixB = "; _
   gtk_source_mark_attributes_render_icon(Attr2, ViewCur, size)
 
   Attr3 = gtk_source_mark_attributes_new()
-  gtk_source_mark_attributes_set_stock_id(Attr3, "gtk-jump-to")
-  gtk_source_mark_attributes_render_icon(Attr3, ViewCur, size)
+  icon = g_icon_new_for_string("gtk-jump-to", @errr)
+  if errr then ? " GIcon error: "; *errr->message
+?" Attr3: Icon = ";icon
+  gtk_source_mark_attributes_set_gicon(Attr3, icon)
+  'g_object_unref(icon)
 
-'dim as GError PTR errr
-'var icon = g_icon_new_for_string("gtk-media-pause", @errr)
-'if errr then ? " HIER: "; *errr->message
-'?" HIER: icon = ";icon
-'g_object_unref(icon)
+var stri = g_icon_to_string(icon)
+?" PixB = "; _
+  gtk_source_mark_attributes_render_icon(Attr3, ViewCur, size) _
+, gtk_source_mark_attributes_get_gicon(Attr3) _
+, *stri _
+, ViewCur, size
+g_free(stri)
+
+  'Attr1 = gtk_source_mark_attributes_new()
+  'gtk_source_mark_attributes_set_stock_id(Attr1, "gtk-media-pause")
+  'gtk_source_mark_attributes_render_icon(Attr1, ViewCur, size)
+
+  'Attr2 = gtk_source_mark_attributes_new()
+  'gtk_source_mark_attributes_set_stock_id(Attr2, "gtk-media-stop")
+  'gtk_source_mark_attributes_render_icon(Attr2, ViewCur, size)
+
+  'Attr3 = gtk_source_mark_attributes_new()
+  'gtk_source_mark_attributes_set_stock_id(Attr3, "gtk-jump-to")
+  'gtk_source_mark_attributes_render_icon(Attr3, ViewCur, size)
 
 ?" CONSTRUCTOR SrcNotebook"
 END CONSTRUCTOR
