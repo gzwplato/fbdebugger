@@ -278,7 +278,7 @@ WITH *INI
 
     g_object_set(    fontSource, "font", IIF(LEN(.FontSrc), SADD(.FontSrc), @""), NULL)
     g_object_set(     numDelay, "value", CAST(gdouble, .DelVal), NULL)
-    g_object_set(    numCurpos, "value", CAST(gdouble, .CurPos * 1000), NULL)
+    g_object_set(    numCurpos, "value", CAST(gdouble, .CurPos / 1000), NULL)
 
     IF gtk_combo_box_set_active_id(GTK_COMBO_BOX(boxSchema), SADD(INI->StlSchm)) THEN
       INI->StlSchm = "fbdebugger" ''   fallback, if scheme not available

@@ -34,10 +34,10 @@ TYPE LOG_Udt
   , BufLogScreen '*< The text buffer of the screen log dialog
 
   DECLARE CONSTRUCTOR()
-  DECLARE SUB Notes(BYVAL Txt AS gchar PTR = 0)
+  DECLARE SUB Notes(BYVAL AS gchar PTR = 0)
   DECLARE SUB add2Notes(BYVAL Txt AS gchar PTR = 0)
-  DECLARE SUB ScreenLog()
-  DECLARE SUB FileLog(byval as gchar ptr)
+  'DECLARE SUB ScreenLog()
+  DECLARE SUB FileLog(BYVAL AS gchar PTR)
 END TYPE
 
 
@@ -119,7 +119,7 @@ END SUB
 
 
 /'* \brief Toggle file log window
-\param Fnam Path/name of log file to load
+\param Fnam Path/Name of log file to load
 
 Member function to toggle the state of the file log window, either
 visible or invisible. When called first, a new dialog window gets

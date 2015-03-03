@@ -78,11 +78,11 @@ This class is used to handle the expand non-modal dialog windows.
 '/
 TYPE ExpandUdt
   AS STRING Xml
-  as GSList PTR List = NULL
+  AS GSList PTR List = NULL
 
-  declare CONSTRUCTOR()
-  declare sub addXpd(byval as SUB CDECL(BYVAL as GtkTreeStore ptr, byval as gpointer), byval as gpointer)
-  declare sub destroyAll()
+  DECLARE CONSTRUCTOR()
+  DECLARE SUB addXpd(BYVAL AS SUB CDECL(BYVAL AS GtkTreeStore PTR, BYVAL AS gpointer), BYVAL AS gpointer)
+  DECLARE SUB destroyAll()
 END TYPE
 
 
@@ -122,8 +122,8 @@ FIXME
 
 '/
 SUB ExpandUdt.addXpd( _
-    byval FillStore as SUB CDECL(BYVAL as GtkTreeStore ptr, byval as gpointer) _
-  , byval UserData as gpointer)
+    BYVAL FillStore AS SUB CDECL(BYVAL AS GtkTreeStore PTR, BYVAL AS gpointer) _
+  , BYVAL UserData AS gpointer)
 
   VAR build = gtk_builder_new()
   DIM AS GError PTR meld

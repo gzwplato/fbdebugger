@@ -8,11 +8,11 @@ its tabulators.
 '/
 
 
-declare SUB view_mark_clicked CDECL( _
-    BYVAL SView AS GtkSourceView PTR _
-  , BYVAL Iter AS GtkTextIter PTR _
-  , BYVAL Event AS GdkEvent PTR _
-  , BYVAL buff AS GtkSourceBuffer PTR)
+DECLARE SUB view_mark_clicked CDECL( _
+    BYVAL AS GtkSourceView PTR _
+  , BYVAL AS GtkTextIter PTR _
+  , BYVAL AS GdkEvent PTR _
+  , BYVAL AS GtkSourceBuffer PTR)
 
 /'* \brief Class to handle the context of the source notebook
 
@@ -66,7 +66,6 @@ TYPE SrcNotebook
 
   DECLARE FUNCTION getAttr(byval AS gchar ptr) AS GtkSourceMarkAttributes PTR
   DECLARE FUNCTION getBuffLine(byval as GtkTextBuffer ptr, byval as GtkTextIter ptr) AS string
-  'DECLARE FUNCTION getBookmark(BYVAL as GtkWidget ptr, BYVAL as GtkTextIter ptr) as string
   DECLARE SUB setBookmark(BYVAL AS gint, BYVAL AS GtkWidget PTR)
   DECLARE SUB delBookmark(BYVAL AS gint, BYVAL AS GtkWidget PTR)
 
@@ -77,6 +76,15 @@ TYPE SrcNotebook
   DECLARE SUB removeAll()
 END TYPE
 
+'#ifndef __FB_UNIX__
+'#undef gdk_pixbuf_new_from_file_at_size
+''#DEFINE gdk_pixbuf_new_from_file gdk_pixbuf_new_from_file_utf8
+'#DEFINE gdk_pixbuf_new_from_file_at_size gdk_pixbuf_new_from_file_at_size_utf8
+''#DEFINE gdk_pixbuf_new_from_file_at_scale gdk_pixbuf_new_from_file_at_scale_utf8
+'EXTERN "C" LIB "gdk_pixbuf-2.0"
+'DECLARE FUNCTION gdk_pixbuf_new_from_file_at_size(BYVAL AS const char PTR, BYVAL AS gint /'int'/, BYVAL AS gint /'int'/, BYVAL AS GError PTR PTR) AS GdkPixbuf PTR
+'end extern
+'#endif
 
 /'* \brief FIXME
 \param Nam The name of the icon file
@@ -143,10 +151,13 @@ CONSTRUCTOR SrcNotebook()
   END IF
   gtk_source_buffer_set_highlight_matching_brackets(GTKSOURCE_SOURCE_BUFFER(BuffCur), FALSE)
 
-  Attr0 = getAttr("dat/brkd.png")
-  Attr1 = getAttr("dat/brkt.png")
-  Attr2 = getAttr("dat/brkp.png")
-  Attr3 = getAttr("dat/book.png")
+  Attr0 = getAttr("img/brkd.png")
+  Attr1 = getAttr("img/brkt.png")
+  Attr2 = getAttr("img/brkp.png")
+  Attr3 = getAttr("img/book.png")
+
+#print typeof(gint)
+?" sizeof(gint): ";sizeof(gint)
 
 ?" CONSTRUCTOR SrcNotebook"
 END CONSTRUCTOR
@@ -166,65 +177,6 @@ DESTRUCTOR SrcNotebook()
   g_object_unref(Attr1)
   g_object_unref(Attr0)
 END DESTRUCTOR
-
-
-/'* \brief Change a mark programmatically
-\param Lnr The line number to scroll to (starting at 1)
-\param Widg The widget to show (reference returned by SrcNotebook::addBas() )
-\param Mo The modus how to change
-
-Procedure to change marks in a source view widget at the specified line
-number *Lnr*. It either creates or removes marks in the source view
-widget contained in scrolled window *Widg*, by calling SUB
-view_mark_clicked().
-
-To set a mark, specify its type in parameter *Mo*. Existend break point
-marks get overriden by the new type, existend bookmarks stay unchanged.
-
-To remove marks,
-
-- pass "brk" to remove a break point mark
-- pass "boo" to remove a bookmark
-- pass any other string (ie. "") to remove all marks
-
-When the specified line number is too big (or negative), the procedure
-operates at the last line.
-
-'/
-SUB SrcNotebook.changeMark( _
-    BYVAL Lnr AS gint _
-  , BYVAL Widg AS GtkWidget PTR _
-  , BYREF Mo AS STRING = "")
-  IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
-
-  VAR page = gtk_notebook_page_num(NoteBok, Widg)
-  IF page < 0 THEN                           /' no such page '/ EXIT SUB
-
-  DIM AS GtkTextIter iter
-  DIM AS GdkEventButton event
-  VAR buff = g_object_get_data(G_OBJECT(Widg), "Buffer") _
-    , srcv = g_object_get_data(G_OBJECT(Widg), "SrcView")
-  gtk_text_buffer_get_iter_at_line(GTK_TEXT_BUFFER(buff), @iter, Lnr - 1)
-
-  WITH event
-#IFDEF __FB_UNIX__
-    .state = 16
-#ENDIF
-
-    SELECT CASE Mo
-    CASE "book" : .button = 1 : .state += 3
-    CASE "boo"  : .button = 3 : .state += 3
-    CASE "brkp" : .button = 1 : .state += 0
-    CASE "brkt" : .button = 1 : .state += 1
-    CASE "brkd" : .button = 1 : .state += 4
-    CASE "brk"  : .button = 3 : .state += 0
-    CASE ELSE   : .button = 3
-      view_mark_clicked(srcv, @iter, CAST(GdkEvent PTR, @event), GTKSOURCE_SOURCE_BUFFER(buff))
-      .state += 3
-    END SELECT
-    view_mark_clicked(srcv, @iter, CAST(GdkEvent PTR, @event), GTKSOURCE_SOURCE_BUFFER(buff))
-  END WITH
-END SUB
 
 
 /'* \brief Add a page for FB source
@@ -280,6 +232,7 @@ END FUNCTION
 /'* \brief Scroll the context to line, switch page if necessary
 \param Lnr The line number to scroll to (starting at 1)
 \param Widg The widget to show (reference returned by SrcNotebook::addBas() )
+\param Mo The modus (0 = scroll only, otherwise copy current line)
 
 Member function to switch to a certain page (if necessary) and scroll
 to a certain line, select the context of that line and place a copy to
@@ -309,6 +262,14 @@ SUB SrcNotebook.scroll(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR, BYVAL Mo 
 END SUB
 
 
+
+/'* \brief FIXME
+\param Lnr FIXME
+\param Widg FIXME
+
+FIXME
+
+'/
 SUB SrcNotebook.setBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
   var buff = g_object_get_data(G_Object(Widg), "Buffer")
 
@@ -323,6 +284,14 @@ SUB SrcNotebook.setBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
 END SUB
 
 
+
+/'* \brief FIXME
+\param Lnr FIXME
+\param Widg FIXME
+
+FIXME
+
+'/
 SUB SrcNotebook.delBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
   DIM AS GtkTreeIter iter
   var id = str(Lnr) & "&h" & hex(cast(integer, Widg)) _
@@ -341,6 +310,15 @@ END SUB
 
 
 
+
+/'* \brief FIXME
+\param Buff FIXME
+\param Iter FIXME
+\returns FIXME
+
+FIXME
+
+'/
 FUNCTION SrcNotebook.getBuffLine( _
     byval Buff as GtkTextBuffer ptr _
   , byval Iter as GtkTextIter ptr) AS string
@@ -478,6 +456,65 @@ SUB SrcNotebook.settingsChanged()
 END SUB
 
 
+/'* \brief Change a mark programmatically
+\param Lnr The line number to scroll to (starting at 1)
+\param Widg The widget to show (reference returned by SrcNotebook::addBas() )
+\param Mo The modus how to change
+
+Procedure to change marks in a source view widget at the specified line
+number *Lnr*. It either creates or removes marks in the source view
+widget contained in scrolled window *Widg*, by calling SUB
+view_mark_clicked().
+
+To set a mark, specify its type in parameter *Mo*. Existend break point
+marks get overriden by the new type, existend bookmarks stay unchanged.
+
+To remove marks,
+
+- pass "brk" to remove a break point mark
+- pass "boo" to remove a bookmark
+- pass any other string (ie. "") to remove all marks
+
+When the specified line number is too big (or negative), the procedure
+operates at the last line.
+
+'/
+SUB SrcNotebook.changeMark( _
+    BYVAL Lnr AS gint _
+  , BYVAL Widg AS GtkWidget PTR _
+  , BYREF Mo AS STRING = "")
+  IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
+
+  VAR page = gtk_notebook_page_num(NoteBok, Widg)
+  IF page < 0 THEN                           /' no such page '/ EXIT SUB
+
+  DIM AS GtkTextIter iter
+  DIM AS GdkEventButton event
+  VAR buff = g_object_get_data(G_OBJECT(Widg), "Buffer") _
+    , srcv = g_object_get_data(G_OBJECT(Widg), "SrcView")
+  gtk_text_buffer_get_iter_at_line(GTK_TEXT_BUFFER(buff), @iter, Lnr - 1)
+
+  WITH event
+#IFDEF __FB_UNIX__
+    .state = 16
+#ENDIF
+
+    SELECT CASE Mo
+    CASE "book" : .button = 1 : .state += 3
+    CASE "boo"  : .button = 3 : .state += 3
+    CASE "brkp" : .button = 1
+    CASE "brkt" : .button = 1 : .state += 1
+    CASE "brkd" : .button = 1 : .state += 4
+    CASE "brk"  : .button = 3 : .state += 0
+    CASE ELSE   : .button = 3
+      view_mark_clicked(srcv, @iter, CAST(GdkEvent PTR, @event), GTKSOURCE_SOURCE_BUFFER(buff))
+      .state += 3
+    END SELECT
+    view_mark_clicked(srcv, @iter, CAST(GdkEvent PTR, @event), GTKSOURCE_SOURCE_BUFFER(buff))
+  END WITH
+END SUB
+
+
 /'* \brief The global class to handle the source notebook
 
 We use a pointer here, since we need to search for GtkBuilder objects
@@ -492,7 +529,7 @@ DIM SHARED AS SrcNotebook PTR SRC
 \param SView The source view widget
 \param Iter The text iter where to operate
 \param Event The mouse event that triggered the signal
-\param user_data (unused)
+\param Buff (unused)
 
 Signal handler to create or remove a mark in the source view widgets. A
 left click creates a mark, a right click removes it. The type of the
@@ -513,7 +550,7 @@ SUB view_mark_clicked CDECL( _
     BYVAL SView AS GtkSourceView PTR _
   , BYVAL Iter AS GtkTextIter PTR _
   , BYVAL Event AS GdkEvent PTR _
-  , BYVAL buff AS GtkSourceBuffer PTR)
+  , BYVAL Buff AS GtkSourceBuffer PTR)
 
 
   WITH *CAST(GdkEventButton PTR, Event)
@@ -526,36 +563,36 @@ SUB view_mark_clicked CDECL( _
       VAR mark = "fbdbg-____"
       SELECT CASE AS CONST .state '   set mark, delete existend (if any)
       CASE 0 : MID(mark, 7, 4) = "brkp"
-        VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
         IF list THEN g_slist_free(list) :                       EXIT SUB
-        gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkd")
-        gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkt")
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkd")
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkt")
       CASE GDK_SHIFT_MASK : MID(mark, 7, 4) = "brkt"
-        VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
         IF list THEN g_slist_free(list) :                       EXIT SUB
-        gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkd")
-        gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkp")
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkd")
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkp")
       CASE GDK_CONTROL_MASK : MID(mark, 7, 4) = "brkd"
-        VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
         IF list THEN g_slist_free(list) :                       EXIT SUB
-        gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkt")
-        gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkp")
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkt")
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkp")
       CASE ELSE : MID(mark, 7, 4) = "book"
-        VAR list = gtk_source_buffer_get_source_marks_at_iter(buff, Iter, mark)
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
         IF list THEN g_slist_free(list) :                       EXIT SUB
         var widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
            , lnr = gtk_text_iter_get_line(Iter) + 1
         SRC->setBookmark(lnr, widg)
       END SELECT
-      gtk_source_buffer_create_source_mark(buff, NULL, mark, Iter)
+      gtk_source_buffer_create_source_mark(Buff, NULL, mark, Iter)
     CASE 3 :
       SELECT CASE AS CONST .state '                 delete mark (if any)
       CASE 0, GDK_SHIFT_MASK, GDK_CONTROL_MASK
-        gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkd")
-        gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkt")
-        gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-brkp")
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkd")
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkt")
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkp")
       CASE ELSE
-        gtk_source_buffer_remove_source_marks(buff, Iter, Iter, "fbdbg-book")
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-book")
         var widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
            , lnr = gtk_text_iter_get_line(Iter) + 1
         SRC->delBookmark(lnr, widg)

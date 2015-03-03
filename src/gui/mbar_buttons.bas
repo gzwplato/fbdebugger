@@ -181,6 +181,8 @@ SRC->changeMark(150, ref(1), "brkp")
 while gtk_events_pending() : gtk_main_iteration() : wend : sleep 1000
 SRC->changeMark(150, ref(1), "brkt")
 while gtk_events_pending() : gtk_main_iteration() : wend : sleep 1000
+SRC->changeMark(150, ref(1), "brkd")
+while gtk_events_pending() : gtk_main_iteration() : wend : sleep 1000
 SRC->changeMark(150, ref(1), "boo")
 while gtk_events_pending() : gtk_main_iteration() : wend : sleep 1000
 SRC->changeMark(150, ref(1), "brk")
