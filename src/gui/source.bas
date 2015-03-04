@@ -39,6 +39,8 @@ TYPE SrcNotebook
   AS GtkWidget PTR _
     ViewCur _ '*< The source view for current source line
   , ScrWidg   '*< The widget of the current source line
+  AS GtkComboBoxText PTR _
+    CBMarks   '*< The combo box for book marks
   AS GtkNotebook PTR _
     NoteBok   '*< The notebook for source views
   AS GtkSourceMarkAttributes PTR _
@@ -90,14 +92,12 @@ FUNCTION SrcNotebook.getAttr(BYVAL Nam AS gchar PTR) AS GtkSourceMarkAttributes 
   VAR size = 10 _
     , attr = gtk_source_mark_attributes_new() _
     , pixbuf = gdk_pixbuf_new_from_file_at_size(Nam, size, size, @errr)
-  IF 0 = pixbuf THEN ?PROJ_NAME & ": missing file " & *Nam : RETURN attr
+  IF 0 = pixbuf THEN ?PROJ_NAME & ": missing file " & *Nam    : RETURN attr
 
   gtk_source_mark_attributes_set_pixbuf(attr, pixbuf)
   g_object_unref(pixbuf)
 
-?" getAttr: attr, pixbuf, render = "; attr,pixbuf, _
-  gtk_source_mark_attributes_render_icon(attr, ViewCur, size)
-  RETURN attr
+  gtk_source_mark_attributes_render_icon(attr, ViewCur, size) : RETURN attr
 END FUNCTION
 
 
@@ -121,6 +121,7 @@ CONSTRUCTOR SrcNotebook()
   BuffCur = gtk_builder_get_object(GUI.XML, "srcbuffCur")
   ViewCur = GTK_WIDGET(gtk_builder_get_object(GUI.XML, "viewSrcCur"))
   NoteBok = GTK_NOTEBOOK(gtk_builder_get_object(GUI.XML, "nbookSrc"))
+  CBMarks = GTK_COMBO_BOX_TEXT(gtk_builder_get_object(GUI.XML, "comboBookmarks"))
 
 '' prepare managers for syntax highlighting
   VAR lm = gtk_source_language_manager_get_default()
@@ -147,6 +148,8 @@ CONSTRUCTOR SrcNotebook()
   Attr1 = getAttr("img/brkt.png")
   Attr2 = getAttr("img/brkp.png")
   Attr3 = getAttr("img/book.png")
+  gtk_combo_box_text_insert(CBMarks, 0, NULL, __("Select bookmark"))
+  g_object_set(CBMarks, "active", cast(gint, 0), NULL)
 
 ?" CONSTRUCTOR SrcNotebook"
 END CONSTRUCTOR
@@ -270,26 +273,26 @@ SUB SrcNotebook.addBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
    , txt = *gtk_notebook_get_tab_label_text(NoteBok, Widg) _
          & "(" & Lnr & "): " _
          & getBuffLine(buff, @iter) _
-  , posi = 0 _
- , model = gtk_combo_box_get_model(GTK_COMBO_BOX(GUI.comboBookmarks)) _
-, column = gtk_combo_box_get_id_column(GTK_COMBO_BOX(GUI.comboBookmarks))
+     , p = 0, n = 0 _
+ , model = gtk_combo_box_get_model(GTK_COMBO_BOX(CBMarks)) _
+, column = gtk_combo_box_get_id_column(GTK_COMBO_BOX(CBMarks))
 
   DIM AS GtkTreeIter tri
   gtk_tree_model_get_iter_first(model, @tri) ' skip first
   WHILE gtk_tree_model_iter_next(model, @tri)
-    posi += 1
-
     DIM AS gchar PTR dat
     gtk_tree_model_get(model, @tri, column, @dat, -1)
-    IF 0 = dat THEN                                       CONTINUE WHILE
+    n += 1 : IF 0 = dat THEN                              CONTINUE WHILE
 
     VAR l = CAST(gint, VALUINT(*dat)) _
       , w = VALUINT(MID(*dat, INSTR(*dat, "&h")))
     g_free(dat)
 
-    IF Widg = w ANDALSO l >= Lnr THEN                         EXIT WHILE
+?" _> ";Lnr, l, p, n
+    IF Widg <> w then if p THEN exit while else           CONTINUE WHILE
+    IF Lnr > l THEN p = n ELSE p = iif(p, p, n - 1) :         EXIT WHILE
   WEND
-  gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(GUI.comboBookmarks), posi, id, txt)
+  gtk_combo_box_text_insert(CBMarks, p + 1, id, txt)
 END SUB
 
 
@@ -305,8 +308,8 @@ the GtkComboBoxText list store, if any.
 SUB SrcNotebook.delBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
   DIM AS GtkTreeIter iter
   VAR id = STR(Lnr) & "&h" & HEX(CAST(INTEGER, Widg)) _
- , model = gtk_combo_box_get_model(GTK_COMBO_BOX(GUI.comboBookmarks)) _
-, column = gtk_combo_box_get_id_column(GTK_COMBO_BOX(GUI.comboBookmarks))
+ , model = gtk_combo_box_get_model(GTK_COMBO_BOX(CBMarks)) _
+, column = gtk_combo_box_get_id_column(GTK_COMBO_BOX(CBMarks))
 
   IF 0 = gtk_tree_model_get_iter_first(model, @iter) THEN       EXIT SUB
   DO
@@ -627,14 +630,15 @@ SUB on_comboBookmark_changed CDECL ALIAS "on_comboBookmark_changed" ( _
   BYVAL Widget AS GtkWidget PTR, _
   BYVAL user_data AS gpointer) EXPORT ' Standard-Parameterliste
 
-  VAR id = *gtk_combo_box_get_active_id(GTK_COMBO_BOX(Widget))
-  IF id = "0" THEN                                              EXIT SUB
+  VAR id = gtk_combo_box_get_active_id(GTK_COMBO_BOX(Widget))
+  IF id = NULL THEN                                             EXIT SUB
 
-  VAR lnr = CAST(gint, VALUINT(id)) _
-   , widg = GTK_WIDGET(0 + VALUINT(MID(id, INSTR(id, "&h"))))
+  VAR lnr = CAST(gint, VALUINT(*id)) _
+   , widg = GTK_WIDGET(0 + VALUINT(MID(*id, INSTR(*id, "&h"))))
   SRC->scroll(lnr, widg, 0)
 
-  g_object_set(GUI.comboBookmarks, "active-id", "0", NULL) ' this invoces the signal (itself) again!
+  'g_object_set(Widget, "active-id", NULL, NULL) ' this invoces the signal (itself) again!
+  gtk_combo_box_set_active(GTK_COMBO_BOX(Widget), 0) ' this invoces the signal (itself) again!
 
 END SUB
 

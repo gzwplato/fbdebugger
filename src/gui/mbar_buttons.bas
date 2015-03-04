@@ -171,6 +171,7 @@ NEXT
 'FOR i AS INTEGER = 0 TO ubound(fnam)
   'SRC->remove(ref(i))
 'NEXT
+exit sub
 
 while gtk_events_pending() : gtk_main_iteration() : wend
 SRC->scroll(150, ref(1))
