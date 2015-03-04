@@ -495,7 +495,7 @@ SUB SrcNotebook.changeMark( _
     CASE "brkp" : .button = 1
     CASE "brkt" : .button = 1 : .state += 1
     CASE "brkd" : .button = 1 : .state += 4
-    CASE "brk"  : .button = 3 : .state += 0
+    CASE "brk"  : .button = 3
     CASE ELSE   : .button = 3
       view_mark_clicked(srcv, @iter, CAST(GdkEvent PTR, @event), GTKSOURCE_SOURCE_BUFFER(buff))
       .state += 3

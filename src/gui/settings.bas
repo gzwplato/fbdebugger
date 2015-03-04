@@ -116,7 +116,7 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
   STATIC AS GObject PTR _
     colForegr, colBackgr, colBackgrCur, colBreak, colBreakTmp, colLineNo _
   , colKeyword, colStrings, colPrepro, colComment, colNumbers, colEscape, colCursor _
-  , boolTooltips, boolVerbose, boolScreen _
+  , boolTooltips, boolVerbose, boolScreen, boolFileLog _
   , boolProctrace, boolLinetrace _
   , boolLineno, boolSyntax _
   , entryFbc, entryIDE, entryCmdl, entryDbg, entryLogfile _
@@ -142,10 +142,11 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
         boolSyntax = gtk_builder_get_object(xml, "checkbutton501")
        boolVerbose = gtk_builder_get_object(xml, "checkbutton502")
         boolScreen = gtk_builder_get_object(xml, "checkbutton503")
-     boolLinetrace = gtk_builder_get_object(xml, "checkbutton504")
-     boolProctrace = gtk_builder_get_object(xml, "checkbutton505")
-      boolTooltips = gtk_builder_get_object(xml, "checkbutton506")
-        boolLineno = gtk_builder_get_object(xml, "checkbutton507")
+       boolFileLog = gtk_builder_get_object(xml, "checkbutton504")
+     boolLinetrace = gtk_builder_get_object(xml, "checkbutton505")
+     boolProctrace = gtk_builder_get_object(xml, "checkbutton506")
+      boolTooltips = gtk_builder_get_object(xml, "checkbutton507")
+        boolLineno = gtk_builder_get_object(xml, "checkbutton508")
 
           entryFbc = gtk_builder_get_object(xml, "entry501")
           entryIde = gtk_builder_get_object(xml, "entry502")
@@ -225,6 +226,7 @@ WITH *INI
     g_object_get( boolTooltips, "active", @bool, NULL) : .Bool(.FTT) = bool
     g_object_get(  boolVerbose, "active", @bool, NULL) : .Bool(.FVM) = bool
     g_object_get(   boolScreen, "active", @bool, NULL) : .Bool(.FSL) = bool
+    g_object_get(  boolFileLog, "active", @bool, NULL) : .Bool(.FFL) = bool
     g_object_get(boolProctrace, "active", @bool, NULL) : .Bool(.FPT) = bool
     g_object_get(boolLinetrace, "active", @bool, NULL) : .Bool(.FLT) = bool
     g_object_get(   boolLineno, "active", @bool, NULL) : .Bool(.FLN) = bool
@@ -265,6 +267,7 @@ WITH *INI
     g_object_set( boolTooltips, "active", .Bool(.FTT), NULL)
     g_object_set(  boolVerbose, "active", .Bool(.FVM), NULL)
     g_object_set(   boolScreen, "active", .Bool(.FSL), NULL)
+    g_object_set(  boolFileLog, "active", .Bool(.FFL), NULL)
     g_object_set(boolProctrace, "active", .Bool(.FPT), NULL)
     g_object_set(boolLinetrace, "active", .Bool(.FLT), NULL)
     g_object_set(   boolLineno, "active", .Bool(.FLN), NULL)

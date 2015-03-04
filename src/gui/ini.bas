@@ -49,6 +49,7 @@ TYPE IniUDT
     FSH '*< Flag syntax highlighting
     FVM '*< Flag verbode mode
     FSL '*< Flag screen log
+    FFL '*< Flag file log
     FLT '*< Flag line trace
     FPT '*< Flag proc trace
     FTT '*< Flag tool tips
@@ -179,6 +180,7 @@ FUNCTION IniUDT.loadIni() AS gchar PTR
     CASE "[FSH]=" :    Flag(FSH) = MID(t, 7)
     CASE "[FVM]=" :    Flag(FVM) = MID(t, 7)
     CASE "[FSL]=" :    Flag(FSL) = MID(t, 7)
+    CASE "[FFL]=" :    Flag(FFL) = MID(t, 7)
     CASE "[FLT]=" :    Flag(FLT) = MID(t, 7)
     CASE "[FPT]=" :    Flag(FPT) = MID(t, 7)
     CASE "[FTT]=" :    Flag(FTT) = MID(t, 7)
@@ -272,6 +274,7 @@ FUNCTION IniUDT.saveIni() AS gchar PTR
   PRINT #fnr, "[FSH]=" & Flag(FSH)
   PRINT #fnr, "[FVM]=" & Flag(FVM)
   PRINT #fnr, "[FSL]=" & Flag(FSL)
+  PRINT #fnr, "[FFL]=" & Flag(FFL)
   PRINT #fnr, "[FLT]=" & Flag(FLT)
   PRINT #fnr, "[FPT]=" & Flag(FTT)
   PRINT #fnr, "[TTP]=" & Flag(FTT)
