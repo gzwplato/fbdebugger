@@ -288,7 +288,6 @@ SUB SrcNotebook.addBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
       , w = VALUINT(MID(*dat, INSTR(*dat, "&h")))
     g_free(dat)
 
-?" _> ";Lnr, l, p, n
     IF Widg <> w then if p THEN exit while else           CONTINUE WHILE
     IF Lnr > l THEN p = n ELSE p = iif(p, p, n - 1) :         EXIT WHILE
   WEND
@@ -565,7 +564,6 @@ SUB view_mark_clicked CDECL( _
   , BYVAL Event AS GdkEvent PTR _
   , BYVAL Buff AS GtkSourceBuffer PTR)
 
-
   WITH *CAST(GdkEventButton PTR, Event)
 #IFDEF __FB_LINUX__
 .state -= 16
@@ -637,7 +635,6 @@ SUB on_comboBookmark_changed CDECL ALIAS "on_comboBookmark_changed" ( _
    , widg = GTK_WIDGET(0 + VALUINT(MID(*id, INSTR(*id, "&h"))))
   SRC->scroll(lnr, widg, 0)
 
-  'g_object_set(Widget, "active-id", NULL, NULL) ' this invoces the signal (itself) again!
   gtk_combo_box_set_active(GTK_COMBO_BOX(Widget), 0) ' this invoces the signal (itself) again!
 
 END SUB

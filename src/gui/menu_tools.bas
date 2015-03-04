@@ -236,13 +236,13 @@ SUB act_bdohtrans CDECL ALIAS "act_bdohtrans" ( _
   gtk_misc_set_alignment(GTK_MISC(llabel), 1., .0)
 
   /' Create GtkEntry '/
-  VAR pEntry = gtk_entry_new()
-  gtk_entry_set_alignment(GTK_ENTRY(pEntry), 1.)
+  VAR entry = gtk_entry_new()
+  gtk_entry_set_alignment(GTK_ENTRY(entry), 1.)
 
   /' Create a label for types '/
   VAR rlabel = gtk_label_new(NULL)
   gtk_label_set_markup(GTK_LABEL(rlabel), !"<i><u>H</u>ex \n<u>D</u>ec\n<u>O</u>ct\n<u>B</u>in</i>")
-  gtk_label_set_mnemonic_widget(GTK_LABEL(rlabel), pEntry)
+  gtk_label_set_mnemonic_widget(GTK_LABEL(rlabel), entry)
   /' Create a hbox container '/
   VAR hbox = gtk_hbox_new(FALSE, 5)
   /' Insert value label in GtkHBox '/
@@ -253,16 +253,16 @@ SUB act_bdohtrans CDECL ALIAS "act_bdohtrans" ( _
   gtk_box_pack_start(GTK_BOX(cont), hbox, FALSE, TRUE, 0)
 
   /' Insert GtkEntry in GtkVBox '/
-  gtk_box_pack_start(GTK_BOX(cont), pEntry, FALSE, FALSE, 0)
+  gtk_box_pack_start(GTK_BOX(cont), entry, FALSE, FALSE, 0)
   /' Update the GtkLabel on changes in GtkEntry '/
-  g_signal_connect(G_OBJECT(pEntry), "changed" _
+  g_signal_connect(G_OBJECT(entry), "changed" _
                  , G_CALLBACK(@on_hdob_entry_changed), GTK_LABEL(llabel))
-  g_signal_connect(G_OBJECT(pEntry), "key-press-event" _
+  g_signal_connect(G_OBJECT(entry), "key-press-event" _
                  , G_CALLBACK(@on_hdob_entry_key), GTK_LABEL(llabel))
   /' Set initial value (emits changed signal) '/
-  gtk_entry_set_text(GTK_ENTRY(pEntry), "0")
+  gtk_entry_set_text(GTK_ENTRY(entry), "0")
   /' End dialog on Return/Enter key '/
-  g_signal_connect_swapped(G_OBJECT(pEntry), "activate" _
+  g_signal_connect_swapped(G_OBJECT(entry), "activate" _
                          , G_CALLBACK(@gtk_widget_destroy), dia)
   /' End dialog on button clicked '/
   g_signal_connect(G_OBJECT(dia), "response" _
