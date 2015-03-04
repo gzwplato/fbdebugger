@@ -37,11 +37,11 @@ TYPE GUIData
   ,    lviewMemory _ '*< The GObject PTR for the GtkTreeView in memory tab
   ,     butStopVar _ '*< The GObject PTR for the button StopVar in main window
   ,         nbook2 _ '*< The GObject PTR for the right notebook
-  , comboBookmarks _ '*< The GObject PTR for the bookmarks combo box text
   ,         watch1 _ '*< The GObject PTR for the label watch 1
   ,         watch2 _ '*< The GObject PTR for the label watch 2
   ,         watch3 _ '*< The GObject PTR for the label watch 3
   ,         watch4   '*< The GObject PTR for the label watch 4
+  ', comboBookmarks _ '*< The GObject PTR for the bookmarks combo box text
 END TYPE
 DIM SHARED AS GUIData GUI
 
@@ -79,7 +79,6 @@ WITH GUI
   .tviewThreads = gtk_builder_get_object(.XML, "tviewThreads")
   .tviewWatch = gtk_builder_get_object(.XML, "tviewWatch")
   .lviewMemory = gtk_builder_get_object(.XML, "lviewMemory")
-  .comboBookmarks = gtk_builder_get_object(.XML, "comboBookmarks")
   .butStopVar = gtk_builder_get_object(.XML, "button2")
   .watch1 = gtk_builder_get_object(.XML, "watch1")
   .watch3 = gtk_builder_get_object(.XML, "watch3")
