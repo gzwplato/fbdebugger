@@ -11,6 +11,9 @@
 EXTERN "C" LIB "gdk_pixbuf-2.0"
 DECLARE FUNCTION gdk_pixbuf_new_from_file_at_size(BYVAL AS CONST char PTR, BYVAL AS gint /'int'/, BYVAL AS gint /'int'/, BYVAL AS GError PTR PTR) AS GdkPixbuf PTR
 END EXTERN
+#define FIX_GDKEVENTKEY 0
+#else
+#define FIX_GDKEVENTKEY 16
 #ENDIF
 
 

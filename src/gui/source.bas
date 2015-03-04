@@ -507,9 +507,7 @@ SUB SrcNotebook.changeMark( _
   gtk_text_buffer_get_iter_at_line(GTK_TEXT_BUFFER(buff), @iter, Lnr - 1)
 
   WITH event
-#IFDEF __FB_UNIX__
-    .state = 16
-#ENDIF
+    .state = FIX_GDKEVENTKEY
 
     SELECT CASE Mo
     CASE "book" : .button = 1 : .state += 3
@@ -565,14 +563,11 @@ SUB view_mark_clicked CDECL( _
   , BYVAL Buff AS GtkSourceBuffer PTR)
 
   WITH *CAST(GdkEventButton PTR, Event)
-#IFDEF __FB_LINUX__
-.state -= 16
-#ENDIF
 ?"  --> callback view_mark_clicked: ";.button,.state
     SELECT CASE AS CONST .Button
     CASE 1
       VAR mark = "fbdbg-____"
-      SELECT CASE AS CONST .state '   set mark, delete existend (if any)
+      SELECT CASE AS CONST .state - FIX_GDKEVENTKEY'   set mark, delete existend (if any)
       CASE 0 : MID(mark, 7, 4) = "brkp"
         VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
         IF list THEN g_slist_free(list) :                       EXIT SUB
