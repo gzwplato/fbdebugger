@@ -188,7 +188,7 @@ FUNCTION on_hdob_entry_key CDECL( _
   , BYVAL user_data AS gpointer) AS gboolean
 
   WITH *CAST(GdkEventKey PTR, Event)
-    IF .state - FIX_GDKEVENTKEY <> GDK_CONTROL_MASK THEN    RETURN FALSE
+    IF .state - FIX_GDKEVENT_STATE <> GDK_CONTROL_MASK THEN RETURN FALSE
 
     VAR num = VALLNG(*gtk_entry_get_text(GTK_ENTRY(Entry))) _
       , txt = ""

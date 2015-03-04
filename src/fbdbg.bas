@@ -30,6 +30,7 @@ See file ../ReadMe.md for licence information.
 '< Find program info in file:                                                  >
     #INCLUDE "version.bas" '               global constants (version, licence) >
 
+    #INCLUDE "Gir/_GdkPixbuf-2.0.bi" '    Woe32 fix due to uncomplete Gir file >
     #INCLUDE "Gir/GtkSource-3.0.bi" '            GTK+library / GTK+ Bibliothek >
     #INCLUDE "Gir/_GObjectMacros-2.0.bi" '                      GObject macros >
     gtk_init(@__FB_ARGC__, @__FB_ARGV__) '             start GKT / GTK starten >

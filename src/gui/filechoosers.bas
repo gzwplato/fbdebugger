@@ -4,16 +4,16 @@
 \since 3.0
 '/
 
-#IFndef __FB_UNIX__
-#UNDEF gdk_pixbuf_new_from_file_at_size
-#DEFINE gdk_pixbuf_new_from_file_at_size gdk_pixbuf_new_from_file_at_size_utf8
+#IFNDEF __FB_UNIX__
+'#UNDEF gdk_pixbuf_new_from_file_at_size
+'#DEFINE gdk_pixbuf_new_from_file_at_size gdk_pixbuf_new_from_file_at_size_utf8
 
-EXTERN "C" LIB "gdk_pixbuf-2.0"
-DECLARE FUNCTION gdk_pixbuf_new_from_file_at_size(BYVAL AS CONST char PTR, BYVAL AS gint /'int'/, BYVAL AS gint /'int'/, BYVAL AS GError PTR PTR) AS GdkPixbuf PTR
-END EXTERN
-#define FIX_GDKEVENTKEY 0
-#else
-#define FIX_GDKEVENTKEY 16
+'EXTERN "C" LIB "gdk_pixbuf-2.0"
+'DECLARE FUNCTION gdk_pixbuf_new_from_file_at_size(BYVAL AS CONST char PTR, BYVAL AS gint /'int'/, BYVAL AS gint /'int'/, BYVAL AS GError PTR PTR) AS GdkPixbuf PTR
+'END EXTERN
+#DEFINE FIX_GDKEVENT_STATE 0
+#ELSE
+#DEFINE FIX_GDKEVENT_STATE 16
 #ENDIF
 
 
