@@ -66,7 +66,7 @@ TYPE SrcNotebook
 
   DECLARE FUNCTION getAttr(byval AS gchar ptr) AS GtkSourceMarkAttributes PTR
   DECLARE FUNCTION getBuffLine(byval as GtkTextBuffer ptr, byval as GtkTextIter ptr) AS string
-  DECLARE SUB setBookmark(BYVAL AS gint, BYVAL AS GtkWidget PTR)
+  DECLARE SUB addBookmark(BYVAL AS gint, BYVAL AS GtkWidget PTR)
   DECLARE SUB delBookmark(BYVAL AS gint, BYVAL AS GtkWidget PTR)
 
   DECLARE SUB changeMark(BYVAL AS gint, BYVAL AS GtkWidget PTR, BYREF AS STRING = "")
@@ -256,11 +256,11 @@ END SUB
 \param Widg The note book widget to operate at (scrolled window)
 
 Member function to add a book mark to the combo box in main window. It
-appends the new book mark text to the end of the GtkComboBoxText list
-store.
+sorts the new book mark text to the GtkComboBoxText list store by
+widget and line number.
 
 '/
-SUB SrcNotebook.setBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
+SUB SrcNotebook.addBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
   VAR buff = g_object_get_data(G_Object(Widg), "Buffer")
 
   DIM AS GtkTextIter iter
@@ -269,8 +269,27 @@ SUB SrcNotebook.setBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
   VAR id = STR(Lnr) & "&h" & HEX(CAST(INTEGER, Widg)) _
    , txt = *gtk_notebook_get_tab_label_text(NoteBok, Widg) _
          & "(" & Lnr & "): " _
-         & getBuffLine(buff, @iter)
-  gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(GUI.comboBookmarks), -1, id, txt)
+         & getBuffLine(buff, @iter) _
+  , posi = 0 _
+ , model = gtk_combo_box_get_model(GTK_COMBO_BOX(GUI.comboBookmarks)) _
+, column = gtk_combo_box_get_id_column(GTK_COMBO_BOX(GUI.comboBookmarks))
+
+  DIM AS GtkTreeIter tri
+  gtk_tree_model_get_iter_first(model, @tri) ' skip first
+  WHILE gtk_tree_model_iter_next(model, @tri)
+    posi += 1
+
+    DIM AS gchar PTR dat
+    gtk_tree_model_get(model, @tri, column, @dat, -1)
+    IF 0 = dat THEN                                       CONTINUE WHILE
+
+    VAR l = CAST(gint, VALUINT(*dat)) _
+      , w = VALUINT(MID(*dat, INSTR(*dat, "&h")))
+    g_free(dat)
+
+    IF Widg = w ANDALSO l >= Lnr THEN                         EXIT WHILE
+  WEND
+  gtk_combo_box_text_insert(GTK_COMBO_BOX_TEXT(GUI.comboBookmarks), posi, id, txt)
 END SUB
 
 
@@ -293,9 +312,10 @@ SUB SrcNotebook.delBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
   DO
     DIM AS gchar PTR dat
     gtk_tree_model_get(model, @iter, column, @dat, -1)
-    IF 0 = dat ORELSE *dat <> id THEN g_free(dat)   :        CONTINUE DO
-    gtk_list_store_remove(GTK_LIST_STORE(model), @iter)
-    g_free(dat) :                                                EXIT DO
+    IF 0 = dat THEN                                          CONTINUE DO
+    IF *dat <> id THEN g_free(dat) :                         CONTINUE DO
+    g_free(dat)
+    gtk_list_store_remove(GTK_LIST_STORE(model), @iter) :        EXIT DO
   LOOP UNTIL 0 = gtk_tree_model_iter_next(model, @iter)
 END SUB
 
@@ -572,7 +592,7 @@ SUB view_mark_clicked CDECL( _
         IF list THEN g_slist_free(list) :                       EXIT SUB
         VAR widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
            , lnr = gtk_text_iter_get_line(Iter) + 1
-        SRC->setBookmark(lnr, widg)
+        SRC->addBookmark(lnr, widg)
       END SELECT
       gtk_source_buffer_create_source_mark(Buff, NULL, mark, Iter)
     CASE 3 :
