@@ -4,18 +4,6 @@
 \since 3.0
 '/
 
-#IFNDEF __FB_UNIX__
-'#UNDEF gdk_pixbuf_new_from_file_at_size
-'#DEFINE gdk_pixbuf_new_from_file_at_size gdk_pixbuf_new_from_file_at_size_utf8
-
-'EXTERN "C" LIB "gdk_pixbuf-2.0"
-'DECLARE FUNCTION gdk_pixbuf_new_from_file_at_size(BYVAL AS CONST char PTR, BYVAL AS gint /'int'/, BYVAL AS gint /'int'/, BYVAL AS GError PTR PTR) AS GdkPixbuf PTR
-'END EXTERN
-#DEFINE FIX_GDKEVENT_STATE 0
-#ELSE
-#DEFINE FIX_GDKEVENT_STATE 16
-#ENDIF
-
 
 '* Macro to create a file save dialog
 #DEFINE DBG_FILE_SAVE(_T_) _

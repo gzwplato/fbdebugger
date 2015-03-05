@@ -4,8 +4,7 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
 # module file names
 SET(CORE_BAS
-  core1.bas
-  core2.bas
+  ini.bas
   CACHE FILEPATH "core basic source" FORCE)
 
 ADD_LIBRARY(fbdbg_core OBJECT ${CORE_BAS})

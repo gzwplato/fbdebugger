@@ -12,35 +12,6 @@ view widgets, used for
 '/
 
 
-
-/'* \brief Class to handle the dialogs with text view
-
-This class provides member functions to handle non-modal dialogs for
-text views for
-
-- Notes (editable)
-- screen LOG (editable)
-- file LOG (non-editable)
-
-\todo Decide if we need a getNotes method here
-
-'/
-TYPE LOG_Udt
-  AS STRING _
-    Xml          '*< The design for the dialog windows (context of file log.ui)
-  AS GtkTextBuffer PTR _
-    BufNotes _   '*< The text buffer of the notes dialog
-  , BufLogFile _ '*< The text buffer of the screen file dialog
-  , BufLogScreen '*< The text buffer of the screen log dialog
-
-  DECLARE CONSTRUCTOR()
-  DECLARE SUB Notes(BYVAL AS gchar PTR = 0)
-  DECLARE SUB add2Notes(BYVAL Txt AS gchar PTR = 0)
-  'DECLARE SUB ScreenLog()
-  DECLARE SUB FileLog(BYVAL AS gchar PTR)
-END TYPE
-
-
 /'* \brief Constructor reads the XML file
 
 Constructor to read the XML file containing the dialog window design.
