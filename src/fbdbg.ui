@@ -12,9 +12,9 @@
       <source stock-id="dbg-restart" filename="img/restart.bmp"/>
       <source stock-id="dbg-exemod" filename="img/exemod.bmp"/>
       <source stock-id="dbg-minicmd" filename="img/minicmd.bmp"/>
+      <source stock-id="dbg-free" filename="img/free.bmp"/>
       <source stock-id="dbg-auto" filename="img/auto.bmp"/>
       <source stock-id="dbg-step_out" filename="img/step_out.bmp"/>
-      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
       <source stock-id="dbg-files" filename="img/files.bmp"/>
       <source stock-id="dbg-stop" filename="img/stop.bmp"/>
       <source stock-id="dbg-step_start" filename="img/step_start.bmp"/>
@@ -24,10 +24,10 @@
       <source stock-id="dbg-attachexe" filename="img/attachexe.bmp"/>
       <source stock-id="dbg-step" filename="img/step.png"/>
       <source stock-id="dbg-tools" filename="img/tools.bmp"/>
-      <source stock-id="dbg-free" filename="img/free.bmp"/>
+      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
       <source stock-id="dbg-run" filename="img/run.bmp"/>
       <source stock-id="dbg-source" filename="img/source.bmp"/>
-      <source stock-id="dbg-memory" filename="img/memory.bmp"/>
+      <source stock-id="dbg-notes" filename="img/notes.bmp"/>
     </sources>
   </object>
   <object class="GtkAboutDialog" id="aboutdialog1">
@@ -1877,7 +1877,6 @@ TJF</property>
                     </child>
                     <child>
                       <object class="GtkLabel" id="label505">
-                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">1</property>
                         <property name="label" translatable="yes">Break_point</property>
@@ -1893,7 +1892,6 @@ TJF</property>
                     </child>
                     <child>
                       <object class="GtkLabel" id="label506">
-                        <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="xalign">1</property>
                         <property name="label" translatable="yes">Breakpoint _tmp</property>
@@ -1966,7 +1964,6 @@ TJF</property>
                     </child>
                     <child>
                       <object class="GtkColorButton" id="colorbutton511">
-                        <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="hexpand">True</property>
@@ -1983,7 +1980,6 @@ TJF</property>
                     </child>
                     <child>
                       <object class="GtkColorButton" id="colorbutton512">
-                        <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
                         <property name="hexpand">True</property>
@@ -2635,8 +2631,8 @@ TJF</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkCheckButton" id="checkbutton504">
-                                <property name="label" translatable="yes">File log</property>
+                              <object class="GtkCheckButton" id="checkbutton503">
+                                <property name="label" translatable="yes">Screen</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>
@@ -2650,8 +2646,8 @@ TJF</property>
                               </packing>
                             </child>
                             <child>
-                              <object class="GtkCheckButton" id="checkbutton503">
-                                <property name="label" translatable="yes">Screen</property>
+                              <object class="GtkCheckButton" id="checkbutton504">
+                                <property name="label" translatable="yes">File log</property>
                                 <property name="visible">True</property>
                                 <property name="can_focus">True</property>
                                 <property name="receives_default">False</property>

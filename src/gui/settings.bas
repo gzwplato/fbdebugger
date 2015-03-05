@@ -3,6 +3,7 @@
 
 This file contains the source code to handle the settings dialog. ???
 
+
 \since 3.0
 '/
 
@@ -114,7 +115,7 @@ When called first, the widgets get searched in the GUI description file.
 '/
 SUB SettingsForm(BYVAL Mo AS gint = 1)
   STATIC AS GObject PTR _
-    colForegr, colBackgr, colBackgrCur, colBreak, colBreakTmp, colLineNo _
+    colForegr, colBackgr, colBackgrCur, colLineNo _ ', colBreak, colBreakTmp _
   , colKeyword, colStrings, colPrepro, colComment, colNumbers, colEscape, colCursor _
   , boolTooltips, boolVerbose, boolScreen, boolFileLog _
   , boolProctrace, boolLinetrace _
@@ -125,8 +126,8 @@ SUB SettingsForm(BYVAL Mo AS gint = 1)
 
   IF 0 = fontSource THEN '      initial get objects from GUI description
     VAR xml = GUI.XML ' the style scheme combobox text gets handled in SrcNotebook
-          colBreak = gtk_builder_get_object(xml, "colorbutton511")
-       colBreakTmp = gtk_builder_get_object(xml, "colorbutton512")
+          'colBreak = gtk_builder_get_object(xml, "colorbutton511")
+       'colBreakTmp = gtk_builder_get_object(xml, "colorbutton512")
       colBackgrCur = gtk_builder_get_object(xml, "colorbutton510")
          colForegr = gtk_builder_get_object(xml, "colorbutton501")
          colBackgr = gtk_builder_get_object(xml, "colorbutton509")
@@ -211,8 +212,8 @@ WITH *INI
     g_object_get(   colForegr, "rgba", @col, NULL) :    .ColForegr = colTrans(col) : gdk_rgba_free(col)
     g_object_get(   colBackgr, "rgba", @col, NULL) :    .ColBackgr = colTrans(col) : gdk_rgba_free(col)
     g_object_get(colBackgrCur, "rgba", @col, NULL) : .ColBackgrCur = colTrans(col) : gdk_rgba_free(col)
-    g_object_get(    colBreak, "rgba", @col, NULL) :     .ColBreak = colTrans(col) : gdk_rgba_free(col)
-    g_object_get( colBreakTmp, "rgba", @col, NULL) :  .ColBreakTmp = colTrans(col) : gdk_rgba_free(col)
+    'g_object_get(    colBreak, "rgba", @col, NULL) :     .ColBreak = colTrans(col) : gdk_rgba_free(col)
+    'g_object_get( colBreakTmp, "rgba", @col, NULL) :  .ColBreakTmp = colTrans(col) : gdk_rgba_free(col)
     g_object_get(   colLineNo, "rgba", @col, NULL) :    .ColLineNo = colTrans(col) : gdk_rgba_free(col)
     g_object_get(  colKeyword, "rgba", @col, NULL) :   .ColKeyword = colTrans(col) : gdk_rgba_free(col)
     g_object_get(  colStrings, "rgba", @col, NULL) :   .ColStrings = colTrans(col) : gdk_rgba_free(col)
@@ -253,8 +254,8 @@ WITH *INI
     gdk_rgba_parse(@col, "#" & HEX(   .ColForegr, 6)) : g_object_set(   colForegr, "rgba", @col, NULL)
     gdk_rgba_parse(@col, "#" & HEX(   .ColBackgr, 6)) : g_object_set(   colBackgr, "rgba", @col, NULL)
     gdk_rgba_parse(@col, "#" & HEX(.ColBackgrCur, 6)) : g_object_set(colBackgrCur, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX(    .ColBreak, 6)) : g_object_set(    colBreak, "rgba", @col, NULL)
-    gdk_rgba_parse(@col, "#" & HEX( .ColBreakTmp, 6)) : g_object_set( colBreakTmp, "rgba", @col, NULL)
+    'gdk_rgba_parse(@col, "#" & HEX(    .ColBreak, 6)) : g_object_set(    colBreak, "rgba", @col, NULL)
+    'gdk_rgba_parse(@col, "#" & HEX( .ColBreakTmp, 6)) : g_object_set( colBreakTmp, "rgba", @col, NULL)
     gdk_rgba_parse(@col, "#" & HEX(   .ColLineNo, 6)) : g_object_set(   colLineNo, "rgba", @col, NULL)
     gdk_rgba_parse(@col, "#" & HEX(  .ColKeyword, 6)) : g_object_set(  colKeyword, "rgba", @col, NULL)
     gdk_rgba_parse(@col, "#" & HEX(  .ColStrings, 6)) : g_object_set(  colStrings, "rgba", @col, NULL)

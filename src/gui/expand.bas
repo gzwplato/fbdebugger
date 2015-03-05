@@ -71,21 +71,6 @@ SUB fillExpandTree cdecl(BYVAL Store as GtkTreeStore ptr, byval UserData as gpoi
 END SUB
 
 
-/'* \brief Class to handle expand dialogs
-
-This class is used to handle the expand non-modal dialog windows.
-
-'/
-TYPE ExpandUdt
-  AS STRING Xml
-  AS GSList PTR List = NULL
-
-  DECLARE CONSTRUCTOR()
-  DECLARE SUB addXpd(BYVAL AS SUB CDECL(BYVAL AS GtkTreeStore PTR, BYVAL AS gpointer), BYVAL AS gpointer)
-  DECLARE SUB destroyAll()
-END TYPE
-
-
 /'* \brief FIXME
 
 FIXME

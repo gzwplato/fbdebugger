@@ -20,29 +20,6 @@ SCOPE
   END IF
 END SCOPE
 
-'* \brief class for global handling of the XML file fbdbg.ui
-TYPE GUIData
-  AS GtkBuilder PTR XML '*< The GthBuilder structure in use
-  AS GObject PTR _
-           window1 _ '*< The GObject PTR for the main window
-  ,  tstoreProcVar _ '*< The GObject PTR for the GtkTreeStore in ProcVar tab
-  ,    tstoreProcs _ '*< The GObject PTR for the GtkTreeStore in Procs tab
-  ,  tstoreThreads _ '*< The GObject PTR for the GtkTreeStore in Threads tab
-  ,    tstoreWatch _ '*< The GObject PTR for the GtkTreeStore in Watch tab
-  ,   lstoreMemory _ '*< The GObject PTR for the GtkListStore in memory tab
-  ,   tviewProcVar _ '*< The GObject PTR for the GtkTreeView in ProcVar tab
-  ,     tviewProcs _ '*< The GObject PTR for the GtkTreeView in Procs tab
-  ,   tviewThreads _ '*< The GObject PTR for the GtkTreeView in Threads tab
-  ,     tviewWatch _ '*< The GObject PTR for the GtkTreeView in Watch tab
-  ,    lviewMemory _ '*< The GObject PTR for the GtkTreeView in memory tab
-  ,     butStopVar _ '*< The GObject PTR for the button StopVar in main window
-  ,         nbook2 _ '*< The GObject PTR for the right notebook
-  ,         watch1 _ '*< The GObject PTR for the label watch 1
-  ,         watch2 _ '*< The GObject PTR for the label watch 2
-  ,         watch3 _ '*< The GObject PTR for the label watch 3
-  ,         watch4   '*< The GObject PTR for the label watch 4
-  ', comboBookmarks _ '*< The GObject PTR for the bookmarks combo box text
-END TYPE
 DIM SHARED AS GUIData GUI
 
 GUI.XML = gtk_builder_new()
@@ -102,10 +79,6 @@ END WITH
   ''gtk_style_context_add_provider(cont, GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_APPLICATION)
   'gtk_style_context_add_provider(cont, GTK_STYLE_PROVIDER(css), 200)
 'END scope
-
-'' this should get moved to the core folder, since it doesn't contain GUI code
-#INCLUDE ONCE "ini.bas"
-INI = NEW IniUdt
 
 '' here's the GUI code
 #INCLUDE ONCE "filechoosers.bas"
