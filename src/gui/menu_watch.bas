@@ -4,25 +4,6 @@
 \since 3.0
 '/
 
-
-SUB act_varcopyall CDECL ALIAS "act_varcopyall" ( _
-  BYVAL action AS GtkAction PTR, _
-  BYVAL user_data AS gpointer) EXPORT
-
-?" --> callback act_varcopyall"
-
-END SUB
-
-
-SUB act_varcopysel CDECL ALIAS "act_varcopysel" ( _
-  BYVAL action AS GtkAction PTR, _
-  BYVAL user_data AS gpointer) EXPORT
-
-?" --> callback act_varcopysel"
-
-END SUB
-
-
 SUB act_varderefdump CDECL ALIAS "act_varderefdump" ( _
   BYVAL action AS GtkAction PTR, _
   BYVAL user_data AS gpointer) EXPORT

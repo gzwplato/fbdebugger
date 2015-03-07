@@ -101,7 +101,7 @@ act_varindex = GTK_ACTION(gtk_builder_get_object(.XML, "action102"))
   END WITH
 
 
-setState(RTEND)
+setState(RTOFF)
 ?" CONSTRUCTOR ActionsUDT"
 END CONSTRUCTOR
 
