@@ -43,7 +43,7 @@ See file ../ReadMe.md for licence information.
 
 #INCLUDE ONCE "core/core.bi"
 #INCLUDE ONCE "gui/gui.bi"
-
+#INCLUDE Once "core/fbdbg2_defines.bi"
 #INCLUDE ONCE "core/ini.bas"
 
 INI = NEW IniUdt

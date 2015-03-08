@@ -206,5 +206,5 @@ SUB act_memory CDECL ALIAS "act_memory" ( _
 static as guint32 runtype = 0
 ?" runtype = "; runtype
 ACT->setState(runtype)
-runtype += 1 : if runtype > ACT->RTEND then runtype = 0
+runtype += 1 : if runtype > RTEND then runtype = 0
 END SUB
