@@ -1,8 +1,9 @@
-/' fbdbg3_defines.bi
-Defines for fbddebugger3
+/'* \file fbdbg3_defines.bi
+\brief Defines for fbddebugger3
 
-
+\since 3.0
 '/
+
 '===================================
 #Define fmt(t,l) Left(t,l)+Space(l-Len(t))+"  "
 #Define fmt2(t,l) Left(t,l)+Space(l-Len(t))
@@ -14,8 +15,11 @@ Defines for fbddebugger3
 'for linux   : lnx
 'for windows : wnd
 #Ifdef __FB_LINUX__
+
+  TYPE AS ANY PTR HWND, HANDLE '' temp. workaround to make it compile under LINUX
+
 	'ReadProcessMemory(dbghand,Cast(LPCVOID,adr),@adr,4,0)
-	
+
 	'WriteProcessMemory(dbghand,Cast(LPVOID,rline(linenb).ad),@rLine(linenb).sv,1,0)
 #Else
 	#Ifdef __FB_WIN32__
@@ -33,9 +37,9 @@ Defines for fbddebugger3
 		#Define EXCEPTION_INTEGER_OVERFLOW          &HC0000095
 		#Define EXCEPTION_PRIVILEGED_INSTRUCTION    &HC0000096
 		#Define EXCEPTION_CONTROL_C_EXIT            &HC000013A
-		
+
 		'=============== Because collision with some defines from windows (atom and colormap) ===============
-		#Ifdef atom 
+		#Ifdef atom
 			#Undef atom
 		#EndIf
 		#Ifdef colormap
@@ -47,7 +51,7 @@ Defines for fbddebugger3
 		#Include Once "win\commdlg.bi"
 		#Include Once "win\tlhelp32.bi"
       #Include Once "win\shellapi.bi"
-      #Include Once "win\psapi.bi" 
+      #Include Once "win\psapi.bi"
   	#EndIf
 #EndIf
 
@@ -88,7 +92,7 @@ End Union
 'BREAK ON LINE =================================================
 Const BRKMAXI=10 'breakpoint index zero for "run to cursor"
 Type breakol
-	isrc  As UShort    'source index 
+	isrc  As UShort    'source index
 	nline As UInteger  'num line for display
 	index As Integer   'index for rline
 	ad    As UInteger  'address
@@ -109,7 +113,7 @@ Type tbrkv
 	ttb As Byte      'type of comparison (16 to 0)
 	txt As String	  'name and value just for brkv_box
 End Type
-Dim Shared brkv As tbrkv 
+Dim Shared brkv As tbrkv
 Dim Shared brkv2 As tbrkv 'copie for use inside brkv_box
 'WATCHED =================================================
 Const WTCHMAIN=3
@@ -136,9 +140,9 @@ Type twtch
 End Type
 'TODO remove this line ? --> dim shared As Gtk_Tree ptr wtchtree
 Dim Shared wtch(wtchmaxi) As twtch
-Dim Shared wtchcpt As Long 'counter of watched value, used for the menu 
+Dim Shared wtchcpt As Long 'counter of watched value, used for the menu
 Dim Shared hwtchbx As HWND    'handle
-Dim Shared wtchidx As Integer 'index for delete 
+Dim Shared wtchidx As Integer 'index for delete
 Dim Shared wtchexe(9,wtchmaxi) As String 'watched var (no memory for next execution)
 Dim Shared wtchnew As Integer 'to keep index after creating new watched
 'status area  =================================================
@@ -201,7 +205,7 @@ Dim Shared breakcpu As Integer =&hCC
 Type tthread
  hd  As HANDLE    'handle
  id  As UInteger  'ident
- pe  As Integer   'flag if true indicates proc end 
+ pe  As Integer   'flag if true indicates proc end
  sv  As Integer   'sav line
  od  As Integer   'previous line
  nk  As UInteger  'for naked proc, stack and used as flag
@@ -246,7 +250,7 @@ Dim Shared flagmain As Byte     ' flag for first main
 Dim Shared flagattach As Byte   ' flag for attach
 Dim Shared flagtooltip As Integer =TRUE 'TRUE=activated/FALSE=DESACTIVATED
 Dim Shared flagrestart As Integer=-1  'flag to indicate restart in fact number of bas files to avoid to reload those files
-Dim Shared flagwtch As Integer =0 'flag =0 clean watched / 1 no cleaning in case of restart 
+Dim Shared flagwtch As Integer =0 'flag =0 clean watched / 1 no cleaning in case of restart
 Dim Shared flagfollow As Integer =FALSE 'flag to follow next executed line on focus window
 Dim Shared flagkill   As Integer =FALSE 'flag if killing process to avoid freeze in thread_del
 Dim Shared flagtuto  As Integer 'flag for tutorial -1=no tuto / 2=let execution then return at value 1 / 1=tutorial so no possible command '03/01/2013
@@ -274,9 +278,9 @@ Type tdll
 	As UInteger bse 'base address
 	As GtkTreeIter Ptr tv 'item treeview to delete
 	As Integer gblb 'index/number in global var table
-	As Integer gbln 
+	As Integer gbln
 	As Integer  lnb 'index/number in line '01/02/2013
-	As Integer  lnn 
+	As Integer  lnn
 	As String   fnm 'full name
 End Type
 Const DLLMAX=300
@@ -311,7 +315,7 @@ Type tline
 	hn As Integer
 End Type
 Dim Shared As Integer linenb,rlineold 'numbers of lines, index of previous executed line (rline) '14/12/2012
-Dim Shared As Integer linenbprev 'used for dll 
+Dim Shared As Integer linenbprev 'used for dll
 Dim Shared rline(LINEMAX) As tline
 'DIM ARRAY =========================================
 Const ARRMAX=1500
@@ -325,14 +329,14 @@ Type tarr 'five dimensions max
 End Type
 Dim Shared arr(ARRMAX) As tarr,arrnb As Integer
 'var =============================
-Const VARMAX=20000 'CAUTION 3000 elements taken for globals 
+Const VARMAX=20000 'CAUTION 3000 elements taken for globals
 Const VGBLMAX=3000 'max globals
 Const KBLOCKIDX=100 'max displayed lines inside index selection
 Type tvrb
 	nm As String    'name
 	typ As Integer  'type
-	adr As Integer  'address or offset 
-	mem As UByte    'scope 
+	adr As Integer  'address or offset
+	mem As UByte    'scope
 	arr As tarr Ptr 'pointer to array def
 	pt As long    'pointer
 End Type
@@ -383,7 +387,7 @@ Type tudt
 	nm As String  'name of udt
 	lb As Integer 'lower limit for components
 	ub As Integer 'upper
-	lg As Integer 'lenght 
+	lg As Integer 'lenght
 	en As Integer 'flag if enum 1 or 0
 	index As Integer 'dwarf
 	what As Integer 'dwarf udt/pointer/array
@@ -398,7 +402,7 @@ Type tcudt
 	Val As Integer  'value for enum
 	End Union
 	ofs As UInteger 'offset
-	ofb As UInteger 'rest offset bits 
+	ofb As UInteger 'rest offset bits
    lg As UInteger  'lenght
 	arr As tarr Ptr 'arr ptr
 	pt As Long
@@ -409,7 +413,7 @@ Dim Shared udt(TYPEMAX) As tudt,udtidx As Integer
 Dim Shared cudt(CTYPEMAX) As tcudt,cudtnb As Integer,cudtnbsav As Integer
 '===============================
 
-'check if local not possible 
+'check if local not possible
 Dim Shared As Integer stff '(stabs) freefile   LOCAL ???
 Dim Shared As String  stln '(dwarf) line read  LOCAL ???
 'end of check
@@ -441,7 +445,7 @@ Type tbmk
 	ntab  As Integer 'bookmark tab number, =0--> empty
 End Type
 Const BMKMAX=10
-Dim Shared As tbmk    bmk(BMKMAX) 
+Dim Shared As tbmk    bmk(BMKMAX)
 Dim Shared As Integer bmkcpt 'bmk counter
 '====================== DECLARATIONS ========================
 Declare Sub re_ini()
@@ -450,7 +454,7 @@ declare Sub source_load(srcfirst As Long)
 '===================
 Declare Sub frground()
 Declare Function wait_debug() As Integer
-Declare Sub start_pgm(p As Any Ptr) 
+Declare Sub start_pgm(p As Any Ptr)
 Declare Function thread_select(id As Integer =0) As Integer
 Declare Sub thread_text(thd As Integer=-1)
 Declare Sub thread_rsm()
