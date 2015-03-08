@@ -504,41 +504,56 @@ SUB view_mark_clicked CDECL( _
     CASE 1
       VAR mark = "fbdbg-____"
       SELECT CASE AS CONST .state - FIX_GDKEVENT_STATE ' set mark, delete existend (if any)
-      CASE 0 : MID(mark, 7, 4) = "brkp"
-        VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
-        IF list THEN g_slist_free(list) :                       EXIT SUB
+      CASE 0 :             MID(mark, 7, 4) = "brkp"
         gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkd")
         gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkt")
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
+        IF list THEN
+          g_slist_free(list)
+          gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, mark) : EXIT SUB
+        END IF
       CASE GDK_SHIFT_MASK : MID(mark, 7, 4) = "brkt"
-        VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
-        IF list THEN g_slist_free(list) :                       EXIT SUB
         gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkd")
         gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkp")
-      CASE GDK_CONTROL_MASK : MID(mark, 7, 4) = "brkd"
         VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
-        IF list THEN g_slist_free(list) :                       EXIT SUB
-        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkt")
-        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkp")
+        IF list THEN
+          g_slist_free(list)
+          gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, mark) : EXIT SUB
+        END IF
+      CASE GDK_CONTROL_MASK : MID(mark, 7, 4) = "brkd"
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, "fbdbg-brkp")
+        IF list THEN
+          g_slist_free(list)
+          gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkp")
+          ' permanent was set before, new mark is DP type
+          EXIT SELECT
+        END IF
+        list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, "fbdbg-brkt")
+        IF list THEN
+          g_slist_free(list)
+          gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkt")
+          ' temporary was set before, new mark is DT type
+          EXIT SELECT
+        END IF
+        list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
+        IF 0 = list THEN /' new mark is DP type '/                     EXIT SELECT
+        g_slist_free(list)
+        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, mark)
+        ' restore disabled here, set either ASC("p") or ASC("t")
+        mark[9] = ASC("p")
       CASE ELSE : MID(mark, 7, 4) = "book"
         VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
-        IF list THEN g_slist_free(list) :                       EXIT SUB
+        IF list THEN
+          g_slist_free(list)
+          gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, mark) : EXIT SUB
+        END IF
         VAR widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
            , lnr = gtk_text_iter_get_line(Iter) + 1
         SRC->addBookmark(lnr, widg)
       END SELECT
       gtk_source_buffer_create_source_mark(Buff, NULL, mark, Iter)
-    CASE 3 :
-      SELECT CASE AS CONST .state '                 delete mark (if any)
-      CASE 0, GDK_SHIFT_MASK, GDK_CONTROL_MASK
-        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkd")
-        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkt")
-        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-brkp")
-      CASE ELSE
-        gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, "fbdbg-book")
-        VAR widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
-           , lnr = gtk_text_iter_get_line(Iter) + 1
-        SRC->delBookmark(lnr, widg)
-      END SELECT
+    CASE 3
+      ?" --> right mouse click here"
     CASE ELSE
     END SELECT
   END WITH
