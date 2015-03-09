@@ -1,5 +1,5 @@
-/' fbdbg3_defines.bi
-Defines for fbddebugger3
+/' fbdbg2_defines.bi
+Defines for fbddebugger2
 
 
 '/
@@ -194,8 +194,8 @@ Dim Shared As Integer autostep=200 'delay for auto step
 ' reasons of stopping
 Dim Shared stopcode As Integer
 'TODO plan to translate
-Dim Shared stoplibel(20) As String*17 =>{"","cursor","tempo break","break","Break var","Break mem"_ '05/03/2013
-,"Halt by user","Access violation","New thread","Exception"} '19/05/2014
+Dim Shared stoplibel(20) As String*17 =>{"","cursor","tempo break","break","Break var","Break mem"_
+,"Halt by user","Access violation","New thread","Exception"}
 Dim Shared breakcpu As Integer =&hCC
 'THREAD ==========================================================
 Type tthread
@@ -447,6 +447,8 @@ Dim Shared As Integer bmkcpt 'bmk counter
 Declare Sub re_ini()
 Declare Function kill_process(text As String) As Integer
 declare Sub source_load(srcfirst As Long)
+Declare Sub filechoose()
+Declare Sub simple_message(line1 As String,line2 As String=" ")
 '===================
 Declare Sub frground()
 Declare Function wait_debug() As Integer

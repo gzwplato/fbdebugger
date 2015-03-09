@@ -68,30 +68,30 @@ SUB act_files CDECL ALIAS "act_files" ( _
   BYVAL user_data AS gpointer) EXPORT
 
 ?" --> callback act_files"
+filechoose
+  'VAR dia = DBG_FILE_OPEN("Select debuggee file name")
+  'gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_all_filter())
+  'gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_exe_filter())
+  'gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_bas_filter())
 
-  VAR dia = DBG_FILE_OPEN("Select debuggee file name")
-  gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_all_filter())
-  gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_exe_filter())
-  gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_bas_filter())
+  'IF GTK_RESPONSE_ACCEPT = gtk_dialog_run(GTK_DIALOG(dia)) THEN
+  '  VAR fnam = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dia)) _
+  '     , fnr = FREEFILE
+  '  IF 0 = OPEN(*fnam FOR INPUT AS fnr) THEN
+  '    VAR l = LOF(fnr)
+  '    IF l <= G_MAXINT THEN
+  '      VAR t = STRING(l, 0)
+  '      GET #fnr, , t
+  '      CLOSE #fnr
 
-  IF GTK_RESPONSE_ACCEPT = gtk_dialog_run(GTK_DIALOG(dia)) THEN
-    VAR fnam = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dia)) _
-       , fnr = FREEFILE
-    IF 0 = OPEN(*fnam FOR INPUT AS fnr) THEN
-      VAR l = LOF(fnr)
-      IF l <= G_MAXINT THEN
-        VAR t = STRING(l, 0)
-        GET #fnr, , t
-        CLOSE #fnr
+  '      ?SRC->addBas(MID(*fnam, INSTRREV(*fnam, ANY "/\") + 1), t)
+  '    END IF
+  '  END IF
 
-        ?SRC->addBas(MID(*fnam, INSTRREV(*fnam, ANY "/\") + 1), t)
-      END IF
-    END IF
+  '  g_free (fnam)
+  'END IF
 
-    g_free (fnam)
-  END IF
-
-  gtk_widget_destroy(dia)
+  'gtk_widget_destroy(dia)
 END SUB
 
 

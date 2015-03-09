@@ -55,7 +55,7 @@ INI = NEW IniUdt
 ' vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
 
 #INCLUDE ONCE "testing.bas"
-
+#INCLUDE ONCE "core/fbdbg2_main.bas"
 ' ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 '<  GladeToBac:          run GTK main, then end / GTK Hauptschleife, dann Ende >
     gtk_builder_connect_signals(GUI.XML, 0) '                 Signale anbinden >

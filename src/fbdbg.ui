@@ -585,18 +585,6 @@ TJF</property>
       </object>
     </child>
     <child>
-      <object class="GtkAction" id="action3330">
-        <property name="label" translatable="yes">Copy to Clipboard all proc/var (log)</property>
-        <signal name="activate" handler="act_varcopyall" swapped="no"/>
-      </object>
-    </child>
-    <child>
-      <object class="GtkAction" id="action3331">
-        <property name="label" translatable="yes">Copy to Clipboard selected proc/var (log)</property>
-        <signal name="activate" handler="act_varcopysel" swapped="no"/>
-      </object>
-    </child>
-    <child>
       <object class="GtkAction" id="action500">
         <property name="label" translatable="yes">Select next thread to be executed</property>
         <signal name="activate" handler="act_threadselect" swapped="no"/>
