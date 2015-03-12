@@ -1,23 +1,30 @@
-/'fbdbg3_handlefiles
-Handle bas or exe file
+/'* \file fbdbg3_handlefiles.bas
+\brief Handle bas or exe file
+
+Source code to handle bas or exe files
+
 - by file chooser
 - by command line
 - by attach (running process)
 - drag n drop
 - restart last exe
 - restart one of previous exes
+
+\since 3.0
 '/
+
+
 Sub filechoose()
 	prun=TRUE
 If kill_process(*__("Trying to load a file")) Then
-	
+
 	Var dia = DBG_FILE_OPEN(*__("Select an exe or bas file name"))
 	'gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_all_filter())
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_exe_filter())
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dia), dbg_bas_filter())
 
 	Var ret = gtk_dialog_run(GTK_DIALOG(dia))
-	
+
 	IF ret=GTK_RESPONSE_ACCEPT Then
 		Var fnam = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(dia))
 	 	exename=*fnam
@@ -64,7 +71,7 @@ End Sub
 
 Sub source_load(srcfirst As Long)
 	Print "Source list"
-	
+
 	Var fnr = FreeFile
 	For i As Long =srcfirst To sourcenb
 		Print i,source(i).shortname
