@@ -1,17 +1,20 @@
-/'fbdbg2_main
-\brief includes all other modules and contains common or general procs
+/'* \file fbdbg2_main.bas
+\brief Includes all other modules and contains common or general procs
+
+\since 3.0
 '/
 
-'#Include Once "core/fbdbg2_start.bas"
-#Include Once "core/fbdbg2_extract.bas"
-#Include Once "core/fbdbg2_handlefiles.bas"
-'
-'#include Once "core/fbdbg2_butmenu.bas"
-'#include Once "core/fbdbg2_break.bas"
-'#include Once "core/fbdbg2_thread.bas"
 
-'#include Once "core/fbdbg2_var.bas"
-'#include Once "core/fbdbg2_watch.bas"
+'#Include Once "fbdbg2_start.bas"
+#Include Once "fbdbg2_extract.bas"
+#Include Once "fbdbg2_handlefiles.bas"
+'
+'#include Once "fbdbg2_butmenu.bas"
+'#include Once "fbdbg2_break.bas"
+'#include Once "fbdbg2_thread.bas"
+
+'#include Once "fbdbg2_var.bas"
+'#include Once "fbdbg2_watch.bas"
 
 'in string STRG all the occurences of SRCH are replaced by REPL
 Sub str_replace(strg As String,srch As String, repl As String)
@@ -26,15 +29,15 @@ End Sub
 'flaglog=0 --> no output / 1--> only screen / 2-->only file / 3 --> both
 Sub dbg_prt(t As String)
 	'TODO
-	
+
 	'Static As HANDLE scrnnumber
 	'Static As Integer filenumber
 	'Dim cpt As Integer,libel As String
 	'Dim As COORD maxcoord
-	'Dim As CONSOLE_SCREEN_BUFFER_INFO csbi 
+	'Dim As CONSOLE_SCREEN_BUFFER_INFO csbi
 	'Dim As SMALL_RECT disparea=Type(0,0,0,0)
 	'
-	'If t=" $$$$___CLOSE ALL___$$$$ " Then 
+	'If t=" $$$$___CLOSE ALL___$$$$ " Then
 	'	If scrnnumber<>0 And (flaglog And 1)=0 Then FreeConsole():scrnnumber=0
 	'	If filenumber And (flaglog And 2)=0 Then Close filenumber:filenumber=0
 	'	Exit Sub
@@ -64,7 +67,7 @@ Sub dbg_prt(t As String)
 	'EndIf
 	'
 	'If (flaglog And 1) Then libel=t+Chr(10):WriteConsole(scrnnumber, StrPtr(libel),Len(libel),@cpt,0)
-	'If (flaglog And 2) Then Print # filenumber,t   
+	'If (flaglog And 2) Then Print # filenumber,t
 End Sub
 '=============================================
 'todo If Command<>"" Then treat_file("") 'case command line exe see treat_file
@@ -85,7 +88,7 @@ gtk_tree_store_clear(GTK_TREE_STORE(GUI.tstoreWatch))
 
 'TODO if dsptyp Then dsp_hide(dsptyp)  RESET DISPLAY
 'TODO dsp_sizecalc
-'TODO close all bx bx_closing 
+'TODO close all bx bx_closing
 
 If flagrestart=-1 Then 'add test for restart without loading again all the files
 	SRC->removeAll() 'remove all the source tabs
@@ -122,7 +125,7 @@ curline=0
 sourcenb=-1:dllnb=0
 threadnb=-1
 vrrnb=0:procnb=0:procrnb=0:linenb=0:cudtnb=0:arrnb=0:procr(1).vr=1:procin=0:procfn=0:procbot=0:proctop=FALSE
-proc(1).vr=VGBLMAX+1 'for the first stored proc 
+proc(1).vr=VGBLMAX+1 'for the first stored proc
 excldnb=0
 dumpadr=0
 'TODO flaglog=0:dbg_prt(" $$$$___CLOSE ALL___$$$$ "):flagtrace=0
@@ -190,7 +193,7 @@ Function kill_process(text As String) As Integer
   	If GTK_RESPONSE_YES = gtk_dialog_run(GTK_DIALOG(dia)) THEN
        flagkill=TRUE
       #Ifdef __FB_LINUX__
-			'TODO add terminate 
+			'TODO add terminate
 		#Else
 			#Ifdef __FB_WIN32__
       		'TODO dbg_prt ("return code terminate process + lasterror "+Str(terminateprocess(dbghand,999))+" "+Str(GetLastError))

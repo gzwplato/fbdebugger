@@ -6,89 +6,1028 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: fbdbg-2.0\n"
-"Report-Msgid-Bugs-To: Thomas.Freiherr@gmx.net\n"
-"POT-Creation-Date: 2015-01-20 13:28+0100\n"
-"PO-Revision-Date: 2015-01-20 14:47+0100\n"
+"Report-Msgid-Bugs-To: sarg@aliceadsl.fr\n"
+"POT-Creation-Date: 2015-03-12 19:58+0100\n"
+"PO-Revision-Date: 2015-03-12 20:00+0100\n"
 "Last-Translator: Thomas Freiherr <Thomas.Freiherr@gmx.net>\n"
 "Language-Team: SARG\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 1.5.4\n"
-"Language: fr\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
-#: on_actLoad_activate.bas:17
-msgid "callback on_actLoad_activate"
+#: /home/tom/Projekte/fb/fbdbg/src/core/ini.bas:92
+msgid "Cannot open fbdebugger.ini"
 msgstr ""
 
-#: on_actRun_activate.bas:17
-msgid "callback on_actRun_activate"
+#: /home/tom/Projekte/fb/fbdbg/src/core/ini.bas:166
+msgid "Cannot kill file fbdebuggersav.ini"
 msgstr ""
 
-#: main.ui:10
-msgid "SARG"
+#: /home/tom/Projekte/fb/fbdbg/src/core/ini.bas:168
+msgid "Cannot rename file fbdebugger.ini"
 msgstr ""
 
-#: main.ui:11
-msgid "Comment"
+#: /home/tom/Projekte/fb/fbdbg/src/core/ini.bas:172
+msgid "Cannot write file fbdebugger.ini"
 msgstr ""
 
-#: main.ui:13
-msgid "Website"
+#: /home/tom/Projekte/fb/fbdbg/src/gui/filechoosers.bas:37
+msgid "Executable Files"
 msgstr ""
 
-#: main.ui:17
+#: /home/tom/Projekte/fb/fbdbg/src/gui/filechoosers.bas:63
+msgid "FB Source Files"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/filechoosers.bas:78
+msgid "All Files"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/source.bas:77
+msgid "language fbc not available -> no syntax highlighting"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/source.bas:87
+msgid "Select bookmark"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/menu_tools.bas:222
+msgid "HEX/DEC/OCT/BIN"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/menu_tools.bas:225
+msgid "Cancel"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/menu_tools.bas:230
+msgid "Value in hexadecimal, decimal, octal and binary"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/settings.bas:51
+msgid "Cannot rename dat/fbdebugger.xml"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/settings.bas:54
+msgid "Cannot read dat/fbdebugger.tmp"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/settings.bas:91
+msgid "Cannot remove dat/fbdebugger.tmp"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/shortcuts.bas:221
+msgid ""
+"Shortcut already defined for\n"
+"\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/shortcuts.bas:222
+#: /home/tom/Projekte/fb/fbdbg/src/testing.bas:157
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_main.bas:217
+#, awk-format
+msgid ""
+"<b>%s</b>\n"
+"\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/shortcuts.bas:223
+msgid "Override existing\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/shortcuts.bas:244
+msgid ""
+"Shortcut has no modifier\n"
+"\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/shortcuts.bas:245
+msgid "This interferes with the search\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/shortcuts.bas:246
+msgid ""
+"function in the tree views\n"
+"\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/gui/shortcuts.bas:247
+msgid "Anyway, use it ..."
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/testing.bas:152
+#, awk-format
+msgid "TRYING TO WRITE AT ADR: <b>%d</b>\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/testing.bas:153
+msgid ""
+"Possible error on this line but not SURE\n"
+"\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/testing.bas:154
+#, awk-format
+msgid "<i>File</i>: <b>%s</b>\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/testing.bas:155
+#, awk-format
+msgid "<i>Proc</i>: <b>%s</b>\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/testing.bas:156
+#, awk-format
+msgid "<i>Line</i>: <b>%d</b> (selected and put in red)\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/testing.bas:158
+msgid "Try to continue ? (if yes change value and/or use [M]odify execution)\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/testing.bas:168
+msgid "==> YES selected"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/testing.bas:170
+msgid "==> NO selected"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_main.bas:184
+msgid ""
+"Kill current running Program ?\n"
+"\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_main.bas:185
+#, awk-format
+msgid ""
+"From action : <b>%s</b>\n"
+"\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_main.bas:186
+msgid "USE CARREFULLY SYSTEM CAN BECOME UNSTABLE, LOSS OF DATA, MEMORY LEAK\n"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_main.bas:187
+msgid "Try to close your program first"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_main.bas:218
+#, awk-format
+msgid "%s"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_extract.bas:61
+msgid "Reached limit "
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_handlefiles.bas:19
+msgid "Trying to load a file"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_handlefiles.bas:21
+msgid "Select an exe or bas file name"
+msgstr ""
+
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_handlefiles.bas:44
+#: /home/tom/Projekte/fb/fbdbg/src/core/fbdbg2_handlefiles.bas:50
+msgid "Sorry, for now, only exe files are handled"
+msgstr ""
+
+#: expand.ui:72
+msgid "Add Watched"
+msgstr ""
+
+#: expand.ui:86
+msgid "Dump"
+msgstr ""
+
+#: expand.ui:100
+msgid "Edit"
+msgstr ""
+
+#: expand.ui:114
+msgid "Show String"
+msgstr ""
+
+#: expand.ui:128
+msgid "New show / expand"
+msgstr ""
+
+#: expand.ui:142
+msgid "Replace current"
+msgstr ""
+
+#: expand.ui:163
+msgid "Delta: 0x size of type"
+msgstr ""
+
+#: expand.ui:176
+msgid "Delta -1"
+msgstr ""
+
+#: expand.ui:190
+msgid "Delta +1"
+msgstr ""
+
+#: expand.ui:204
+msgid "Set delta"
+msgstr ""
+
+#: expand.ui:221
+msgid "Close all show / expand"
+msgstr ""
+
+#: expand.ui:236
+msgid "Arrange windows"
+msgstr ""
+
+#: expand.ui:253
+msgid "About update"
+msgstr ""
+
+#: expand.ui:268
+msgid "Update"
+msgstr ""
+
+#: fbdbg.ui:37
+msgid "Source code at github"
+msgstr ""
+
+#: fbdbg.ui:41
 msgid ""
 "SARG\n"
 "AGS\n"
 "TJF"
 msgstr ""
 
-#: main.ui:51 main.ui:52
-msgid "Load"
+#: fbdbg.ui:75
+msgid "Run to Cursor"
 msgstr ""
 
-#: main.ui:53
-msgid "Load an executable."
+#: fbdbg.ui:76
+msgid "Execute the debuggee up to the line under cursor"
 msgstr ""
 
-#: main.ui:62 main.ui:63
+#: fbdbg.ui:83
+msgid "Next step"
+msgstr ""
+
+#: fbdbg.ui:84
+msgid "Execute the debuggee step by step"
+msgstr ""
+
+#: fbdbg.ui:91
+msgid "Step over procs"
+msgstr ""
+
+#: fbdbg.ui:92
+msgid "Step over a SUB or FUNCTION"
+msgstr ""
+
+#: fbdbg.ui:99
+msgid "Step out current proc"
+msgstr ""
+
+#: fbdbg.ui:100
+msgid "Exit the current SUB or FUNCTION"
+msgstr ""
+
+#: fbdbg.ui:107
+msgid "Step top called proc"
+msgstr ""
+
+#: fbdbg.ui:108
+msgid "Top of the next called SUB or FUNCTION"
+msgstr ""
+
+#: fbdbg.ui:115
+msgid "Step bottom current proc"
+msgstr ""
+
+#: fbdbg.ui:116
+msgid "Bottom of the current SUB or FUNCTION"
+msgstr ""
+
+#: fbdbg.ui:123
 msgid "Run"
 msgstr ""
 
-#: main.ui:64
-msgid "Run the loaded executable."
+#: fbdbg.ui:124
+msgid "Run until halt by user or by breakpoint"
 msgstr ""
 
-#: main.ui:73 main.ui:74
-msgid "Quit"
+#: fbdbg.ui:131
+msgid "Fast Run"
 msgstr ""
 
-#: main.ui:75
-msgid "Finish the fbdbg application."
+#: fbdbg.ui:132
+msgid "Fast run up to the line under cursor, CAUTION : some errors could arise"
 msgstr ""
 
-#: main.ui:84 main.ui:85
-msgid "Info"
+#: fbdbg.ui:139
+msgid "Halt running debuggee"
 msgstr ""
 
-#: main.ui:86
-msgid "Informations about this application."
+#: fbdbg.ui:140
+msgid "Halt running program"
 msgstr ""
 
-#: main.ui:115
-msgid "_File"
+#: fbdbg.ui:147
+msgid "Kill debuggee"
 msgstr ""
 
-#: main.ui:185
-msgid "_Edit"
+#: fbdbg.ui:148
+msgid "Kill program, CAUTION : hard termination"
 msgstr ""
 
-#: main.ui:235
-msgid "_View"
+#: fbdbg.ui:155
+msgid "Step auto current thread"
 msgstr ""
 
-#: main.ui:259
-msgid "_Help"
+#: fbdbg.ui:156
+msgid "Step automatically the current thread, stopped by halt"
+msgstr ""
+
+#: fbdbg.ui:163
+msgid "Step auto every thread"
+msgstr ""
+
+#: fbdbg.ui:170
+msgid "Modify execution"
+msgstr ""
+
+#: fbdbg.ui:171
+msgid ""
+"CAUTION: modify execution, the line under cursor will be the next executed "
+"line"
+msgstr ""
+
+#: fbdbg.ui:178
+msgid "Variable Dump"
+msgstr ""
+
+#: fbdbg.ui:184
+msgid "Edit var value"
+msgstr ""
+
+#: fbdbg.ui:190
+msgid "Show/Expand variable"
+msgstr ""
+
+#: fbdbg.ui:196
+msgid "Show z/w/string"
+msgstr ""
+
+#: fbdbg.ui:202
+msgid "Shortcut key list ..."
+msgstr ""
+
+#: fbdbg.ui:203
+msgid "Shortcuts ..."
+msgstr ""
+
+#: fbdbg.ui:204
+msgid "Open the dialog to show or edit the list of keyboard shortcuts"
+msgstr ""
+
+#: fbdbg.ui:210
+msgid "Proc call backtracking"
+msgstr ""
+
+#: fbdbg.ui:216
+msgid "Proc call chaining"
+msgstr ""
+
+#: fbdbg.ui:222
+msgid "ASM code of proc"
+msgstr ""
+
+#: fbdbg.ui:228
+msgid "Show proc in source"
+msgstr ""
+
+#: fbdbg.ui:234
+msgid "Information about this application"
+msgstr ""
+
+#: fbdbg.ui:241 fbdbg.ui:764
+msgid "Set watched"
+msgstr ""
+
+#: fbdbg.ui:242
+msgid "Set watched ???"
+msgstr ""
+
+#: fbdbg.ui:248
+msgid "Set watched+trace"
+msgstr ""
+
+#: fbdbg.ui:249
+msgid "Set watched+trace on ???"
+msgstr ""
+
+#: fbdbg.ui:255
+msgid "Break on var value"
+msgstr ""
+
+#: fbdbg.ui:261
+msgid "Select index"
+msgstr ""
+
+#: fbdbg.ui:267
+msgid "Pointed data dump"
+msgstr ""
+
+#: fbdbg.ui:273
+msgid "Show char at position"
+msgstr ""
+
+#: fbdbg.ui:279
+msgid "Change byte <> zstring type"
+msgstr ""
+
+#: fbdbg.ui:285
+msgid "Locate calling line"
+msgstr ""
+
+#: fbdbg.ui:291
+msgid "Collapse Proc/Var tree view"
+msgstr ""
+
+#: fbdbg.ui:297
+msgid "Expand Proc/Var tree view"
+msgstr ""
+
+#: fbdbg.ui:303
+msgid "List all proc/var"
+msgstr ""
+
+#: fbdbg.ui:309
+msgid "List selected proc/var"
+msgstr ""
+
+#: fbdbg.ui:315
+msgid "Copy all proc/var"
+msgstr ""
+
+#: fbdbg.ui:321
+msgid "Copy selected proc/var"
+msgstr ""
+
+#: fbdbg.ui:327
+msgid "Toggle sort by module or by proc"
+msgstr ""
+
+#: fbdbg.ui:333
+msgid "All procs followed"
+msgstr ""
+
+#: fbdbg.ui:339
+msgid "No procs followed"
+msgstr ""
+
+#: fbdbg.ui:345
+msgid "Show in var window"
+msgstr ""
+
+#: fbdbg.ui:351
+msgid "Toggle Tracing"
+msgstr ""
+
+#: fbdbg.ui:357
+msgid "Cancel all Tracing"
+msgstr ""
+
+#: fbdbg.ui:363
+msgid "Switch watch1"
+msgstr ""
+
+#: fbdbg.ui:369
+msgid "Switch watch2"
+msgstr ""
+
+#: fbdbg.ui:375
+msgid "Switch watch3"
+msgstr ""
+
+#: fbdbg.ui:381
+msgid "Switch watch4"
+msgstr ""
+
+#: fbdbg.ui:387
+msgid "Delete"
+msgstr ""
+
+#: fbdbg.ui:393
+msgid "Delete all"
+msgstr ""
+
+#: fbdbg.ui:399
+msgid "Set/Clear Breakpoint"
+msgstr ""
+
+#: fbdbg.ui:405
+msgid "Set/Clear tempo Breakpoint"
+msgstr ""
+
+#: fbdbg.ui:411
+msgid "Enable/Disable Breakpoint"
+msgstr ""
+
+#: fbdbg.ui:417
+msgid "Manage Breakpoints"
+msgstr ""
+
+#: fbdbg.ui:423
+msgid "Show var"
+msgstr ""
+
+#: fbdbg.ui:429
+msgid "Set watched var"
+msgstr ""
+
+#: fbdbg.ui:435
+msgid "Find text"
+msgstr ""
+
+#: fbdbg.ui:441
+msgid "Toggle bookmark"
+msgstr ""
+
+#: fbdbg.ui:447
+msgid "Next bookmark"
+msgstr ""
+
+#: fbdbg.ui:453
+msgid "Previous bookmark"
+msgstr ""
+
+#: fbdbg.ui:459
+msgid "Goto Line"
+msgstr ""
+
+#: fbdbg.ui:465
+msgid "Line Address"
+msgstr ""
+
+#: fbdbg.ui:471
+msgid "ASM code of line"
+msgstr ""
+
+#: fbdbg.ui:477
+msgid "ASM code of proc (from line)"
+msgstr ""
+
+#: fbdbg.ui:483
+msgid "Mark no executable lines"
+msgstr ""
+
+#: fbdbg.ui:489
+msgid "Focus lines"
+msgstr ""
+
+#: fbdbg.ui:495
+msgid "Add notes"
+msgstr ""
+
+#: fbdbg.ui:501 fbdbg.ui:502
+msgid "Release debugged programm"
+msgstr ""
+
+#: fbdbg.ui:509 fbdbg.ui:510
+msgid "Mini command window"
+msgstr ""
+
+#: fbdbg.ui:517 fbdbg.ui:518
+msgid "Restart debugging"
+msgstr ""
+
+#: fbdbg.ui:525
+msgid "Last 10 exe"
+msgstr ""
+
+#: fbdbg.ui:526
+msgid "Show last 10 executable(s), select one"
+msgstr ""
+
+#: fbdbg.ui:533
+msgid "Attach program"
+msgstr ""
+
+#: fbdbg.ui:534
+msgid "Attach running program"
+msgstr ""
+
+#: fbdbg.ui:541
+msgid "Select EXE/BAS"
+msgstr ""
+
+#: fbdbg.ui:542
+msgid "Select EXE/BAS file"
+msgstr ""
+
+#: fbdbg.ui:549
+msgid "Tools"
+msgstr ""
+
+#: fbdbg.ui:550
+msgid "Some usefull ... Tools"
+msgstr ""
+
+#: fbdbg.ui:557
+msgid "Open/close notes"
+msgstr ""
+
+#: fbdbg.ui:558
+msgid "Open or close the notes window"
+msgstr ""
+
+#: fbdbg.ui:565 fbdbg.ui:566
+msgid "Enlarge/reduce source"
+msgstr ""
+
+#: fbdbg.ui:573
+msgid "Enlarge/reduce treview"
+msgstr ""
+
+#: fbdbg.ui:574
+msgid ""
+"Enlarge/reduce the current treeview : proc/var, procs, threads, watched vars"
+msgstr ""
+
+#: fbdbg.ui:581 fbdbg.ui:582
+msgid "Enlarge/reduce memory dump"
+msgstr ""
+
+#: fbdbg.ui:589
+msgid "Select next thread to be executed"
+msgstr ""
+
+#: fbdbg.ui:595
+msgid "Show next executed line (source)"
+msgstr ""
+
+#: fbdbg.ui:601
+msgid "Show line creating thread (source) "
+msgstr ""
+
+#: fbdbg.ui:607
+msgid "Show first proc of thread (source)"
+msgstr ""
+
+#: fbdbg.ui:613
+msgid "Show proc (proc/var)"
+msgstr ""
+
+#: fbdbg.ui:619
+msgid "Proc Adresses"
+msgstr ""
+
+#: fbdbg.ui:625
+msgid "Kill thread"
+msgstr ""
+
+#: fbdbg.ui:631
+msgid "Expand one thread"
+msgstr ""
+
+#: fbdbg.ui:637
+msgid "Collapse all threads"
+msgstr ""
+
+#: fbdbg.ui:643
+msgid "List all threads"
+msgstr ""
+
+#: fbdbg.ui:649
+msgid "Settings ..."
+msgstr ""
+
+#: fbdbg.ui:655
+msgid "Compile info"
+msgstr ""
+
+#: fbdbg.ui:661
+msgid "Help"
+msgstr ""
+
+#: fbdbg.ui:667
+msgid "Launch tutorial"
+msgstr ""
+
+#: fbdbg.ui:673
+msgid "Launch IDE"
+msgstr ""
+
+#: fbdbg.ui:679
+msgid "Quick edit"
+msgstr ""
+
+#: fbdbg.ui:685
+msgid "Compile and run"
+msgstr ""
+
+#: fbdbg.ui:691
+msgid "Copy note to clipboard"
+msgstr ""
+
+#: fbdbg.ui:697
+msgid "Show log file"
+msgstr ""
+
+#: fbdbg.ui:703
+msgid "Hide log file"
+msgstr ""
+
+#: fbdbg.ui:709
+msgid "Delete log file"
+msgstr ""
+
+#: fbdbg.ui:715
+msgid "List enum"
+msgstr ""
+
+#: fbdbg.ui:721
+msgid "Process list"
+msgstr ""
+
+#: fbdbg.ui:727
+msgid "DLLs list"
+msgstr ""
+
+#: fbdbg.ui:733
+msgid "Translate Win Message"
+msgstr ""
+
+#: fbdbg.ui:739
+msgid "Hex/Dec/Oct/Bin"
+msgstr ""
+
+#: fbdbg.ui:745
+msgid "Show fast run timer"
+msgstr ""
+
+#: fbdbg.ui:751
+msgid "Set JIT debugger"
+msgstr ""
+
+#: fbdbg.ui:916
+msgid "List to log"
+msgstr ""
+
+#: fbdbg.ui:950
+msgid "Copy to clipboard"
+msgstr ""
+
+#: fbdbg.ui:1416
+msgid "ASM data"
+msgstr ""
+
+#: fbdbg.ui:1748
+msgid "Settings (fbdbg)"
+msgstr ""
+
+#: fbdbg.ui:1822
+msgid "_Background"
+msgstr ""
+
+#: fbdbg.ui:1840
+msgid "Background"
+msgstr ""
+
+#: fbdbg.ui:1855
+msgid "Bkgr. cur. _line"
+msgstr ""
+
+#: fbdbg.ui:1870
+msgid "Break_point"
+msgstr ""
+
+#: fbdbg.ui:1885
+msgid "Breakpoint _tmp"
+msgstr ""
+
+#: fbdbg.ui:1905
+msgid "Font for source view"
+msgstr ""
+
+#: fbdbg.ui:1919
+msgid "Syntax _highlighting"
+msgstr ""
+
+#: fbdbg.ui:1943
+msgid "Background current line"
+msgstr ""
+
+#: fbdbg.ui:1959
+msgid "Breakpoint"
+msgstr ""
+
+#: fbdbg.ui:1975
+msgid "Temporary Breakpoint"
+msgstr ""
+
+#: fbdbg.ui:1992
+msgid "Keyword"
+msgstr ""
+
+#: fbdbg.ui:2007
+msgid "_Keywords"
+msgstr ""
+
+#: fbdbg.ui:2023
+msgid "_Strings"
+msgstr ""
+
+#: fbdbg.ui:2041
+msgid "Strings"
+msgstr ""
+
+#: fbdbg.ui:2058
+msgid "Preprocessors"
+msgstr ""
+
+#: fbdbg.ui:2076
+msgid "Current line position"
+msgstr ""
+
+#: fbdbg.ui:2117
+msgid "Comments"
+msgstr ""
+
+#: fbdbg.ui:2132
+msgid "_Comments"
+msgstr ""
+
+#: fbdbg.ui:2148
+msgid "Prepr_ocessors"
+msgstr ""
+
+#: fbdbg.ui:2164
+msgid "_Foreground"
+msgstr ""
+
+#: fbdbg.ui:2182
+msgid "Foreground"
+msgstr ""
+
+#: fbdbg.ui:2194
+msgid "Line _numbers"
+msgstr ""
+
+#: fbdbg.ui:2218
+msgid "Line numbers"
+msgstr ""
+
+#: fbdbg.ui:2247
+msgid "_Numbers"
+msgstr ""
+
+#: fbdbg.ui:2263
+msgid "_Escapes"
+msgstr ""
+
+#: fbdbg.ui:2281
+msgid "Numbers"
+msgstr ""
+
+#: fbdbg.ui:2298
+msgid "Escapes"
+msgstr ""
+
+#: fbdbg.ui:2313
+msgid "_Cursor/Selection"
+msgstr ""
+
+#: fbdbg.ui:2331
+msgid "Cursor / Selection"
+msgstr ""
+
+#: fbdbg.ui:2347
+msgid "Source View Appearance"
+msgstr ""
+
+#: fbdbg.ui:2382
+msgid "FBC"
+msgstr ""
+
+#: fbdbg.ui:2399
+msgid "Opens a file chooser dialog to select the FreeBASIC executable"
+msgstr ""
+
+#: fbdbg.ui:2414
+msgid "IDE"
+msgstr ""
+
+#: fbdbg.ui:2431
+msgid "Opens a file chooser dialog to select the IDE executable"
+msgstr ""
+
+#: fbdbg.ui:2447
+msgid "Tools location"
+msgstr ""
+
+#: fbdbg.ui:2480
+msgid "CMPL"
+msgstr ""
+
+#: fbdbg.ui:2509
+msgid "DBG"
+msgstr ""
+
+#: fbdbg.ui:2539
+msgid "Cmdline parameters"
+msgstr ""
+
+#: fbdbg.ui:2577
+msgid "Trace Line"
+msgstr ""
+
+#: fbdbg.ui:2593
+msgid "Trace Proc"
+msgstr ""
+
+#: fbdbg.ui:2623
+msgid "Screen"
+msgstr ""
+
+#: fbdbg.ui:2638
+msgid "File log"
+msgstr ""
+
+#: fbdbg.ui:2682
+msgid "Log"
+msgstr ""
+
+#: fbdbg.ui:2714
+msgid ""
+"Tooltips\n"
+"activated"
+msgstr ""
+
+#: fbdbg.ui:2731
+msgid ""
+"Verbose mode\n"
+"(ProcVar)"
+msgstr ""
+
+#: fbdbg.ui:2750
+msgid "Delay value in [ms] for auto step mode (minimum 50, maximum 9999)"
+msgstr ""
+
+#: fbdbg.ui:2795
+msgid "General"
+msgstr ""
+
+#: fbdbg.ui:2841
+msgid "Show/edit keybord shortcuts (fbdbg)"
+msgstr ""
+
+#: fbdbg.ui:2908
+msgid "Shortcut"
+msgstr ""
+
+#: fbdbg.ui:2931
+msgid "Label"
+msgstr ""
+
+#: fbdbg.ui:2948
+msgid "Tooltip"
+msgstr ""
+
+#: fbdbg.ui:3047
+msgid "FreeBASIC Debugger"
+msgstr ""
+
+#: fbdbg.ui:3470
+msgid "Cur. line:"
+msgstr ""
+
+#: fbdbg.ui:3584
+msgid "Proc/Var"
+msgstr ""
+
+#: fbdbg.ui:3642
+msgid "Procs"
+msgstr ""
+
+#: fbdbg.ui:3687
+msgid "Threads"
+msgstr ""
+
+#: fbdbg.ui:3732
+msgid "Watched"
+msgstr ""
+
+#: fbdbg.ui:4010
+msgid "Mem"
+msgstr ""
+
+#: fbdbg.ui:4088
+msgid "Watch"
 msgstr ""

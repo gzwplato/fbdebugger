@@ -2,10 +2,13 @@
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 
+# the core part, inactive since all-in-one compilation
+#ADD_SUBDIRECTORY(core)
+
 # variables
-SET(NAM fbdbg)      # base name
-SET(BAS ${NAM}.bas) # FB source name
-SET(UI_FILES        # list of ui files
+SET(NAM ${PROJ_NAME}) # base name
+SET(BAS ${NAM}.bas)   # FB source name
+SET(UI_FILES          # list of ui files
   ${NAM}.ui
   expand.ui
   log.ui

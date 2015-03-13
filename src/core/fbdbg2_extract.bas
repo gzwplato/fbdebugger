@@ -1,4 +1,10 @@
-'============== extract 
+/'* \file fbdbg2_extract.bas
+\brief FIXME
+
+\since 3.0
+'/
+
+'============== extract
 
 Function name_extract(a As String) As String 'extract file name from full name
 	Dim i As Integer
@@ -9,7 +15,7 @@ Function name_extract(a As String) As String 'extract file name from full name
 End Function
 Function Common_exist(ad As UInteger) As Integer
 	For i As Integer = 1 To vrbgbl
-		If vrb(i).adr=ad Then Return TRUE 'return true if a common still stored 
+		If vrb(i).adr=ad Then Return TRUE 'return true if a common still stored
 	Next
 	Return FALSE
 End Function
@@ -47,7 +53,7 @@ Function cutup_names(strg As String) As String
 	nm2=Mid(strg2,d,p)
 	Return "NS : "+nm+"."+nm2
 End Function
-Function cutup_scp(gv As Byte, ad As UInteger,dlldelta As Integer=0) As Integer 
+Function cutup_scp(gv As Byte, ad As UInteger,dlldelta As Integer=0) As Integer
 	Dim msg As String
 Select Case gv
 	Case Asc("S"),Asc("G")     'shared/common
@@ -85,7 +91,7 @@ Select Case gv
 				vrb(vrbloc).mem=1
 				Return 1
 		End Select
-End Select	
+End Select
 End Function
 Sub cutup_enum(readl As String)
 '.stabs "TENUM:T26=eESSAI:5,TEST08:8,TEST09:9,TEST10:10,FIN:99,;",128,0,0,0
@@ -117,12 +123,12 @@ Else
 	If cudtnb>=CTYPEMAX Then simple_message("Storing ENUM="+tnm,"Max limit reached "+Str(CTYPEMAX)):Exit Sub '28/04/2014
 	cudtnb+=1
 	cudt(cudtnb).nm=Mid(readl,p,q-p)
-	
+
 	p=q+1
 	q=InStr(p,readl,",") 'value
 	cudt(cudtnb).val=Val(Mid(readl,p,q-p))
 	p=q+1
-	
+
 	Wend
 EndIf
 udt(udtidx).ub=cudtnb
@@ -134,18 +140,18 @@ Function cutup_array(gv As String,d As Integer,f As Byte) As Integer
 If arrnb>ARRMAX Then simple_message("Max array reached","can't store"):Exit Function
 arrnb+=1
 
-'While gv[p-1]=Asc("a") 
+'While gv[p-1]=Asc("a")
 While InStr(p,gv,"ar")
 	'GCC
-	'p+=4 
-	
-	If InStr(gv,"=r(")Then 	
+	'p+=4
+
+	If InStr(gv,"=r(")Then
 		p=InStr(p,gv,";;")+2 'skip range =r(n,n);n;n;;
 	Else
 		p=InStr(p,gv,";")+1 'skip ar1;
 	End If
-	
-	
+
+
 	q=InStr(p,gv,";")
 	'END GCC
 	arr(arrnb).nlu(c).lb=Val(Mid(gv,p,q-p)) 'lbound
@@ -172,22 +178,22 @@ If InStr(gv,"=")=0 Then
 	If c=udt(15).index Then c=15 '05/11/2013
 	If c>15 Then c+=udtcpt 'udt type so adding the decal
 	pp=0
-	If f=TYUDT Then 
-		cudt(cudtnb).typ=c 
-		cudt(cudtnb).pt=pp 
+	If f=TYUDT Then
+		cudt(cudtnb).typ=c
+		cudt(cudtnb).pt=pp
 		cudt(cudtnb).arr=0 'by default not an array
-	Else 
-		vrb(*vrbptr).typ=c 
+	Else
+		vrb(*vrbptr).typ=c
 		vrb(*vrbptr).pt=pp
 		vrb(*vrbptr).arr=0 'by default not an array
-	End If 
+	End If
 Else
 	If InStr(gv,"=ar1") Then p=cutup_array(gv,InStr(gv,"=ar1")+1,f)
 	gv2=Mid(gv,p)
 	For p=0 To Len(gv2)-1
 		If gv2[p]=Asc("*") Then c+=1
 		If gv2[p]=Asc("=") Then e=p+1
-	Next 
+	Next
 	If c Then 'pointer
 		If InStr(gv2,"=f") Then 'proc
 			If InStr(gv2,"=f7") Then
@@ -212,19 +218,19 @@ Else
 		vrb(*vrbptr).pt=pp
 		vrb(*vrbptr).typ=c
 	End If
-EndIf 
+EndIf
 End Sub
 Sub cutup_udt(readl As String)
 Dim As Integer p,q,lgbits,flagdouble '31/07/2013
-Dim As String tnm 
+Dim As String tnm
 p=InStr(readl,":")
 
 tnm=Left(readl,p-1)
 If InStr(readl,":Tt") Then
    p+=3 'skip :Tt
-Else  
+Else
    p+=2 'skip :T GCC
-EndIf 
+EndIf
 
 q=InStr(readl,"=")
 
@@ -247,19 +253,19 @@ while readl[p-1]<>Asc(";")
 	'dbg_prt("STORING CUDT "+readl)
 	If cudtnb = CTYPEMAX Then simple_message("Storing CUDT","Max limit reached "+Str(CTYPEMAX)):Exit Sub
 	cudtnb+=1
-	
-	
-	
+
+
+
 	q=InStr(p,readl,":")
 	cudt(cudtnb).nm=Mid(readl,p,q-p) 'variable name
 	p=q+1
 	q=InStr(p,readl,",")
-	
+
 		cutup_2(Mid(readl,p,q-p),TYUDT) 'variable type
-		
+
 		'11/05/2014 'new way for redim
 		If Left(udt(cudt(cudtnb).typ).nm,7)="FBARRAY" Then 'new way for redim array
-		
+
 	'.stabs "__FBARRAY1:Tt25=s32DATA:26=*1,0,32;PTR:27=*7,32,32;SIZE:1,64,32;ELEMENT_LEN:1,96,32;DIMENSIONS:1,128,32;DIMTB:28=ar1;0;0;29,160,96;;",128,0,0,0
 	'.stabs "TTEST2:Tt23=s40VVV:24=ar1;0;1;2,0,16;XXX:1,32,32;ZZZ:25,64,256;;",128,0,0,0
 	'.stabs "__FBARRAY1:Tt21=s32DATA:22=*23,0,32;PTR:30=*7,32,32;SIZE:1,64,32;ELEMENT_LEN:1,96,32;DIMENSIONS:1,128,32;DIMTB:31=ar1;0;0;29,160,96;;",128,0,0,0
@@ -269,12 +275,12 @@ while readl[p-1]<>Asc(";")
 			cudt(cudtnb).pt=cudt(udt(cudt(cudtnb).typ).lb).pt-1 'pointer always al least 1 so reduce by one
 			cudt(cudtnb).typ=cudt(udt(cudt(cudtnb).typ).lb).typ 'real type
 			cudt(cudtnb).arr=Cast(tarr Ptr,-1) 'defined as dyn arr
-			
+
 			'dbg_prt2("dyn array="+cudt(cudtnb).nm+" "+Str(cudt(cudtnb).typ)+" "+Str(cudt(cudtnb).pt)+" "+cudt(udt(cudt(cudtnb).typ).lb).nm)
 		EndIf
 		'end new redim
-		
-		
+
+
 		p=q+1
 		q=InStr(p,readl,",")
 		cudt(cudtnb).ofs=Val(Mid(readl,p,q-p))  'bits offset / beginning
@@ -283,7 +289,7 @@ while readl[p-1]<>Asc(";")
 		lgbits=Val(Mid(readl,p,q-p))	'length in bits
 
 	 	If cudt(cudtnb).typ<>4 And cudt(cudtnb).pt=0 And cudt(cudtnb).arr=0 Then 'not zstring, pointer,array !!!
-			If lgbits<>udt(cudt(cudtnb).typ).lg*8 Then 'bitfield 
+			If lgbits<>udt(cudt(cudtnb).typ).lg*8 Then 'bitfield
 			  cudt(cudtnb).typ=TYPEMAX 'special type for bitfield
 			  cudt(cudtnb).ofb=cudt(cudtnb).ofs-(cudt(cudtnb).ofs\8) * 8 ' bits mod byte
 			  cudt(cudtnb).lg=lgbits  'length in bits
@@ -305,17 +311,17 @@ Sub cutup_1(gv As String,ad As UInteger, dlldelta As Integer=0) '06/02/2013
 		ElseIf Left(gv,5)="int:t" OrElse InStr(gv,"_Decimal32:t")<>0 Then  '30/12/2013
 		      defaulttype=1
 		EndIf
-	Else        
+	Else
 		If InStr(gv,"pchar:t") Then 'last default type
 		      defaulttype=0
 		ElseIf InStr(gv,"integer:t") Then
 		      defaulttype=1
 		EndIf
 	EndIf
-	If defaulttype Then Exit Sub    
-	
+	If defaulttype Then Exit Sub
+
 	''''' TO BE REACTIVATE If gengcc Then translate_gcc(gv)
-	
+
 	'=====================================================
 	vname=Left(gv,InStr(gv,":")+1)
 	p=InStr(vname,"$")
@@ -334,15 +340,15 @@ Sub cutup_1(gv As String,ad As UInteger, dlldelta As Integer=0) '06/02/2013
 			Exit Sub 'don't keep TMP$xx$xx:
 		EndIf
 		'$9CABRIOLET:T(0,51)=s16$BASE:(0,48),0,128;;
-		If InStr(vname,":t")<>0 Then 
+		If InStr(vname,":t")<>0 Then
 			If Left(vname,5)<>"$fb_O" andalso Left(vname,4)<>"TMP$" Then  '01/09/2013 redim
 				Exit Sub
-			End If  
+			End If
 		EndIf
-		If InStr(vname,"$fb_RTTI") OrElse InStr(vname,"fb$result$") Then 
-			Exit Sub 'don't keep  
+		If InStr(vname,"$fb_RTTI") OrElse InStr(vname,"fb$result$") Then
+			Exit Sub 'don't keep
 		EndIf
-		If Left(vname,3)="vr$" OrElse Left(vname,4)="tmp$" Then 
+		If Left(vname,3)="vr$" OrElse Left(vname,4)="tmp$" Then
 			Exit Sub 'don't keep  vr$xx: or tmp$xx$xx:
 		EndIf
 		'eliminate $ and eventually the number at the end of name ex udt$1 --> udt
@@ -358,20 +364,20 @@ Sub cutup_1(gv As String,ad As UInteger, dlldelta As Integer=0) '06/02/2013
 		Else
       'REDIM
 			If cutup_scp(gv[InStr(gv,":")],ad,dlldelta)=0 Then Exit Sub 'Scope / increase number and put adr 06/02/2013
-			'if common exists return 0 so exit sub 
+			'if common exists return 0 so exit sub
 			vrb(*vrbptr).nm=Left(gv,InStr(gv,":")-1) 'var or parameter
-			
+
 		'.stabs "VTEST:22=s32DATA:25=*23=24=*1,0,32;PTR:26=*23=24=*1,32,32;SIZE:1,64,32;ELEMENT_LEN:1,96,32;DIMENSIONS:1,128,32;dim1_ELEMENTS:1,160,32;dim1_LBOUND:1,192,32;
 	   'dim1_UBOUND:1,224,32;;
 	   'DATA:27=*dim1_20=*21,0,32;PTR:28=*dim1_20=*21,32,32;SIZE:1,64,32;ELEMENT_LEN:1,96,32;DIMENSIONS:1,128,32;dim1_ELEMENTS:1,160,32;
 	   'dim1_LBOUND:1,192,32;dim1_UBOUND:1,224,32;;21",128,0,0,-168
-			
-			
+
+
 			p=InStr(gv,";;")+2 ' case dyn var including dyn array field...... 21/04/2014 to be removed when 0.91 is released
 			While InStr(p,gv,";;")<>0 '29/04/2014
 				p=InStr(p,gv,";;")+2
 			Wend
-			
+
 			cutup_2(Mid(gv,p),TYRDM) 'datatype
 			vrb(*vrbptr).arr=Cast(tarr Ptr,-1) 'redim array
 		EndIf
@@ -391,153 +397,153 @@ Sub cutup_1(gv As String,ad As UInteger, dlldelta As Integer=0) '06/02/2013
 	      'to avoid two lines in proc/var tree, case dim shared array and use of erase or u/lbound
 			If vrb(*vrbptr).mem=2 AndAlso vrb(*vrbptr).nm=vrb(*vrbptr-1).nm Then 'check also if shared 09/08/2013
             *vrbptr-=1 'decrement pointed value, vrbgbl in this case 05/06/2013
-            Exit Sub 
+            Exit Sub
 			EndIf
 		End If
 		cutup_2(Mid(gv,InStr(gv,":")+p),TYDIM)
 		'11/05/2014 'new way for redim
 		If Left(udt(vrb(*vrbptr).typ).nm,7)="FBARRAY" Then 'new way for redim array
-		
+
 			'.stabs "__FBARRAY2:Tt23=s44DATA:24=*10,0,32;PTR:25=*7,32,32;SIZE:1,64,32;ELEMENT_LEN:1,96,32;DIMENSIONS:1,128,32;DIMTB:26=ar1;0;1;22,160,192;;",128,0,0,0
 			'.stabs "MYARRAY2:S23",38,0,0,_MYARRAY2
 			vrb(*vrbptr).pt=cudt(udt(vrb(*vrbptr).typ).lb).pt-1 'pointer always al least 1 so reduce by one
 			vrb(*vrbptr).typ=cudt(udt(vrb(*vrbptr).typ).lb).typ 'real type
 			vrb(*vrbptr).arr=Cast(tarr Ptr,-1) 'defined as dyn arr
-			
+
 			'dbg_prt2("dyn array="+vrb(*vrbptr).nm+" "+Str(vrb(*vrbptr).typ)+" "+Str(vrb(*vrbptr).pt)+" "+cudt(udt(vrb(*vrbptr).typ).lb).nm)
 		EndIf
 		'end new redim
 	EndIf
 End Sub
-Function cutup_op (op As String) As String        
+Function cutup_op (op As String) As String
 Select Case  op
 Case "aS"
-    Function = "Let "                
-Case "pl"                
-    Function = "+"                
-Case "pL"                
-    Function = "+="                
-Case "mi"        
-    Function = "-"                
-Case "mI"                
-    Function = "-="                
-Case "ml"                
-    Function = "*"                
-Case "mL"                
-    Function = "*="                
+    Function = "Let "
+Case "pl"
+    Function = "+"
+Case "pL"
+    Function = "+="
+Case "mi"
+    Function = "-"
+Case "mI"
+    Function = "-="
+Case "ml"
+    Function = "*"
+Case "mL"
+    Function = "*="
 Case "dv"
-    Function = "/"                
+    Function = "/"
 Case "dV"
-    Function = "/="                
-Case "Dv"        
-    Function = "\"                
-Case "DV"        
-    Function = "\="                
-Case "rm"                
-    Function = "mod"                
-Case "rM"        
-    Function = "mod="                
-Case "an"                
-    Function = "and"                
-Case "aN"                
-    Function = "and="                
-Case "or"                
-    Function = "or"                
-Case "oR"        
-    Function = "or="                
-Case "aa"                 
-    Function = "andalso"             
-Case "aA"        
-    Function = "andalso="                
-Case "oe"               
-    Function = "orelse"               
-Case "oE"       
-    Function = "orelse="              
-Case "eo"                
-    Function = "xor"                
-Case "eO"                 
-    Function = "xor="              
-Case "ev"                 
-    Function = "eqv"                
-Case "eV"                 
-    Function = "eqv="                
-Case "im"                 
-    Function = "imp"               
-Case "iM"               
-    Function = "imp="               
-Case "ls"                
-    Function = "shl"               
-Case "lS"                
-    Function = "shl="                
-Case "rs"                 
-    Function = "shr"               
-	Case "rS"                 
-    Function = "shr="             
-Case "po"                 
-    Function = "^"               
-Case "pO"        
-    Function = "^="                
-Case "ct"               
-    Function = "&"                
-Case "cT"         
-    Function = "&="                
-	Case "eq" 
-    Function = "eq"                
-Case "gt"                
-    Function = "gt"                
-Case "lt"                
-    Function = "lt"                
-Case "ne"                
-    Function = "ne"                
-Case "ge"                
-    Function = "ge"                
-Case "le"                
-    Function = "le"                
-Case "nt"                
-    Function = "not"                
-	Case "ng"                
-    Function = "neg"                
-	Case"ps"                
-    Function = "ps"                
-	Case "ab"                
-    Function = "ab"                
-	Case "fx"                
-    Function = "fix"                
-Case "fc"                 
-    Function = "frac"                
-Case "sg"                
-    Function = "sgn"                
-Case "fl"                
-    Function = "floor"                
+    Function = "/="
+Case "Dv"
+    Function = "\"
+Case "DV"
+    Function = "\="
+Case "rm"
+    Function = "mod"
+Case "rM"
+    Function = "mod="
+Case "an"
+    Function = "and"
+Case "aN"
+    Function = "and="
+Case "or"
+    Function = "or"
+Case "oR"
+    Function = "or="
+Case "aa"
+    Function = "andalso"
+Case "aA"
+    Function = "andalso="
+Case "oe"
+    Function = "orelse"
+Case "oE"
+    Function = "orelse="
+Case "eo"
+    Function = "xor"
+Case "eO"
+    Function = "xor="
+Case "ev"
+    Function = "eqv"
+Case "eV"
+    Function = "eqv="
+Case "im"
+    Function = "imp"
+Case "iM"
+    Function = "imp="
+Case "ls"
+    Function = "shl"
+Case "lS"
+    Function = "shl="
+Case "rs"
+    Function = "shr"
+	Case "rS"
+    Function = "shr="
+Case "po"
+    Function = "^"
+Case "pO"
+    Function = "^="
+Case "ct"
+    Function = "&"
+Case "cT"
+    Function = "&="
+	Case "eq"
+    Function = "eq"
+Case "gt"
+    Function = "gt"
+Case "lt"
+    Function = "lt"
+Case "ne"
+    Function = "ne"
+Case "ge"
+    Function = "ge"
+Case "le"
+    Function = "le"
+Case "nt"
+    Function = "not"
+	Case "ng"
+    Function = "neg"
+	Case"ps"
+    Function = "ps"
+	Case "ab"
+    Function = "ab"
+	Case "fx"
+    Function = "fix"
+Case "fc"
+    Function = "frac"
+Case "sg"
+    Function = "sgn"
+Case "fl"
+    Function = "floor"
 Case "nw"
-    Function = "new"                
+    Function = "new"
 Case "na"
-    Function = "new []?"                
-Case "dl"        
+    Function = "new []?"
+Case "dl"
     Function = "del"
 Case "da"
-    Function = "del[]?"                
-Case "de"                
-    Function = "."                
-Case "pt"                
-    Function = "->"                
-Case "ad"                
-    Function = "@"                
-Case "fR"                
-    Function = "for"                
-Case "sT"                
-    Function = "step"                
-Case "nX"                
-    Function = "next"                              
+    Function = "del[]?"
+Case "de"
+    Function = "."
+Case "pt"
+    Function = "->"
+Case "ad"
+    Function = "@"
+Case "fR"
+    Function = "for"
+Case "sT"
+    Function = "step"
+Case "nX"
+    Function = "next"
 	Case "cv"
    	Function = "Cast"
-	Case "C1"                        
+	Case "C1"
 		Function = "(Constructor)" '02/11/2014
-	Case "D1"                        
-		Function = "(Destructor)"          
-Case Else                        
-    Function = "Unknow"                
-End Select   
+	Case "D1"
+		Function = "(Destructor)"
+Case Else
+    Function = "Unknow"
+End Select
 End Function
 Function parse_typeope(vchar As long) As String
 	'RPiR8vector2D or R8vector2DS0_ or R8FBSTRINGR8VECTOR2D
@@ -555,15 +561,15 @@ Function parse_typeope(vchar As long) As String
 			Case Asc("h")
 				typ=3
 			'Case Asc("") 'Zstring
-			'	typ=4				
+			'	typ=4
 			Case Asc("s")
 				typ=5
 			Case Asc("t")
-				typ=6			
+				typ=6
 			Case Asc("v")
 				typ=7
 			Case Asc("j")
-				typ=8				
+				typ=8
 			Case Asc("x")
 				typ=9
 			Case Asc("y")
@@ -606,11 +612,11 @@ Function cutup_proc(fullname As String) As String '02/11/2014
                strg3=Left(strg3,ps-1)+" (Get property)"
             Else
                ps=InStr(strg3,"__set__")
-               If ps Then 
+               If ps Then
                	strg3=Left(strg3,ps-1)+" (Set property)"
                EndIf
             EndIf
-         	If mainname="" Then 
+         	If mainname="" Then
 					mainname=strg3
 					strg2+=strg3
          	Else
@@ -618,19 +624,19 @@ Function cutup_proc(fullname As String) As String '02/11/2014
 					strg2+="."+strg3
          	EndIf
       		namecpt+=1
-      		names(namecpt)=mainname           	
+      		names(namecpt)=mainname
 				p+=1+lg'next name
 			Else 'operator
 				strg2+=" "+cutup_op(Mid(strg,p,2))+" " 'extract name of operator
 				p+=2
 				mainname=""
-				While Strg[p-1]<>Asc("E") 'more data eg FBSTRING, 
+				While Strg[p-1]<>Asc("E") 'more data eg FBSTRING,
 					lg=ValInt(Mid(strg,p,2))
 					If lg Then
-						If lg>9 Then p+=1 
+						If lg>9 Then p+=1
 						strg3=Mid(strg,p+1,lg) 'extract name and keep it for later
 						If strg3="FBSTRING" Then strg3="string"
-            		If mainname="" Then 
+            		If mainname="" Then
             			mainname=strg3
             			strg2+=strg3
             		Else
@@ -645,26 +651,26 @@ Function cutup_proc(fullname As String) As String '02/11/2014
 						p+=1
 					EndIf
 				Wend
-				
+
 			EndIf
 		Wend
 	Else
 		strg2=cutup_op(Mid(strg,p,2))+" "
 		p+=2
 	EndIf
-	
+
 	If strg[p-1]=Asc("E") Then p+=1 'skip "E"
-	
+
 	'parameters
 	mainname=""
 	strg2+="("
 	While p<=Len(strg)
 		lg=ValInt(Mid(strg,p,2))
 		If lg Then
-			If lg>9 Then p+=1 
+			If lg>9 Then p+=1
 			strg3=Mid(strg,p+1,lg) 'extract name and keep it for later
 			If strg3="FBSTRING" Then strg3="String"
-         If mainname="" Then 
+         If mainname="" Then
    			mainname=strg3
    			strg2+=strg3
    		Else
@@ -701,7 +707,7 @@ Function cutup_proc(fullname As String) As String '02/11/2014
 				strg3=names(strg[p-1]-46)
 				p+=2
 			EndIf
-	      If mainname="" Then 
+	      If mainname="" Then
    			mainname=strg3
    			strg2+=strg3
    		Else
@@ -726,14 +732,14 @@ Function cutup_proc(fullname As String) As String '02/11/2014
 	EndIf
 
 	Return strg2
-End Function   
+End Function
 Sub cutup_retval(prcnb As Integer,gv2 As String)
 	'example :f7 --> private sub /  :F18=*19=f7" --> public sub ptr / :f18=*19=*1 --> private integer ptr ptr
 	Dim p As Integer,c As Integer,e As Integer
 	For p=0 To Len(gv2)-1
 		If gv2[p]=Asc("*") Then c+=1
 		If gv2[p]=Asc("=") Then e=p+1
-	Next 
+	Next
 	If c Then 'pointer
 		If InStr(gv2,"=f") OrElse InStr(gv2,"=F") Then
 			If InStr(gv2,"=f7") OrElse InStr(gv2,"=F7") Then
@@ -758,7 +764,7 @@ End Sub
 Function check_source(sourcenm As String) As Integer ' check if source yet stored if not store it, in all cases return the index
 	Static As String fpath
 	If sourcenm="" Then Return -1
-	If Right(sourcenm,1)=SLASH Then fpath=sourcenm:Return -1 
+	If Right(sourcenm,1)=SLASH Then fpath=sourcenm:Return -1
    If instr(sourcenm,":")=0 Then sourcenm=fpath+sourcenm
 
    For i As Integer=0 To sourcenb
@@ -775,21 +781,21 @@ Function stabs_extract(nfile As String,adrdiff As uinteger) As Long 'return 1 if
 	'Dim As Long flagnoread
 	Dim As Long srcprevnb=sourcenb,procnodll=TRUE,lastline,linen,temp
 	Dim As UInteger procadr,varadr,linea
-	
+
 	If Dir(ExePath2+SLASH+"objdump.exe")="" Then simple_message("Stabs extract","Error : objdump.exe must be in the directory of fbdebugger ("+ExePath2+SLASH+"objdump.exe)"):Return 0 '20/11/2013
-		
+
 	stff=FreeFile
 	dissas_command=""""""+ExePath2+SLASH+"objdump.exe"""+" -G " """"+nfile+""""""
 	counter=Open Pipe( dissas_command For Input As #stff)
 
-	Do Until EOF(stff) 
+	Do Until EOF(stff)
 	   'If flagnoread=0 Then
 	      Line Input #stff, stln
 	   'Else
 	   '   flagnoread=0
 	   'EndIf
 	   'dbg_prt2(stln)
-	   
+
 	   code=Mid(stln,8,5)
 	   Select Case code
 	   	Case "SLINE" 'first position as most used
@@ -799,9 +805,9 @@ Function stabs_extract(nfile As String,adrdiff As uinteger) As Long 'return 1 if
 						If linen Then '09/08/2013
 							If linen>lastline Then
 					  			'asm with just comment 25/06/2012
-								If linea<>rline(linenb).ad Then ' recupstab.ad+proc2<>rline(linenb).ad Then 
+								If linea<>rline(linenb).ad Then ' recupstab.ad+proc2<>rline(linenb).ad Then
 					     			linenb+=1
-								Else 
+								Else
 					     			''''''''TODO reported after start WriteProcessMemory(dbghand,Cast(LPVOID,rline(linenb).ad),@rLine(linenb).sv,1,0)
 								EndIf
 								' 25/06/2012
@@ -830,8 +836,8 @@ Function stabs_extract(nfile As String,adrdiff As uinteger) As Long 'return 1 if
 							 ''''''''''''''''dbg_prt2("STILL VERY FIRST LINE = "+Str(firstline))'09/08/2013
 						'12/01/2014'''''''''''EndIf
 	            End If
-	   			
-	   			
+
+
 	   	Case "SO   "
 	   		fname=Mid(stln,45)
 	  			Print "File=";fname;"  xx  ";left(stln,45)
@@ -866,12 +872,12 @@ Function stabs_extract(nfile As String,adrdiff As uinteger) As Long 'return 1 if
 
 	   	Case "EINCL"
 	   	Case "FUN  "
-	   		
+
 	   			If Mid(stln,45)="" Then ''End of proc
 	                If procnodll Then
 	                	'If gengcc=1 Then proc1=recupstab.ad+proc2 'under gcc 36=224 or 224 not use 10/01/2014 TODO check with gengcc
 	                	'proc(procnb).fn=proc1:proc(procnb).db=proc2
-	                	
+
 	                	procadr=ValInt("&h"+Mid(stln,29,8))'11/05/2015
 	                	procadr+=proc(procnb).db
 	                	proc(procnb).fn=procadr
@@ -880,7 +886,7 @@ Function stabs_extract(nfile As String,adrdiff As uinteger) As Long 'return 1 if
 	                	'dbg_prt2("Procfn stab="+Hex(procfn))
 	                EndIf
 	               If proc(procnb).nu=rline(linenb).nu AndAlso linenb>2 Then 'for proc added by fbc (constructor, operator, ...) '11/05/2014 adding >2 to avoid case only one line ...
-	               	proc(procnb).nu=-1	               	
+	               	proc(procnb).nu=-1
 	               	For i As Integer =1 To linenb
 	               		'dbg_prt2("Proc db/fn inside for stab="+Hex(proc(procnb).db)+" "+Hex(proc(procnb).fn))
 	               		'dbg_prt2("Line Adr="+Hex(rline(i).ad)+" "+Str(rline(i).ad))
@@ -892,7 +898,7 @@ Function stabs_extract(nfile As String,adrdiff As uinteger) As Long 'return 1 if
 	               	Next
 	               Else
 		                'for GCC 16/08/2013''''''''''
-		                If gengcc Then 
+		                If gengcc Then
 		                	If proc(procnb).rv=7 Then 'sub return void
 		               		rline(linenb).nu-=1 'decrement the number of the last line of the proc
 		               		proc(procnb).fn=rline(linenb).ad    'replace address because = next proc address
@@ -906,25 +912,25 @@ Function stabs_extract(nfile As String,adrdiff As uinteger) As Long 'return 1 if
 			                		proc(procnb).fn=rline(linenb).ad    'replace address because = next proc address
 			                		''' dbg_prt2("SPECIAL GCC2 "+proc(procnb).nm+" "+Str(rline(linenb).ad))
 		                		Else
-		                			''' dbg_prt2("SPECIAL GCC3") 
+		                			''' dbg_prt2("SPECIAL GCC3")
 		                		EndIf
 		                	EndIf
 		                EndIf
 	               EndIf
-	   				
-	   				
-	   				
-	   				
-	   				exit Select 'end of proc 
+
+
+
+
+	   				exit Select 'end of proc
 	   			EndIf
 	   		'begin of proc
 	   			procadr=ValInt("&h"+Mid(stln,29,8))
-	   			
+
 	   			Print "Proc=";Mid(stln,45);" ";procadr
-	   			
+
 	   			procnodll=FALSE 'to jump some procs
 	        		procnmt=cutup_proc(Left(Mid(stln,45),InStr(Mid(stln,45),":"))) 'name of proc
-	        		
+
 	        		If procnmt="{MODLEVEL}" Then Exit Select
 	        		procnodll=TRUE
 	   			procnb+=1:proc(procnb).sr=sourceix
@@ -934,7 +940,7 @@ Function stabs_extract(nfile As String,adrdiff As uinteger) As Long 'return 1 if
 		                  Else
 		                  	proc(procnb).nm=procnmt
 		                  End If
-					cutup_retval(procnb,Mid(stln,InStr(stln,":")+2,99))'skip :F --> public / :f --> private then return value .rv + pointer .pt 
+					cutup_retval(procnb,Mid(stln,InStr(stln,":")+2,99))'skip :F --> public / :f --> private then return value .rv + pointer .pt
 					proc(procnb).db=procadr '11/01/2015
 					proc(procnb).st=1 'state no checked
 					proc(procnb).nu=Valint(Mid(stln,22,6)):lastline=0
@@ -967,7 +973,7 @@ Function display_pt(pt As Long)As String
 End Function
 Sub extract_begin(nfile As String)
 	vrbloc=VGBLMAX
-	proc(1).vr=VGBLMAX+1 'for the first stored proc 
+	proc(1).vr=VGBLMAX+1 'for the first stored proc
 	udt(0).nm="Typ Unknown"
 	udt(1).nm="Integer":udt(1).lg=Len(Integer)
 	udt(2).nm="Byte":udt(2).lg=Len(Byte)
@@ -984,16 +990,16 @@ Sub extract_begin(nfile As String)
 	udt(13).nm="String":udt(13).lg=Len(String)
 	udt(14).nm="Fstring":udt(14).lg=4
 	udt(15).nm="fb_Object":udt(15).lg=Len(UInteger)
-	
+
 	exepath2=ExePath
-	'If Dir(exepath2+"\*")="" Then 
+	'If Dir(exepath2+"\*")="" Then
 	'	exepath2="D:\laurent divers\fb dev\En-cours\FBDEBUG NEW\tests fbdebugger"
 	'EndIf
-	
+
 	stabs_extract(nfile,123456)
-	
-	
-	
+
+
+
 	Print "STORED DATA"
 Print "global=";vrbgbl
 For i As Long =1 To vrbgbl
@@ -1019,8 +1025,8 @@ For i As Long =1 To procnb
 			End With
 		Next
 	End With
-	
-	Print 
+
+	Print
 	For j As Long=1 To linenb
 		With rline(j)
 			If .pr=i Then
@@ -1037,15 +1043,15 @@ Next
    '''''''If InStr(procnmt,"@") Then '08/08/2013
    '''''''   proc(procnb).nm=Left(procnmt,InStr(procnmt,"@")-1)
    '''''''Else
-   '''''''	proc(procnb).nm=procnmt	
+   '''''''	proc(procnb).nm=procnmt
    '''''''End If
-	
+
 End Sub
 Sub proc_load
 	Dim As String prcname
 	DIM AS GtkTreeIter tempiter
 	If procnb=0 Then Exit Sub
-		
+
 	For i As Long =1 To procnb
 	With proc(i)
 		Print i;" ";.nm;" ret=";udt(.rv).nm;" ";String(.pt,"*");" ";.vr;" ";proc(i+1).vr-1;" ";source(.sr).shortname;" nu=";.nu;':sleep

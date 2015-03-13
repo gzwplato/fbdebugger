@@ -24,7 +24,6 @@ CONFIGURE_FILE(${fnam}.in  ${fnam} @ONLY)
 ADD_SUBDIRECTORY(doc)
 
 # the source folders
-ADD_SUBDIRECTORY(src/core)
 ADD_SUBDIRECTORY(src)
 
 # fbdbg[.exe]: link the final executable
