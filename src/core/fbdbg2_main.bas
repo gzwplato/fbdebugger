@@ -135,7 +135,8 @@ udtbeg=16:cudtbeg=1:locbeg=VGBLMAX+1:vrbbeg=1:prcbeg=1
 'Reset bookmarks TODO maybe keep them if rerun (caution with dll or so)
 Var box = GTK_COMBO_BOX_TEXT(SRC->CBmarks)
 gtk_combo_box_text_remove_all(box) 'remove all
-gtk_combo_box_text_insert(box, -1, "0", "No bookmark")
+gtk_combo_box_text_insert(box, 0, NULL, __("No bookmark"))
+g_object_set(box, "active", cast(gint, 0), NULL)
 For i As Integer =1 To bmkcpt:bmk(i).ntab=0:bmk(i).nline=0:Next
 bmkcpt=0
 gtk_action_set_sensitive(act->act_bmknext, FALSE)
