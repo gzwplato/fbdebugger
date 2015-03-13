@@ -53,7 +53,7 @@ If kill_process(*__("Trying to load a file")) Then
 	EndIf
 	Var msg="TEST, debuggee is "+exename
 	Print "txt";txt:Sleep 5000
-	'TXT->add2notes(StrPtr(msg))
+	TXT->add2notes(StrPtr(msg))
 	re_ini
 	Print "Exename";exename
 	extract_begin(exename)
