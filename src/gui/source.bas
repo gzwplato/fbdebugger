@@ -62,8 +62,10 @@ CONSTRUCTOR SrcNotebook()
   Attr1 = getAttr("img/brkt.png")
   Attr2 = getAttr("img/brkp.png")
   Attr3 = getAttr("img/book.png")
-  gtk_combo_box_text_insert(CBMarks, 0, NULL, __("No bookmark"))
-  g_object_set(CBMarks, "active", CAST(gint, 0), NULL)
+  'gtk_combo_box_text_insert(CBMarks, 0, NULL, __("No bookmark"))
+  'g_object_set(CBMarks, "active", CAST(gint, 0), NULL)
+  initCombo(__("No bookmark"))
+
 
 ?" CONSTRUCTOR SrcNotebook"
 END CONSTRUCTOR
@@ -178,7 +180,6 @@ widget and line number.
 
 '/
 SUB SrcNotebook.addBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
-?" SrcNotebook.addBookmark!!!"
   VAR buff = g_object_get_data(G_Object(Widg), "Buffer")
 
   DIM AS GtkTextIter iter
@@ -206,8 +207,8 @@ SUB SrcNotebook.addBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
     IF Widg <> w then if p THEN exit while else           CONTINUE WHILE
     IF Lnr > l THEN p = n ELSE p = iif(p, p, n - 1) :         EXIT WHILE
   WEND
+  IF 0 = BkMarks THEN initCombo(__("Select bookmark"))
   gtk_combo_box_text_insert(CBMarks, p + 1, id, txt)
-  IF 0 = BkMarks THEN gtk_combo_box_text_insert(CBMarks, 0, NULL, __("Select bookmark"))
   BkMarks += 1
 END SUB
 
@@ -234,8 +235,9 @@ SUB SrcNotebook.delBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
     IF 0 = dat THEN                                          CONTINUE DO
     VAR r = *dat <> id
     g_free(dat) : IF r THEN                                  CONTINUE DO
-    gtk_list_store_remove(GTK_LIST_STORE(model), @iter)
-    BkMarks -= 1 :                                              EXIT SUB
+    gtk_list_store_remove(GTK_LIST_STORE(model), @iter) : BkMarks -= 1
+    IF 0 = BkMarks THEN initCombo(__("No bookmark"))
+                                                                EXIT SUB
   LOOP UNTIL 0 = gtk_tree_model_iter_next(model, @iter)
 END SUB
 
@@ -333,9 +335,22 @@ SUB SrcNotebook.removeAll(BYVAL Mo AS guint = 0)
   Pages = 0
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), "", 0)
   IF Mo THEN                                                    EXIT SUB
+  initCombo(__("No bookmark"))
+END SUB
 
+
+
+/'* \brief Initialize the bookmark combo box
+\param Txt The context for the first entry
+
+Clear all entries in the combo box for book marks, then set first entry
+to *Txt*. Also reset the counter BkMarks.
+
+'/
+SUB SrcNotebook.initCombo(BYVAL Txt AS gchar PTR)
   gtk_combo_box_text_remove_all(CBMarks) : BkMarks = 0
-  gtk_combo_box_text_insert(CBMarks, 0, NULL, __("No bookmark"))
+  gtk_combo_box_text_insert(CBMarks, 0, NULL, Txt)
+  g_object_set(CBMarks, "active", CAST(gint, 0), NULL)
 END SUB
 
 
@@ -551,13 +566,14 @@ SUB view_mark_clicked CDECL( _
         ' restore disabled here, set either ASC("p") or ASC("t")
         mark[9] = ASC("p")
       CASE ELSE : MID(mark, 7, 4) = "book"
-        VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark)
+        VAR list = gtk_source_buffer_get_source_marks_at_iter(Buff, Iter, mark) _
+          , widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
+           , lnr = gtk_text_iter_get_line(Iter) + 1
         IF list THEN
           g_slist_free(list)
+          SRC->delBookmark(lnr, widg)
           gtk_source_buffer_remove_source_marks(Buff, Iter, Iter, mark) : EXIT SUB
         END IF
-        VAR widg = gtk_widget_get_parent(GTK_WIDGET(SView)) _
-           , lnr = gtk_text_iter_get_line(Iter) + 1
         SRC->addBookmark(lnr, widg)
       END SELECT
       gtk_source_buffer_create_source_mark(Buff, NULL, mark, Iter)

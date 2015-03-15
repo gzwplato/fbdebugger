@@ -17,6 +17,8 @@ This file contains the declarations of the GUI part.
 #UNDEF gdk_pixbuf_new_from_file_at_size
 #DEFINE gdk_pixbuf_new_from_file_at_size gdk_pixbuf_new_from_file_at_size_utf8
 
+#undef g_filename_to_utf8
+#define g_filename_to_utf8(_N_, XXX...) g_strdup(sadd(_N_))
 EXTERN "C" LIB "gdk_pixbuf-2.0"
 DECLARE FUNCTION gdk_pixbuf_new_from_file_at_size(BYVAL AS CONST char PTR, BYVAL AS gint /'int'/, BYVAL AS gint /'int'/, BYVAL AS GError PTR PTR) AS GdkPixbuf PTR
 END EXTERN
@@ -267,6 +269,7 @@ TYPE SrcNotebook ' source code in source.bas
   DECLARE FUNCTION getBuffLine(byval as GtkTextBuffer ptr, byval as GtkTextIter ptr) AS string
   DECLARE SUB addBookmark(BYVAL AS gint, BYVAL AS GtkWidget PTR)
   DECLARE SUB delBookmark(BYVAL AS gint, BYVAL AS GtkWidget PTR)
+  DECLARE SUB initCombo(BYVAL Txt as gchar ptr)
 
   DECLARE SUB changeMark(BYVAL AS gint, BYVAL AS GtkWidget PTR, BYREF AS STRING = "")
   DECLARE SUB scroll(BYVAL AS gint, BYVAL AS GtkWidget PTR, BYVAL AS guint32 = 1)
