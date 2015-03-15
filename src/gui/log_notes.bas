@@ -21,11 +21,11 @@ This file is used to build the dialog windows.
 CONSTRUCTOR LOG_Udt()
   VAR fnam = "log.ui", fnr = FREEFILE
   IF OPEN(fnam FOR INPUT AS fnr) THEN
-    ?PROJ_NAME & ": Cannot open " & fnam : END 1
+    ?PROJ_NAME & ": Cannot open " & fnam : end 1
     'g_error("Cannot open " & fnam)
   ELSE
-    Xml = STRING(LOF(fnr), 0)
-    GET #fnr, , Xml
+    Xml = string(lof(fnr), 0)
+    get #fnr, , Xml
     CLOSE #fnr
   END IF
 ?" CONSTRUCTOR LOG_Udt"
@@ -67,6 +67,7 @@ SUB LOG_Udt.Notes(BYVAL Txt AS gchar PTR = 0)
       WITH *meld
         ?"Fehler/Error (GTK-Builder in LOG_Udt.Notes):"
         ?*.message
+        simple_message(*.message)
       END WITH
       g_error_free(meld)
       END 2
@@ -123,8 +124,8 @@ SUB LOG_Udt.FileLog(BYVAL Fnam AS gchar PTR)
 
     VAR fnr = FREEFILE
     IF 0 = OPEN(*Fnam FOR INPUT AS fnr) THEN
-      VAR txt = STRING(LOF(fnr), 0)
-      GET #fnr, , txt
+      var txt = string(lof(fnr), 0)
+      get #fnr, , txt
       CLOSE #fnr
 
       gtk_text_buffer_set_text(BufLogFile, txt, LEN(txt))

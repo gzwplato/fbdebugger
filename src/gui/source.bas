@@ -251,7 +251,8 @@ SUB SrcNotebook.delBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
     DIM AS gchar PTR dat
     gtk_tree_model_get(model, @iter, column, @dat, -1)
     IF 0 = dat THEN                                          CONTINUE DO
-    VAR r = *dat <> id : g_free(dat) : IF r THEN             CONTINUE DO
+    IF *dat <> id THEN g_free(dat) :                         CONTINUE DO
+    g_free(dat)
     gtk_list_store_remove(GTK_LIST_STORE(model), @iter) :        EXIT DO
   LOOP UNTIL 0 = gtk_tree_model_iter_next(model, @iter)
 END SUB
@@ -312,12 +313,11 @@ END SUB
 
 
 /'* \brief Remove all pages from notebook
-\param Mo Modus, when zero delete all bookmarks.
 
 Method to remove all pages from the notebook.
 
 '/
-SUB SrcNotebook.removeAll(BYVAL Mo AS guint = 0)
+SUB SrcNotebook.removeAll()
   IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
 
   VAR n = gtk_notebook_get_n_pages(NoteBok)
@@ -325,12 +325,8 @@ SUB SrcNotebook.removeAll(BYVAL Mo AS guint = 0)
     gtk_notebook_remove_page(NoteBok, i)
   NEXT
 
-  Pages = 0
   gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), "", 0)
-  IF Mo THEN                                                    EXIT SUB
-
-  gtk_combo_box_text_remove_all(CBMarks)
-  gtk_combo_box_text_insert(CBMarks, 0, NULL, __("No bookmark"))
+  Pages = 0
 END SUB
 
 
