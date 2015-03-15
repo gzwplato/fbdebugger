@@ -46,7 +46,7 @@ act_bmknext = GTK_ACTION(gtk_builder_get_object(.XML, "action422"))
 act_bmkprev = GTK_ACTION(gtk_builder_get_object(.XML, "action423"))
 act_lineaddress = GTK_ACTION(gtk_builder_get_object(.XML, "action4250"))
 act_lineasm = GTK_ACTION(gtk_builder_get_object(.XML, "action4251"))
-act_procaddresses = GTK_ACTION(gtk_builder_get_object(.XML, "action508")) 
+act_procaddresses = GTK_ACTION(gtk_builder_get_object(.XML, "action508"))
 act_procasm = GTK_ACTION(gtk_builder_get_object(.XML, "action027"))
 act_procbacktrack = GTK_ACTION(gtk_builder_get_object(.XML, "action025"))
 act_proccall = GTK_ACTION(gtk_builder_get_object(.XML, "action111"))
@@ -116,110 +116,110 @@ entries) and the status bar messages.
 
 '/
 Sub ActionsUDT.setState(BYVAL RunType AS INTEGER)
-	Dim As Integer flagall,flagstop
-	flagall=FALSE 'except for RTSTEP
-	flagstop=TRUE 'except for RTSTEP,RTEND,RTOFF
- 	Select CASE AS CONST RunType
- 		Case RTSTEP '                                                     wait
-      	flagall=TRUE
-      	flagstop=FALSE
- 			Message = "Waiting " +stoplibel(stopcode)
-			gtk_label_set_text(GTK_LABEL(SbarLab1), Message)
-			'statusthreadstr="Thread " & Str(thread(threadcur).id)
-			gtk_label_set_text(GTK_LABEL(SbarLab2), "Thread ...")
-			'statusfilestr=name_extract(source(proc(procsv).sr).shortname)
-			gtk_label_set_text(GTK_LABEL(SbarLab3), "Module ...")
-			'setlabel(statusproc,StrPtr(proc(procsv).nm))
-			gtk_label_set_text(GTK_LABEL(SbarLab4), "Proc ...")
-			'statustimerstr=Left(Str(fasttimer),10)
-			gtk_label_set_text(GTK_LABEL(SbarLab5), "Timer ...")
-    	CASE RTRUN
-      		gtk_label_set_text(GTK_LABEL(SbarLab1), "Running")
-    	CASE RTFRUN
-      		gtk_label_set_text(GTK_LABEL(SbarLab1), "FAST Running")
-    	CASE RTFREE
-      		gtk_label_set_text(GTK_LABEL(SbarLab1), "Released")
- 		CASE RTEND
- 			flagstop=FALSE
- 			gtk_label_set_text(GTK_LABEL(SbarLab1), "Terminated")
- 		Case RTOFF
- 			flagstop=FALSE
-   		gtk_label_set_text(GTK_LABEL(SbarLab1), "No program")
- 	End Select
-    	
- 	gtk_action_set_sensitive(act_step,flagall)
-	gtk_action_set_sensitive(act_step_over,flagall)
-	gtk_action_set_sensitive(act_step_start,flagall)
-	gtk_action_set_sensitive(act_step_end,flagall)
-	gtk_action_set_sensitive(act_step_out,flagall)
-	gtk_action_set_sensitive(act_auto,flagall)
-	gtk_action_set_sensitive(act_run,flagall)
-	gtk_action_set_sensitive(act_fastrun,flagall)
-	gtk_action_set_sensitive(act_runto,flagall)
-	gtk_action_set_sensitive(act_free,flagall)
-	gtk_action_set_sensitive(act_kill,flagall)
-	gtk_action_set_sensitive(act_exemod,flagall)
-	gtk_action_set_sensitive(act_stringshow,flagall)
-	gtk_action_set_sensitive(act_brkenable,flagall)
-	gtk_action_set_sensitive(act_dlllist,flagall)
-	If brknb Then gtk_action_set_sensitive(act_brkmanage,flagall)
-	gtk_action_set_sensitive(act_brkset,flagall)
-	gtk_action_set_sensitive(act_brktempset,flagall)
-	gtk_action_set_sensitive(act_bzexchange,flagall)
-	If bmkcpt Then 
-		gtk_action_set_sensitive(act_bmknext,flagall)
-		gtk_action_set_sensitive(act_bmkprev,flagall)
-	EndIf
-	gtk_action_set_sensitive(act_lineaddress,flagall)
-	gtk_action_set_sensitive(act_lineasm,flagall)
-	gtk_action_set_sensitive(act_procaddresses,flagall)
-	gtk_action_set_sensitive(act_procasm,flagall)
-	gtk_action_set_sensitive(act_procbacktrack,flagall)
-	gtk_action_set_sensitive(act_proccall,flagall)
-	gtk_action_set_sensitive(act_procchain,flagall)
-	gtk_action_set_sensitive(act_processlist,flagall)
-	gtk_action_set_sensitive(act_procfollow,flagall)
-	gtk_action_set_sensitive(act_procinvar,flagall)
-	gtk_action_set_sensitive(act_procnofollow,flagall)
-	gtk_action_set_sensitive(act_procsrcasm,flagall)
-	gtk_action_set_sensitive(act_quickedit,flagall)
-	If wtchcpt Then
-		gtk_action_set_sensitive(act_wtch1,flagall)
-		gtk_action_set_sensitive(act_wtch2,flagall)
-		gtk_action_set_sensitive(act_wtch3,flagall)
-		gtk_action_set_sensitive(act_wtch4,flagall)
-		gtk_action_set_sensitive(act_wtchdel,flagall)
-		gtk_action_set_sensitive(act_wtchdellall,flagall)
-		gtk_action_set_sensitive(act_wtchnotrace,flagall)
-		gtk_action_set_sensitive(act_wtchtrace,flagall)
-	EndIf
-	gtk_action_set_sensitive(act_automulti,flagall)
-	gtk_action_set_sensitive(act_varsrcshow,flagall)
-	gtk_action_set_sensitive(act_varsrcwtch,flagall)
-	gtk_action_set_sensitive(act_varwatched,flagall)
-	gtk_action_set_sensitive(act_varwtchtrace,flagall)
-	gtk_action_set_sensitive(act_threadcreate,flagall)
-	gtk_action_set_sensitive(act_threadexpand,flagall)
-	gtk_action_set_sensitive(act_threadkill,flagall)
-	gtk_action_set_sensitive(act_threadline,flagall)
-	gtk_action_set_sensitive(act_threadlist,flagall)
-	gtk_action_set_sensitive(act_threadproc,flagall)
-	gtk_action_set_sensitive(act_threadselect,flagall)
-	gtk_action_set_sensitive(act_threadvar,flagall)
-	gtk_action_set_sensitive(act_tuto,flagall)
-	gtk_action_set_sensitive(act_varbrk,flagall)
-	gtk_action_set_sensitive(act_varcharpos,flagall)
-	gtk_action_set_sensitive(act_varclipall,flagall)
-	gtk_action_set_sensitive(act_varclipsel,flagall)
-	gtk_action_set_sensitive(act_varderefdump,flagall)
-	gtk_action_set_sensitive(act_vardump,flagall)
-	gtk_action_set_sensitive(act_varedit,flagall)
-	gtk_action_set_sensitive(act_varexpand,flagall)
-	gtk_action_set_sensitive(act_varindex,flagall)
-	gtk_action_set_sensitive(act_varlistall,flagall)
-	gtk_action_set_sensitive(act_varlistsel,flagall)
-	'different action in case RTSTEP, RTOFF, RTEND
-	gtk_action_set_sensitive(act_stop, flagstop)
+  Dim As Integer flagall,flagstop
+  flagall=FALSE 'except for RTSTEP
+  flagstop=TRUE 'except for RTSTEP,RTEND,RTOFF
+  Select CASE AS CONST RunType
+    Case RTSTEP '                                                     wait
+        flagall=TRUE
+        flagstop=FALSE
+      Message = "Waiting " +stoplibel(stopcode)
+      gtk_label_set_text(GTK_LABEL(SbarLab1), Message)
+      'statusthreadstr="Thread " & Str(thread(threadcur).id)
+      gtk_label_set_text(GTK_LABEL(SbarLab2), "Thread ...")
+      'statusfilestr=name_extract(source(proc(procsv).sr).shortname)
+      gtk_label_set_text(GTK_LABEL(SbarLab3), "Module ...")
+      'setlabel(statusproc,StrPtr(proc(procsv).nm))
+      gtk_label_set_text(GTK_LABEL(SbarLab4), "Proc ...")
+      'statustimerstr=Left(Str(fasttimer),10)
+      gtk_label_set_text(GTK_LABEL(SbarLab5), "Timer ...")
+      CASE RTRUN
+          gtk_label_set_text(GTK_LABEL(SbarLab1), "Running")
+      CASE RTFRUN
+          gtk_label_set_text(GTK_LABEL(SbarLab1), "FAST Running")
+      CASE RTFREE
+          gtk_label_set_text(GTK_LABEL(SbarLab1), "Released")
+    CASE RTEND
+      flagstop=FALSE
+      gtk_label_set_text(GTK_LABEL(SbarLab1), "Terminated")
+    Case RTOFF
+      flagstop=FALSE
+      gtk_label_set_text(GTK_LABEL(SbarLab1), "No program")
+  End Select
+
+  gtk_action_set_sensitive(act_step,flagall)
+  gtk_action_set_sensitive(act_step_over,flagall)
+  gtk_action_set_sensitive(act_step_start,flagall)
+  gtk_action_set_sensitive(act_step_end,flagall)
+  gtk_action_set_sensitive(act_step_out,flagall)
+  gtk_action_set_sensitive(act_auto,flagall)
+  gtk_action_set_sensitive(act_run,flagall)
+  gtk_action_set_sensitive(act_fastrun,flagall)
+  gtk_action_set_sensitive(act_runto,flagall)
+  gtk_action_set_sensitive(act_free,flagall)
+  gtk_action_set_sensitive(act_kill,flagall)
+  gtk_action_set_sensitive(act_exemod,flagall)
+  gtk_action_set_sensitive(act_stringshow,flagall)
+  gtk_action_set_sensitive(act_brkenable,flagall)
+  gtk_action_set_sensitive(act_dlllist,flagall)
+  If brknb Then gtk_action_set_sensitive(act_brkmanage,flagall)
+  gtk_action_set_sensitive(act_brkset,flagall)
+  gtk_action_set_sensitive(act_brktempset,flagall)
+  gtk_action_set_sensitive(act_bzexchange,flagall)
+  If bmkcpt Then
+    gtk_action_set_sensitive(act_bmknext,flagall)
+    gtk_action_set_sensitive(act_bmkprev,flagall)
+  EndIf
+  gtk_action_set_sensitive(act_lineaddress,flagall)
+  gtk_action_set_sensitive(act_lineasm,flagall)
+  gtk_action_set_sensitive(act_procaddresses,flagall)
+  gtk_action_set_sensitive(act_procasm,flagall)
+  gtk_action_set_sensitive(act_procbacktrack,flagall)
+  gtk_action_set_sensitive(act_proccall,flagall)
+  gtk_action_set_sensitive(act_procchain,flagall)
+  gtk_action_set_sensitive(act_processlist,flagall)
+  gtk_action_set_sensitive(act_procfollow,flagall)
+  gtk_action_set_sensitive(act_procinvar,flagall)
+  gtk_action_set_sensitive(act_procnofollow,flagall)
+  gtk_action_set_sensitive(act_procsrcasm,flagall)
+  gtk_action_set_sensitive(act_quickedit,flagall)
+  If wtchcpt Then
+    gtk_action_set_sensitive(act_wtch1,flagall)
+    gtk_action_set_sensitive(act_wtch2,flagall)
+    gtk_action_set_sensitive(act_wtch3,flagall)
+    gtk_action_set_sensitive(act_wtch4,flagall)
+    gtk_action_set_sensitive(act_wtchdel,flagall)
+    gtk_action_set_sensitive(act_wtchdellall,flagall)
+    gtk_action_set_sensitive(act_wtchnotrace,flagall)
+    gtk_action_set_sensitive(act_wtchtrace,flagall)
+  EndIf
+  gtk_action_set_sensitive(act_automulti,flagall)
+  gtk_action_set_sensitive(act_varsrcshow,flagall)
+  gtk_action_set_sensitive(act_varsrcwtch,flagall)
+  gtk_action_set_sensitive(act_varwatched,flagall)
+  gtk_action_set_sensitive(act_varwtchtrace,flagall)
+  gtk_action_set_sensitive(act_threadcreate,flagall)
+  gtk_action_set_sensitive(act_threadexpand,flagall)
+  gtk_action_set_sensitive(act_threadkill,flagall)
+  gtk_action_set_sensitive(act_threadline,flagall)
+  gtk_action_set_sensitive(act_threadlist,flagall)
+  gtk_action_set_sensitive(act_threadproc,flagall)
+  gtk_action_set_sensitive(act_threadselect,flagall)
+  gtk_action_set_sensitive(act_threadvar,flagall)
+  gtk_action_set_sensitive(act_tuto,flagall)
+  gtk_action_set_sensitive(act_varbrk,flagall)
+  gtk_action_set_sensitive(act_varcharpos,flagall)
+  gtk_action_set_sensitive(act_varclipall,flagall)
+  gtk_action_set_sensitive(act_varclipsel,flagall)
+  gtk_action_set_sensitive(act_varderefdump,flagall)
+  gtk_action_set_sensitive(act_vardump,flagall)
+  gtk_action_set_sensitive(act_varedit,flagall)
+  gtk_action_set_sensitive(act_varexpand,flagall)
+  gtk_action_set_sensitive(act_varindex,flagall)
+  gtk_action_set_sensitive(act_varlistall,flagall)
+  gtk_action_set_sensitive(act_varlistsel,flagall)
+  'different action in case RTSTEP, RTOFF, RTEND
+  gtk_action_set_sensitive(act_stop, flagstop)
 End Sub
 
 DIM SHARED AS ActionsUDT PTR ACT '*< The global action variable for this class

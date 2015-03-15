@@ -138,8 +138,8 @@ FUNCTION IniUDT.loadIni() AS gchar PTR
 #IFNDEF __FB_UNIX__
       IF 0 = INSTR(LCASE(t), ".exe") THEN   /' not for UNIX '/ EXIT SELECT
 #ENDIF
- 			SavExe(c) = t : CmdExe(c) = ""
- 			c += 1 : w = 0 : b = 1 : IF c > UBOUND(SavExe) THEN c = UBOUND(SavExe)
+      SavExe(c) = t : CmdExe(c) = ""
+      c += 1 : w = 0 : b = 1 : IF c > UBOUND(SavExe) THEN c = UBOUND(SavExe)
 
 '' for compatibility
     CASE "[DPO]=" : CurPos = CULNG(MID(t, 7))
@@ -164,7 +164,7 @@ fbdebugger.ini. Strings get trimmed before saving.
 FUNCTION IniUDT.saveIni() AS gchar PTR
   IF DIR("fbdebuggersav.ini") <> "" THEN _
     IF KILL("fbdebuggersav.ini") THEN                   RETURN __("Cannot kill file fbdebuggersav.ini")
-	IF DIR("fbdebugger.ini")    <> "" THEN _
+  IF DIR("fbdebugger.ini")    <> "" THEN _
     IF NAME("fbdebugger.ini", "fbdebuggersav.ini") THEN RETURN __("Cannot rename file fbdebugger.ini")
 
   VAR fnr = FREEFILE
@@ -172,8 +172,8 @@ FUNCTION IniUDT.saveIni() AS gchar PTR
                                                    THEN RETURN __("Cannot write file fbdebugger.ini")
 
   IF LEN(FbcExe) THEN
-  	PRINT #fnr, "[FBC]=" & TRIM( FbcExe, ANY !"\t\v ")
-  	IF LEN(CmdlFbc) THEN PRINT #fnr, "[FCD]=" & TRIM(CmdlFbc, ANY !"\t\v ")
+    PRINT #fnr, "[FBC]=" & TRIM( FbcExe, ANY !"\t\v ")
+    IF LEN(CmdlFbc) THEN PRINT #fnr, "[FCD]=" & TRIM(CmdlFbc, ANY !"\t\v ")
   ENDIF
   IF LEN( IdeExe) THEN PRINT #fnr, "[IDE]=" & TRIM( IdeExe, ANY !"\t\v ")
   IF LEN(FnamLog) THEN PRINT #fnr, "[LOG]=" & TRIM(FnamLog, ANY !"\t\v ")
@@ -181,21 +181,21 @@ FUNCTION IniUDT.saveIni() AS gchar PTR
   IF LEN(JitPrev) THEN PRINT #fnr, "[JIT]=" & JitPrev
   IF LEN(StlSchm) THEN PRINT #fnr, "[NSS]=" & StlSchm
 
-	FOR i AS INTEGER = 0 TO UBOUND(SavExe)
-		IF LEN(SavExe(i)) THEN
-			PRINT #fnr, "[EXE]=" & SavExe(i)
-			IF LEN(CmdExe(i)) THEN PRINT #fnr, "[CMD]=" & CmdExe(i)
+  FOR i AS INTEGER = 0 TO UBOUND(SavExe)
+    IF LEN(SavExe(i)) THEN
+      PRINT #fnr, "[EXE]=" & SavExe(i)
+      IF LEN(CmdExe(i)) THEN PRINT #fnr, "[CMD]=" & CmdExe(i)
 
-  		FOR j AS INTEGER = 0 TO UBOUND(WtchExe, 2)
-				IF 0 = LEN(WtchExe(i,j)) THEN                           EXIT FOR
-  			PRINT #fnr, "[WTC]=" & WtchExe(i,j)
-			NEXT
+      FOR j AS INTEGER = 0 TO UBOUND(WtchExe, 2)
+        IF 0 = LEN(WtchExe(i,j)) THEN                           EXIT FOR
+        PRINT #fnr, "[WTC]=" & WtchExe(i,j)
+      NEXT
 
-			FOR j AS INTEGER = 1 TO UBOUND(BrkExe, 2)
-				IF LEN(BrkExe(i,j)) THEN	PRINT #fnr, "[BRK]=" & BrkExe(i,j)
-			NEXT
-		END IF
-	NEXT
+      FOR j AS INTEGER = 1 TO UBOUND(BrkExe, 2)
+        IF LEN(BrkExe(i,j)) THEN  PRINT #fnr, "[BRK]=" & BrkExe(i,j)
+      NEXT
+    END IF
+  NEXT
 
   PRINT #fnr, "[POS]=" & CurPos
   PRINT #fnr, "[DEL]=" & DelVal

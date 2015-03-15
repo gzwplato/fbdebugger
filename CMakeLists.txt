@@ -27,7 +27,8 @@ ADD_SUBDIRECTORY(doc)
 ADD_SUBDIRECTORY(src)
 
 # fbdbg[.exe]: link the final executable
-ADD_EXECUTABLE(fbdbg $<TARGET_OBJECTS:fbdbg_core> $<TARGET_OBJECTS:fbdbg_gui>)
+#ADD_EXECUTABLE(fbdbg $<TARGET_OBJECTS:fbdbg_core> $<TARGET_OBJECTS:fbdbg_gui>)
+ADD_EXECUTABLE(fbdbg $<TARGET_OBJECTS:fbdbg_gui>)
 SET_TARGET_PROPERTIES(fbdbg PROPERTIES
   LINK_FLAGS "-export"
   )
