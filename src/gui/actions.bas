@@ -123,7 +123,7 @@ Sub ActionsUDT.setState(BYVAL RunType AS INTEGER)
  		Case RTSTEP '                                                     wait
       	flagall=TRUE
       	flagstop=FALSE
- 			Message = "Waiting " +stoplibel(stopcode)
+ 			Message = *__("Waiting ") & *stoplibel(stopcode)
 			gtk_label_set_text(GTK_LABEL(SbarLab1), Message)
 			'statusthreadstr="Thread " & Str(thread(threadcur).id)
 			gtk_label_set_text(GTK_LABEL(SbarLab2), "Thread ...")

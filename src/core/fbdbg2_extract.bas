@@ -974,23 +974,6 @@ End Function
 Sub extract_begin(nfile As String)
 	vrbloc=VGBLMAX
 	proc(1).vr=VGBLMAX+1 'for the first stored proc
-	udt(0).nm="Typ Unknown"
-	udt(1).nm="Integer":udt(1).lg=Len(Integer)
-	udt(2).nm="Byte":udt(2).lg=Len(Byte)
-	udt(3).nm="Ubyte":udt(3).lg=Len(UByte)
-	udt(4).nm="Zstring":udt(4).lg=4
-	udt(5).nm="Short":udt(5).lg=Len(Short)
-	udt(6).nm="Ushort":udt(6).lg=Len(UShort)
-	udt(7).nm="Void":udt(7).lg=4    :udt(7).index=7'dwarf
-	udt(8).nm="Uinteger":udt(8).lg=Len(UInteger)
-	udt(9).nm="Longint":udt(9).lg=Len(LongInt)
-	udt(10).nm="Ulongint":udt(10).lg=Len(ULongInt)
-	udt(11).nm="Single":udt(11).lg=Len(Single)
-	udt(12).nm="Double":udt(12).lg=Len(Double)
-	udt(13).nm="String":udt(13).lg=Len(String)
-	udt(14).nm="Fstring":udt(14).lg=4
-	udt(15).nm="fb_Object":udt(15).lg=Len(UInteger)
-
 	exepath2=ExePath
 	'If Dir(exepath2+"\*")="" Then
 	'	exepath2="D:\laurent divers\fb dev\En-cours\FBDEBUG NEW\tests fbdebugger"

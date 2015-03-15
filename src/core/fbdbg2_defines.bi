@@ -120,7 +120,7 @@ Const WTCHMAIN=3
 Const WTCHMAXI=9
 Const WTCHALL=9999999
 Type twtch
-    hnd As HWND     'handle                     TODO to be removed create 4 boxes ????
+    'hnd As HWND     'handle                     TODO to be removed create 4 boxes ????
     tvl  As GtkTreeIter ptr 'tview handle
     adr As UInteger 'memory address
     typ As Integer  'type for var_sh2
@@ -141,7 +141,7 @@ End Type
 'TODO remove this line ? --> dim shared As Gtk_Tree ptr wtchtree
 Dim Shared wtch(wtchmaxi) As twtch
 Dim Shared wtchcpt As Long 'counter of watched value, used for the menu
-Dim Shared hwtchbx As HWND    'handle
+'Dim Shared hwtchbx As HWND    'handle to manage duplicate watched var
 Dim Shared wtchidx As Integer 'index for delete
 Dim Shared wtchexe(9,wtchmaxi) As String 'watched var (no memory for next execution)
 Dim Shared wtchnew As Integer 'to keep index after creating new watched
@@ -197,13 +197,16 @@ End Enum
 Dim Shared As Integer autostep=200 'delay for auto step
 ' reasons of stopping
 Dim Shared stopcode As Integer
-'TODO plan to translate
-Dim Shared stoplibel(20) As String*17 =>{"","cursor","tempo break","break","Break var","Break mem"_
-,"Halt by user","Access violation","New thread","Exception"}
+Dim Shared As ZString Ptr stoplibel(9) 
+
 Dim Shared breakcpu As Integer =&hCC
 'THREAD ==========================================================
 Type tthread
+#If __FB_LINUX__ 
+'todo add the define handle for thread under linux
+#Else
  hd  As HANDLE    'handle
+#EndIf
  id  As UInteger  'ident
  pe  As Integer   'flag if true indicates proc end
  sv  As Integer   'sav line
@@ -222,13 +225,18 @@ Dim Shared threadcur As Integer
 Dim Shared threadprv As Integer     'previous thread used when mutexunlock released thread or after thread create 12/02/2013
 Dim Shared threadsel As Integer     'thread selected by user, used to send a message if not equal current
 Dim Shared threadaut As Integer     'number of threads for change when  auto executing
-Dim Shared threadcontext As HANDLE
-Dim Shared threadhs As HANDLE       'handle thread to resume
 Dim Shared dbgprocid As Integer     'pinfo.dwProcessId : debugged process id
 Dim Shared dbgthreadID As Integer   'pinfo.dwThreadId : debugged thread id
-Dim Shared dbghand As HANDLE  		'debugged proc handle
-Dim Shared dbghthread As HANDLE     'debuggee thread handle
-Dim Shared dbghfile  As HANDLE   	'debugged file handle
+#If __FB_LINUX__ 
+'todo add the define handle for debuggee/thread under linux
+#Else
+	Dim Shared threadcontext As HANDLE
+	Dim Shared threadhs As HANDLE       'handle thread to resume
+	Dim Shared dbghand As HANDLE  		'debugged proc handle
+	Dim Shared dbghthread As HANDLE     'debuggee thread handle
+	Dim Shared dbghfile  As HANDLE   	'debugged file handle
+#EndIf
+
 Dim Shared prun As Integer        	'indicateur process running
 
 Dim Shared curline As Long          'current next executed line
@@ -257,7 +265,12 @@ Dim Shared flagtuto  As Integer 'flag for tutorial -1=no tuto / 2=let execution 
 Dim Shared As Integer flagmodule,flagunion 'flag for dwarf
 Dim Shared As Long dwlastprc,dwlastlnb 'to manage end of proc
 Dim Shared compinfo As String   'information about compilation
+#If __FB_LINUX__ 
+	'todo add the define handle for attached debuggee linux
+#Else
 Dim Shared hattach As HANDLE    'handle to signal attchement done
+#EndIf
+
 Dim Shared jitprev As String
 Dim Shared fasttimer As Double
 'Running variables ==============================================
@@ -274,7 +287,11 @@ Dim Shared vrr(VRRMAX) As tvrr
 Dim Shared vrrnb As UInteger
 '===== DLL ==================================================
 Type tdll
+	#If __FB_LINUX__ 
+'todo add the define handle dll (so) under linux
+#Else
 	As HANDLE   hdl 'handle to close
+#EndIf
 	As UInteger bse 'base address
 	As GtkTreeIter Ptr tv 'item treeview to delete
 	As Integer gblb 'index/number in global var table
@@ -472,9 +489,15 @@ Declare Sub watch_array()
 Declare Sub watch_sh(aff As Integer=WTCHALL)
 Declare Sub var_sh()
 Declare Sub str_replace(strg As String,srch As String, repl As String)
-Declare Function dll_name(FileHandle As HANDLE,t As Integer =1 )As String
+#If __FB_LINUX__ 
+'todo add the declare under linux
+#Else
+	Declare Function dll_name(FileHandle As HANDLE,t As Integer =1 )As String
+#EndIf
+
 Declare Sub var_iniudt(Vrbe As UInteger,adr As UInteger,tv As GtkTreeIter ptr,voffset As UInteger)
 Declare Function var_sh1(i As Integer) As String
 Declare Function var_sh2(As Integer,As UInteger, As UByte=0,As String="") As String
 'Declare Sub dsp_line(newtab As Long =curtab,newline As Long=curline)
+Declare Sub ini_main
 '============================================================

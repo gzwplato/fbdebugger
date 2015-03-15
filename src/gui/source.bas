@@ -84,7 +84,7 @@ CONSTRUCTOR SrcNotebook()
   Attr1 = getAttr("img/brkt.png")
   Attr2 = getAttr("img/brkp.png")
   Attr3 = getAttr("img/book.png")
-  gtk_combo_box_text_insert(CBMarks, 0, NULL, __("Select bookmark"))
+  gtk_combo_box_text_insert(CBMarks, 0, NULL, __("No bookmark"))
   g_object_set(CBMarks, "active", cast(gint, 0), NULL)
 
 ?" CONSTRUCTOR SrcNotebook"

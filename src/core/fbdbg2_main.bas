@@ -4,7 +4,7 @@
 \since 3.0
 '/
 
-
+ini_main
 '#Include Once "fbdbg2_start.bas"
 #Include Once "fbdbg2_extract.bas"
 #Include Once "fbdbg2_handlefiles.bas"
@@ -140,6 +140,7 @@ Var box = GTK_COMBO_BOX_TEXT(SRC->CBmarks)
 gtk_combo_box_text_remove_all(box) 'remove all
 gtk_combo_box_text_insert(box, 0, NULL, __("No bookmark"))
 g_object_set(box, "active", cast(gint, 0), NULL)
+'todo remove the 2 lines below no needed as all is handled by the gui part
 For i As Integer =1 To bmkcpt:bmk(i).ntab=0:bmk(i).nline=0:Next
 bmkcpt=0
 gtk_action_set_sensitive(act->act_bmknext, FALSE)
@@ -225,3 +226,54 @@ Sub simple_message(line1 As String,line2 As String =" ")
   	gtk_dialog_run(GTK_DIALOG(dia))
   	gtk_widget_destroy(dia)
 End Sub
+
+/'* \brief global initializations 
+
+\todo add test for 32 and 64bit as integer is not the same
+
+'#if defined( __FB_64BIT__ ) and (not defined( __FB_WIN32__))
+'	'' On 64bit Linux/BSD systems (but not 64bit Windows), C's long is
+'	'' 64bit like FB's integer.
+'	'' Note: Using 64bit Integer here instead of LongInt, to match fbc's
+'	'' mangling: on 64bit Linux/BSD, Integer is mangled to C's long.
+'	type clong as integer
+'	type culong as uinteger
+'#else
+'	'' On 32bit systems and 64bit Windows, C's long is 32bit like FB's long.
+'	'' Note: Using 32bit Long here instead of 32bit/64bit Integer, because
+'	'' this is also used for 64bit Windows where Integer isn't 32bit.
+'	type clong as long
+'	type culong as ulong
+'#EndIf
+'/
+Sub ini_main
+stoplibel(0)=@""
+stoplibel(1)=__("cursor")
+stoplibel(2)=__("tempo break")
+stoplibel(3)=__("break")
+stoplibel(4)=__("Break var")
+stoplibel(5)=__("Break mem")
+stoplibel(6)=__("Halt by user")
+stoplibel(7)=__("Access violation")
+stoplibel(8)=__("New thread")
+stoplibel(9)=__("Exception")
+
+udt(0).nm="Typ Unknown"
+udt(1).nm="Integer":udt(1).lg=Len(Integer)
+udt(2).nm="Byte":udt(2).lg=Len(Byte)
+udt(3).nm="Ubyte":udt(3).lg=Len(UByte)
+udt(4).nm="Zstring":udt(4).lg=4
+udt(5).nm="Short":udt(5).lg=Len(Short)
+udt(6).nm="Ushort":udt(6).lg=Len(UShort)
+udt(7).nm="Void":udt(7).lg=4    :udt(7).index=7'dwarf
+udt(8).nm="Uinteger":udt(8).lg=Len(UInteger)
+udt(9).nm="Longint":udt(9).lg=Len(LongInt)
+udt(10).nm="Ulongint":udt(10).lg=Len(ULongInt)
+udt(11).nm="Single":udt(11).lg=Len(Single)
+udt(12).nm="Double":udt(12).lg=Len(Double)
+udt(13).nm="String":udt(13).lg=Len(String)
+udt(14).nm="Fstring":udt(14).lg=4
+udt(15).nm="fb_Object":udt(15).lg=Len(UInteger)
+End Sub
+
+

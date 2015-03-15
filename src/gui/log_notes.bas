@@ -67,6 +67,7 @@ SUB LOG_Udt.Notes(BYVAL Txt AS gchar PTR = 0)
       WITH *meld
         ?"Fehler/Error (GTK-Builder in LOG_Udt.Notes):"
         ?*.message
+        simple_message(*.message)
       END WITH
       g_error_free(meld)
       END 2
