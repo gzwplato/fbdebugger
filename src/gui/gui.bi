@@ -227,6 +227,7 @@ TYPE SrcNotebook ' source code in source.bas
     ScrPos    '*< The position to scroll the current line in the source views
   AS guint _
     Pages _   '*< The number of pages in the notebook
+  , BkMarks _ '*< The number of book marks currently set
   , ScrLine _ '*< The line number of the source current line
   , LenCur    '*< The number of characters in the source current line
   AS GObject PTR _

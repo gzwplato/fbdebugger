@@ -15,28 +15,6 @@ DECLARE SUB view_mark_clicked CDECL( _
   , BYVAL AS GtkSourceBuffer PTR)
 
 
-/'* \brief Prepare an icon as gutter mark
-\param Nam The name of the icon file
-\returns A new mark attribute structure
-
-Member function to load an icon in to a GdkPixbuf and renders it for
-use as mark in the source view widgets.
-
-'/
-FUNCTION SrcNotebook.getAttr(BYVAL Nam AS gchar PTR) AS GtkSourceMarkAttributes PTR
-  DIM AS GError PTR errr
-  VAR size = 10 _
-    , attr = gtk_source_mark_attributes_new() _
-    , pixbuf = gdk_pixbuf_new_from_file_at_size(Nam, size, size, @errr)
-  IF 0 = pixbuf THEN ?PROJ_NAME & ": missing file " & *Nam    : RETURN attr
-
-  gtk_source_mark_attributes_set_pixbuf(attr, pixbuf)
-  g_object_unref(pixbuf)
-
-  gtk_source_mark_attributes_render_icon(attr, ViewCur, size) : RETURN attr
-END FUNCTION
-
-
 /'* \brief Constructor to prepare the syntax highlighting
 
 The constructor loads the language definitions for syntax highlighting
@@ -85,7 +63,7 @@ CONSTRUCTOR SrcNotebook()
   Attr2 = getAttr("img/brkp.png")
   Attr3 = getAttr("img/book.png")
   gtk_combo_box_text_insert(CBMarks, 0, NULL, __("No bookmark"))
-  g_object_set(CBMarks, "active", cast(gint, 0), NULL)
+  g_object_set(CBMarks, "active", CAST(gint, 0), NULL)
 
 ?" CONSTRUCTOR SrcNotebook"
 END CONSTRUCTOR
@@ -200,6 +178,7 @@ widget and line number.
 
 '/
 SUB SrcNotebook.addBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
+?" SrcNotebook.addBookmark!!!"
   VAR buff = g_object_get_data(G_Object(Widg), "Buffer")
 
   DIM AS GtkTextIter iter
@@ -228,6 +207,8 @@ SUB SrcNotebook.addBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
     IF Lnr > l THEN p = n ELSE p = iif(p, p, n - 1) :         EXIT WHILE
   WEND
   gtk_combo_box_text_insert(CBMarks, p + 1, id, txt)
+  IF 0 = BkMarks THEN gtk_combo_box_text_insert(CBMarks, 0, NULL, __("Select bookmark"))
+  BkMarks += 1
 END SUB
 
 
@@ -251,11 +232,34 @@ SUB SrcNotebook.delBookmark(BYVAL Lnr AS gint, BYVAL Widg AS GtkWidget PTR)
     DIM AS gchar PTR dat
     gtk_tree_model_get(model, @iter, column, @dat, -1)
     IF 0 = dat THEN                                          CONTINUE DO
-    IF *dat <> id THEN g_free(dat) :                         CONTINUE DO
-    g_free(dat)
-    gtk_list_store_remove(GTK_LIST_STORE(model), @iter) :        EXIT DO
+    VAR r = *dat <> id
+    g_free(dat) : IF r THEN                                  CONTINUE DO
+    gtk_list_store_remove(GTK_LIST_STORE(model), @iter)
+    BkMarks -= 1 :                                              EXIT SUB
   LOOP UNTIL 0 = gtk_tree_model_iter_next(model, @iter)
 END SUB
+
+
+/'* \brief Prepare an icon as gutter mark
+\param Nam The name of the icon file
+\returns A new mark attribute structure
+
+Member function to load an icon in to a GdkPixbuf and renders it for
+use as mark in the source view widgets.
+
+'/
+FUNCTION SrcNotebook.getAttr(BYVAL Nam AS gchar PTR) AS GtkSourceMarkAttributes PTR
+  DIM AS GError PTR errr
+  VAR size = 10 _
+    , attr = gtk_source_mark_attributes_new() _
+    , pixbuf = gdk_pixbuf_new_from_file_at_size(Nam, size, size, @errr)
+  IF 0 = pixbuf THEN ?PROJ_NAME & ": missing file " & *Nam    : RETURN attr
+
+  gtk_source_mark_attributes_set_pixbuf(attr, pixbuf)
+  g_object_unref(pixbuf)
+
+  gtk_source_mark_attributes_render_icon(attr, ViewCur, size) : RETURN attr
+END FUNCTION
 
 
 /'* \brief Get the context of a line from a buffer
@@ -313,11 +317,12 @@ END SUB
 
 
 /'* \brief Remove all pages from notebook
+\param Mo Modus, when zero delete all bookmarks.
 
 Method to remove all pages from the notebook.
 
 '/
-SUB SrcNotebook.removeAll()
+SUB SrcNotebook.removeAll(BYVAL Mo AS guint = 0)
   IF Pages < 1 THEN                   /' no page, do nothing '/ EXIT SUB
 
   VAR n = gtk_notebook_get_n_pages(NoteBok)
@@ -325,8 +330,12 @@ SUB SrcNotebook.removeAll()
     gtk_notebook_remove_page(NoteBok, i)
   NEXT
 
-  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), "", 0)
   Pages = 0
+  gtk_text_buffer_set_text(GTK_TEXT_BUFFER(BuffCur), "", 0)
+  IF Mo THEN                                                    EXIT SUB
+
+  gtk_combo_box_text_remove_all(CBMarks) : BkMarks = 0
+  gtk_combo_box_text_insert(CBMarks, 0, NULL, __("No bookmark"))
 END SUB
 
 

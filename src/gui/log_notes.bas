@@ -21,11 +21,11 @@ This file is used to build the dialog windows.
 CONSTRUCTOR LOG_Udt()
   VAR fnam = "log.ui", fnr = FREEFILE
   IF OPEN(fnam FOR INPUT AS fnr) THEN
-    ?PROJ_NAME & ": Cannot open " & fnam : end 1
+    ?PROJ_NAME & ": Cannot open " & fnam : END 1
     'g_error("Cannot open " & fnam)
   ELSE
-    Xml = string(lof(fnr), 0)
-    get #fnr, , Xml
+    Xml = STRING(LOF(fnr), 0)
+    GET #fnr, , Xml
     CLOSE #fnr
   END IF
 ?" CONSTRUCTOR LOG_Udt"
@@ -63,7 +63,7 @@ SUB LOG_Udt.Notes(BYVAL Txt AS gchar PTR = 0)
   IF 0 = BufNotes THEN
     VAR build = gtk_builder_new()
     DIM AS GError PTR meld
-    IF 0 = gtk_builder_add_from_string(build, Xml, LEN(Xml), @meld) THEN
+    IF 0 = gtk_builder_add_from_string(build, Xml, -1, @meld) THEN
       WITH *meld
         ?"Fehler/Error (GTK-Builder in LOG_Udt.Notes):"
         ?*.message
@@ -107,7 +107,7 @@ SUB LOG_Udt.FileLog(BYVAL Fnam AS gchar PTR)
   IF 0 = BufLogFile THEN
     VAR build = gtk_builder_new()
     DIM AS GError PTR meld
-    IF 0 = gtk_builder_add_from_string(build, Xml, LEN(Xml), @meld) THEN
+    IF 0 = gtk_builder_add_from_string(build, Xml, -1, @meld) THEN
       WITH *meld
         ?"Fehler/Error (GTK-Builder in LOG_Udt.Notes):"
         ?*.message
@@ -124,8 +124,8 @@ SUB LOG_Udt.FileLog(BYVAL Fnam AS gchar PTR)
 
     VAR fnr = FREEFILE
     IF 0 = OPEN(*Fnam FOR INPUT AS fnr) THEN
-      var txt = string(lof(fnr), 0)
-      get #fnr, , txt
+      VAR txt = STRING(LOF(fnr), 0)
+      GET #fnr, , txt
       CLOSE #fnr
 
       gtk_text_buffer_set_text(BufLogFile, txt, LEN(txt))

@@ -112,7 +112,7 @@ SUB ExpandUdt.addXpd( _
 
   VAR build = gtk_builder_new()
   DIM AS GError PTR meld
-  IF 0 = gtk_builder_add_from_string(build, Xml, LEN(Xml), @meld) THEN
+  IF 0 = gtk_builder_add_from_string(build, Xml, -1, @meld) THEN
     WITH *meld
       ?PROJ_NAME & ": Fehler/Error (GTK-Builder in ExpandUdt.addXpd)"
       ?*.message
